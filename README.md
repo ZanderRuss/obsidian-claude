@@ -10,11 +10,28 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 > "Your thoughts, connected. From scattered ideas to structured knowledge—AI that thinks *with* you, not *for* you."
 
-<p align="center">
-  <img src="images/17.jpg" alt="Amplify thinking, not just writing" width="30%">
-  <img src="images/7.jpg" alt="Explore deep thought before creation" width="30%">
-  <img src="images/15.jpg" alt="Connect link ideas find patterns" width="30%">
-</p>
+<table>
+<tr>
+<td width="33%" align="center">
+<img src="images/17.jpg" alt="Amplify thinking, not just writing">
+<br>
+<strong>AMPLIFY</strong><br>
+<em>Thinking, not just writing</em>
+</td>
+<td width="33%" align="center">
+<img src="images/7.jpg" alt="Explore deep thought before creation">
+<br>
+<strong>EXPLORE</strong><br>
+<em>Deep thought before creation</em>
+</td>
+<td width="33%" align="center">
+<img src="images/15.jpg" alt="Connect link ideas find patterns">
+<br>
+<strong>CONNECT</strong><br>
+<em>Link ideas, find patterns</em>
+</td>
+</tr>
+</table>
 
 ### The Problem
 
