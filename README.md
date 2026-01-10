@@ -2,7 +2,13 @@
 
 A comprehensive, **portable** integration between [Obsidian](https://obsidian.md) and [Claude Code](https://claude.ai/code) for AI-powered knowledge management using the PARA method.
 
-**29 commands • 16 agents • 17 curated plugins • Full research workflow • MCP integration**
+**29 commands • 16 agents • 18 AI skills • 17 curated plugins • Full research workflow • MCP integration**
+
+---
+
+> **New to coding?** Check out our [step-by-step installation guide](INSTALLATION.md) - no technical knowledge required!
+
+---
 
 ## Philosophy
 
@@ -17,7 +23,11 @@ This vault uses Claude as a **thinking partner** — an AI that helps explore id
 
 ## Quick Start
 
-### Option 1: Apply to Your Existing Vault
+### Option 1: Non-Technical Setup (Recommended for beginners)
+
+See [INSTALLATION.md](INSTALLATION.md) for a guided setup with Claude Code Desktop.
+
+### Option 2: Apply to Your Existing Vault
 
 Run the setup script to apply this configuration to your existing Obsidian vault:
 
@@ -43,7 +53,7 @@ The setup script will:
 - Install research tools (Zotero MCP, PaperQA2)
 - Provide setup instructions for Obsidian plugins
 
-### Option 2: Start Fresh with Sample Vault
+### Option 3: Start Fresh with Sample Vault
 
 1. Clone this repository
 2. Open `Obsidian-Template-Vault` folder as a vault in Obsidian
@@ -80,10 +90,11 @@ pip install "paper-qa>=5"
 ├── .claude/                          # Claude Code configuration
 │   ├── agents/                       # 16 specialized AI agents
 │   ├── commands/                     # 29 slash commands
+│   ├── skills/                       # 18 AI skills
 │   ├── hooks/                        # Automation hooks
 │   ├── mcp.json                      # MCP server configuration
 │   └── settings.local.json           # Local settings
-├── Obsidian-Template-Vault/            # Obsidian vault (PARA structure)
+├── Obsidian-Template-Vault/          # Obsidian vault (PARA structure)
 │   ├── 0. Inbox/                     # Capture point
 │   ├── 1. Projects/                  # Active initiatives
 │   ├── 2. Areas (Ongoing)/           # Ongoing responsibilities
@@ -92,6 +103,7 @@ pip install "paper-qa>=5"
 │   ├── 6. Metadata/                  # System docs & templates
 │   └── .obsidian/                    # Obsidian config
 ├── CLAUDE.md                         # Master Claude configuration
+├── INSTALLATION.md                   # Non-technical setup guide
 └── README.md                         # This file
 ```
 
@@ -193,6 +205,30 @@ The template vault comes pre-configured with curated plugins for research workfl
 | `/paper-polish` | Grammar, style, consistency | Final editing |
 | `/export-paper` | Export to LaTeX/PDF/Word | Submission prep |
 
+## AI Skills (18)
+
+Skills provide specialized AI capabilities accessible via natural language or commands:
+
+| Skill | Purpose |
+|-------|---------|
+| `ai-search` | AI-powered web search |
+| `scientific-writing` | Academic paper writing |
+| `literature-review` | Research paper synthesis |
+| `citation-management` | Citation creation and validation |
+| `statistical-analysis` | Statistics and hypothesis testing |
+| `plotly` | Interactive data visualizations |
+| `seaborn` | Statistical plots |
+| `docx` | Word document creation/editing |
+| `xlsx` | Excel spreadsheet operations |
+| `pdf-processing-pro` | PDF text extraction and analysis |
+| `exploratory-data-analysis` | Data file analysis |
+| `scientific-slides` | Presentation creation |
+| `venue-templates` | Journal/conference templates |
+| `perplexity-search` | Perplexity AI search |
+| `obsidian-markdown` | Obsidian-flavored markdown |
+| `scientific-brainstorming` | Research ideation |
+| `scientific-critical-thinking` | Research evaluation |
+
 ## Agents
 
 ### Obsidian Operations Team
@@ -291,7 +327,6 @@ Located in `.claude/mcp.json`:
 4. Build search index: `zotero-mcp update-db --fulltext`
 
 **PaperQA2:**
-
 1. Run: `pip install paper-qa>=5`
 2. Set API key: `export ANTHROPIC_API_KEY=your-key` (or `OPENAI_API_KEY`)
 3. Usage: `pqa ask "Your question" --paper-directory /path/to/pdfs`
@@ -336,7 +371,7 @@ See: [Workflow - Research Automation.md](Obsidian-Template-Vault/6.%20Metadata/W
 ### Academic Paper Pipeline
 
 ```
-Ideate → Literature → Evidence → Outline → Draft → Review → Export → Code
+Ideate → Literature → Evidence → Outline → Draft → Review → Export
 ```
 
 End-to-end academic paper writing workflow:

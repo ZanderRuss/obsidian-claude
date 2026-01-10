@@ -71,8 +71,8 @@ echo  Installing required packages...
 echo  (This may take 1-2 minutes)
 echo.
 call .venv\Scripts\activate.bat
-pip install --quiet --upgrade pip
-pip install --quiet -r .claude\skills\requirements.txt
+python -m pip install --quiet --upgrade pip 2>nul
+pip install --quiet -r .claude\skills\requirements.txt 2>nul
 if errorlevel 1 (
     echo  [!] Could not install packages
     echo  Please ask for help in the GitHub Issues.
