@@ -1,0 +1,25 @@
+{
+  "default_provider": "claude",
+  "providers": {
+    "openai": {
+      "model": "gpt-4o",
+      "max_tokens": 4000,
+      "temperature": 0.2
+    },
+    "anthropic": {
+      "model": "claude-sonnet-4-20250514",
+      "max_tokens": 4000,
+      "temperature": 0.2
+    },
+    "gemini": {
+      "model": "gemini-2.0-flash",
+      "max_tokens": 4000,
+      "temperature": 0.2
+    },
+    "perplexity": {
+      "model": "sonar-pro",
+      "max_tokens": 4000,
+      "temperature": 0.2
+    }
+  }
+}

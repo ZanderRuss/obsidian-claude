@@ -98,3 +98,18 @@ temp/
 # ===========================================
 .claude/transcripts/
 .claude/cache/
+.claude/plans/
+.claude/settings.json
+.claude/templates-analysis/
+
+# ===========================================
+# Backup Folders
+# ===========================================
+.claude-backup-*/
+Obsidian-Vault-Backup/
+*.backup/
+
+# ===========================================
+# Development & Testing
+# ===========================================
+research-agents/

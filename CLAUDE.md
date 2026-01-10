@@ -127,6 +127,26 @@ Obsidian-Template-Vault/
 - **paper-editor**: Academic writing polish and style improvement
 - **citation-manager**: Citation verification and BibTeX management
 - **experiment-designer**: ML experiment design and ablation planning
+- **research-orchestrator**: Multi-phase research coordination with quality gates
+- **academic-researcher**: Academic database searching
+- **research-synthesizer**: Cross-source synthesis
+- **fact-checker**: Claim verification
+- **data-analyst**: Quantitative analysis
+- **report-generator**: Structured report creation
+- **query-clarifier**: Query refinement
+- **research-coordinator**: Task coordination
+- **research-brief-generator**: Research brief creation
+- **technical-researcher**: Technical implementation research
+
+### AI Specialists
+
+- **prompt-engineer**: Prompt optimization
+- **task-decomposition-expert**: Complex task breakdown
+- **search-specialist**: Search optimization
+- **data-scientist**: Data science workflows
+- **ai-engineer**: AI system design
+- **ml-engineer**: ML pipeline development
+- **nlp-engineer**: NLP task automation
 
 ## MCP Integration
 
@@ -150,6 +170,13 @@ This vault has MCP (Model Context Protocol) configured for direct vault access:
 - `zotero_get_item_metadata` - Get citation details + BibTeX
 - `zotero_get_annotations` - Extract PDF highlights
 - `zotero_get_fulltext` - Access document text
+
+### Citation Tools Integration
+
+| Tool                         | Use For                                              |
+|------------------------------|------------------------------------------------------|
+| **Zotero MCP**               | Searching existing library, getting PDF annotations  |
+| **citation-management skill** | Google Scholar/PubMed search, DOI→BibTeX, validation |
 
 ### PaperQA2 Capabilities
 

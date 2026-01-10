@@ -1,0 +1,17 @@
+# AI Search Dependencies
+# Install based on which providers you want to use
+
+# OpenAI Provider
+openai>=1.0.0
+
+# Anthropic Provider
+anthropic>=0.20.0
+
+# Google Gemini Provider
+google-generativeai>=0.4.0
+
+# Perplexity Provider (via OpenRouter)
+litellm>=1.0.0
+
+# Optional: Environment variable management
+python-dotenv>=1.0.0
