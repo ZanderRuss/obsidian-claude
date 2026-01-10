@@ -36,6 +36,7 @@ Before writing that paper or making that decision—map the territory. Claude he
 <img src="images/edited/explore%202.png" alt="Explore - Deep thought before creation" width="100%">
 </p>
 
+---
 
 ### Connect Ideas, Find Patterns
 
@@ -46,6 +47,8 @@ The real breakthroughs happen when ideas connect across domains. Claude helps yo
 <img src="images/edited/connect%202.png" alt="Connect - Link ideas, find patterns" width="100%">
 </p>
 
+---
+
 ### Iterate Toward Understanding
 
 Understanding builds through cycles of exploration, creation, and refinement. Each conversation with Claude, each note you capture, each connection you make adds another layer. Don't aim for perfect first drafts—aim for progressive clarity. Your vault grows not just in size, but in depth and interconnectedness.
@@ -54,6 +57,7 @@ Understanding builds through cycles of exploration, creation, and refinement. Ea
 <img src="images/edited/iterate2.png" alt="Iterate - Build understanding incrementally" width="100%">
 </p>
 
+---
 
 ### In Practice
 
