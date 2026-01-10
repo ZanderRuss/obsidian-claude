@@ -14,7 +14,7 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 ## Philosophy
 
-> "Your thoughts, research and writing connected. From scattered ideas to structured knowledge, AI that thinks *with* you, not *for* you.
+> "Your thoughts, research and writing connected. From scattered ideas to structured knowledge, AI that thinks *with* you, not *for* you."
 
 Capture it. Store it. Connect it. Your thoughts, research, chats, documents, and projects all organised and woven into an interconnected web where insights surface across domains."
 
@@ -58,6 +58,66 @@ Understanding builds through cycles of exploration, creation, and refinement. Ea
 <p align="center">
 <img src="images/edited/iterate2.png" alt="Iterate - Build understanding incrementally" width="100%">
 </p>
+
+---
+
+## Why Obsidian?
+
+### Your Data, Your Control
+
+- **Local-first** — Your notes are plain markdown files on your computer, not locked in someone's cloud
+- **No subscription required** — Free for personal use, forever
+- **Future-proof** — Even if Obsidian disappears, your files remain readable
+- **Privacy** — Your thoughts never leave your machine unless you choose to sync them
+
+### Powerful by Design
+
+- **Bidirectional links** — Connect ideas with `[[wikilinks]]` and see what links back
+- **Graph view** — Visualize your knowledge as an interconnected web
+- **Search everything** — Full-text search across thousands of notes in milliseconds
+- **Extensible** — 1,500+ community plugins to customize your workflow
+
+### Why It Pairs Perfectly with Claude
+
+| Obsidian Provides | Claude Provides |
+|-------------------|-----------------|
+| Permanent storage | Intelligent conversation |
+| Structure (folders, tags, links) | Pattern recognition |
+| Your accumulated context | Fresh thinking and connections |
+| Plain text you own | AI that reads and writes it |
+
+---
+
+## The PARA Method
+
+PARA organises your knowledge by **actionability**, not by topic. Everything goes in one of four folders:
+
+| Folder | What Goes Here | Key Question |
+|--------|----------------|--------------|
+| **P**rojects | Active work with a deadline | "What am I working on right now?" |
+| **A**reas | Ongoing responsibilities (no end date) | "What do I need to maintain?" |
+| **R**esources | Reference material, interests | "What might be useful someday?" |
+| **A**rchive | Completed or inactive items | "What's done or on hold?" |
+
+### Why This Works
+
+**Traditional approach:** Organise by topic (like a library)
+- Problem: Where does "AI for climate research" go? AI folder? Climate folder? Research folder?
+
+**PARA approach:** Organize by what you're *doing* with it
+- If it's an active project → Projects
+- If it's ongoing responsibility → Areas  
+- If it's just reference → Resources
+- If it's done → Archive
+
+**The result:** Active work stays visible. Everything else gets out of the way. When a project finishes, move it to Archive. When you start something new, it goes in Projects. Simple.
+
+### PARA + Claude
+
+Claude helps you *use* PARA without thinking about it:
+- `/inbox-processor` — Automatically sorts captured notes into the right folder
+- `/daily-review` — Surfaces what needs attention today
+- `/weekly-synthesis` — Finds patterns across your week's notes
 
 ---
 
