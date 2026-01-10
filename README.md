@@ -1,6 +1,6 @@
 # Obsidian + Claude Integration
 
-A comprehensive, **portable** integration between [Obsidian](https://obsidian.md) and [Claude Code](https://claude.ai/code) for AI-powered knowledge management using the PARA method.
+A comprehensive, **portable** integration between [Obsidian](https://obsidian.md) and [Claude Code](https://claude.ai/code) for AI-powered knowledge management and research using the PARA method.
 
 **29 commands • 16 agents • 18 AI skills • 17 curated plugins • Full research workflow • MCP integration**
 
