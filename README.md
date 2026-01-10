@@ -45,7 +45,7 @@ This isn't a "generate my essay" tool. When you work with Claude here:
 **Exploration before production** — Think deeply, then create
 
 <p align="center">
-<img src="images/edited/20.png" alt="Connect - Link ideas, find patterns" width="100%">
+<img src="images/edited/connect%202.png" alt="Connect - Link ideas, find patterns" width="100%">
 </p>
 
 **Connections over content** — Link ideas, find patterns
