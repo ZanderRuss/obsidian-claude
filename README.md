@@ -8,14 +8,44 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 ## Philosophy
 
-> "AI amplifies thinking, not just writing."
+> "Your thoughts, connected. From scattered ideas to structured knowledge—AI that thinks *with* you, not *for* you."
 
-This vault uses Claude as a **thinking partner** — an AI that helps explore ideas through dialogue rather than just generating content:
+### The Problem
 
-- **Questions before answers** — Clarify understanding through inquiry
-- **Exploration before production** — Think deeply before creating
+Most people use AI to skip thinking. They ask for answers and get generic content that sounds good but teaches nothing. The knowledge lives in the AI, not in you.
+
+### The Solution
+
+This vault flips that. Claude is your **thinking partner**—an AI that helps you explore, question, and connect ideas. Your Obsidian vault becomes your **second brain**, accumulating context over time. The more you use it, the smarter the system gets—because *you* get smarter.
+
+**Why Obsidian + Claude?**
+
+- **Obsidian** stores your knowledge in plain text you own forever
+- **Claude** helps you think through problems and find connections
+- **Together** they create a feedback loop: better notes → better context → better thinking
+
+### What to Expect
+
+This isn't a "generate my essay" tool. When you work with Claude here:
+
+- Claude asks clarifying questions before jumping to solutions
+- The goal is understanding, not just output
+- Your vault accumulates context, making every conversation richer
+
+### The Four Principles
+
+- **Questions before answers** — Understand before solving
+- **Exploration before production** — Think deeply, then create
 - **Connections over content** — Link ideas, find patterns
 - **Iteration over perfection** — Build understanding incrementally
+
+### In Practice
+
+| Instead of... | Try... |
+|---------------|--------|
+| "Write my introduction" | "Help me figure out what my paper is really arguing" |
+| "Summarize this article" | "What are the key ideas here and how do they connect to my research?" |
+| "Give me a literature review" | "What questions should I be asking about this topic?" |
 
 ## What Can You Do With This?
 
