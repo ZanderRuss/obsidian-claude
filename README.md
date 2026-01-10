@@ -23,14 +23,14 @@ Run the setup script to apply this configuration to your existing Obsidian vault
 
 **Windows (PowerShell):**
 ```powershell
-git clone https://github.com/yourusername/obsidian-claude.git
+git clone https://github.com/ZanderRuss/obsidian-claude.git
 cd obsidian-claude
 .\scripts\setup.ps1 -VaultPath "C:\path\to\your\vault"
 ```
 
 **Linux/macOS:**
 ```bash
-git clone https://github.com/yourusername/obsidian-claude.git
+git clone https://github.com/ZanderRuss/obsidian-claude.git
 cd obsidian-claude
 chmod +x scripts/setup.sh
 ./scripts/setup.sh -v ~/path/to/your/vault
