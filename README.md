@@ -10,13 +10,6 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 > "Your thoughts, connected. From scattered ideas to structured knowledge—AI that thinks *with* you, not *for* you."
 
-<p align="center">
-<img src="images/edited/amplify%202.png" alt="Amplify - Research partner, thought partner, writing partner" width="24%">
-<img src="images/edited/explore%202.png" alt="Explore - Deep thought before creation" width="24%">
-<img src="images/edited/20.png" alt="Connect - Link ideas, find patterns" width="24%">
-<img src="images/edited/iterate.png" alt="Iterate - Build understanding incrementally" width="24%">
-</p>
-
 ### The Problem
 
 Most people use AI to skip thinking. They ask for answers and get generic content that sounds good but teaches nothing. The knowledge lives in the AI, not in you.
@@ -24,6 +17,10 @@ Most people use AI to skip thinking. They ask for answers and get generic conten
 ### The Solution
 
 This vault flips that. Claude is your **thinking partner**—an AI that helps you explore, question, and connect ideas. Your Obsidian vault becomes your **second brain**, accumulating context over time. The more you use it, the smarter the system gets.
+
+<p align="center">
+<img src="images/edited/amplify%202.png" alt="Amplify - Research partner, thought partner, writing partner" width="100%">
+</p>
 
 **Why Obsidian + Claude?**
 
@@ -41,10 +38,23 @@ This isn't a "generate my essay" tool. When you work with Claude here:
 
 ### The Four Principles
 
-- **Questions before answers** — Understand before solving
-- **Exploration before production** — Think deeply, then create
-- **Connections over content** — Link ideas, find patterns
-- **Iteration over perfection** — Build understanding incrementally
+<p align="center">
+<img src="images/edited/explore%202.png" alt="Explore - Deep thought before creation" width="100%">
+</p>
+
+**Exploration before production** — Think deeply, then create
+
+<p align="center">
+<img src="images/edited/20.png" alt="Connect - Link ideas, find patterns" width="100%">
+</p>
+
+**Connections over content** — Link ideas, find patterns
+
+<p align="center">
+<img src="images/edited/iterate2.png" alt="Iterate - Build understanding incrementally" width="100%">
+</p>
+
+**Iteration over perfection** — Build understanding incrementally
 
 ### In Practice
 
