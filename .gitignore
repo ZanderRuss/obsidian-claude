@@ -1,0 +1,133 @@
+# ===========================================
+# Obsidian-Claude Portable Distribution
+# ===========================================
+# This .gitignore excludes personal vault content
+# Only configuration, commands, agents, and templates are shared
+
+# ===========================================
+# API Keys & Secrets
+# ===========================================
+.claude/mcp.json
+.claude/settings.local.json
+*.env
+.env.*
+secrets.json
+credentials.json
+
+# ===========================================
+# Personal Vault Content
+# ===========================================
+# Exclude EVERYTHING in vault except specific folders
+Obsidian-Vault-Backup/*
+
+# Include only system folders (using negation)
+!Obsidian-Vault-Backup/6. Metadata/
+!Obsidian-Vault-Backup/.obsidian/
+
+# Exclude personal content in 6. Metadata but keep templates/workflows
+Obsidian-Vault-Backup/6. Metadata/Daily/
+Obsidian-Vault-Backup/6. Metadata/Personal/
+
+# Keep PARA folder structure with .gitkeep
+!Obsidian-Vault-Backup/0. Inbox/
+Obsidian-Vault-Backup/0. Inbox/*
+!Obsidian-Vault-Backup/0. Inbox/.gitkeep
+
+!Obsidian-Vault-Backup/1. Projects/
+Obsidian-Vault-Backup/1. Projects/*
+!Obsidian-Vault-Backup/1. Projects/.gitkeep
+
+!Obsidian-Vault-Backup/2. Areas (Ongoing)/
+Obsidian-Vault-Backup/2. Areas (Ongoing)/*
+!Obsidian-Vault-Backup/2. Areas (Ongoing)/.gitkeep
+
+!Obsidian-Vault-Backup/3. Resources (Dynamic)/
+Obsidian-Vault-Backup/3. Resources (Dynamic)/*
+!Obsidian-Vault-Backup/3. Resources (Dynamic)/.gitkeep
+
+!Obsidian-Vault-Backup/4. Archive (Supportive)/
+Obsidian-Vault-Backup/4. Archive (Supportive)/*
+!Obsidian-Vault-Backup/4. Archive (Supportive)/.gitkeep
+
+!Obsidian-Vault-Backup/Images/
+Obsidian-Vault-Backup/Images/*
+!Obsidian-Vault-Backup/Images/.gitkeep
+
+# ===========================================
+# Large Binary Files
+# ===========================================
+*.exe
+*.dll
+*.bin
+Obsidian-Vault-Backup/.obsidian/plugins/mcp-tools/bin/
+
+# ===========================================
+# Obsidian Internal Files
+# ===========================================
+Obsidian-Vault-Backup/.obsidian/workspace.json
+Obsidian-Vault-Backup/.obsidian/workspace-mobile.json
+Obsidian-Vault-Backup/.obsidian/graph.json
+Obsidian-Vault-Backup/.obsidian/backlink.json
+Obsidian-Vault-Backup/.obsidian/bookmarks.json
+Obsidian-Vault-Backup/.obsidian/daily-notes.json
+Obsidian-Vault-Backup/.obsidian/periodic-notes.json
+
+# Plugin caches and data
+Obsidian-Vault-Backup/.obsidian/plugins/*/data.json
+Obsidian-Vault-Backup/.obsidian/plugins/smart-connections/*
+Obsidian-Vault-Backup/.obsidian/plugins/obsidian-local-rest-api/data.json
+
+# ===========================================
+# System Files
+# ===========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# ===========================================
+# IDE & Editor
+# ===========================================
+.vscode/
+.idea/
+*.sublime-*
+
+# ===========================================
+# Python
+# ===========================================
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# ===========================================
+# Node.js
+# ===========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===========================================
+# Logs & Temp Files
+# ===========================================
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+
+# ===========================================
+# Claude Code Session Files
+# ===========================================
+.claude/transcripts/
+.claude/cache/
