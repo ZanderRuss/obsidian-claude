@@ -8,53 +8,39 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 ## Philosophy
 
-> "Your thoughts, connected. From scattered ideas to structured knowledge—AI that thinks *with* you, not *for* you."
-
-### The Problem
-
-Most people use AI to skip thinking. They ask for answers and get generic content that sounds good but teaches nothing. The knowledge lives in the AI, not in you.
-
-### The Solution
-
-This vault flips that. Claude is your **thinking partner**—an AI that helps you explore, question, and connect ideas. Your Obsidian vault becomes your **second brain**, accumulating context over time. The more you use it, the smarter the system gets.
+> "Your thoughts, research and writing connected. From scattered ideas to structured knowledge—AI that thinks *with* you, not *for* you."
 
 <p align="center">
 <img src="images/edited/amplify%202.png" alt="Amplify - Research partner, thought partner, writing partner" width="100%">
 </p>
 
-**Why Obsidian + Claude?**
+### Amplify Your Thinking
 
-- **Obsidian** stores your knowledge in plain text you own forever
-- **Claude** helps you think through problems and find connections
-- **Together** they create a feedback loop: better notes → better context → better thinking
-
-### What to Expect
-
-This isn't a "generate my essay" tool. When you work with Claude here:
-
-- Claude asks clarifying questions before jumping to solutions
-- The goal is understanding, not just output
-- Your vault accumulates context, making every conversation richer
-
-### The Four Principles
+Claude becomes your research partner, thought partner, and writing partner—helping you dig deeper into ideas, challenge your assumptions, and discover angles you hadn't considered. Your vault accumulates context over time, so every conversation builds on the last. The more you use it, the smarter the system gets—because *you* get smarter.
 
 <p align="center">
 <img src="images/edited/explore%202.png" alt="Explore - Deep thought before creation" width="100%">
 </p>
 
-**Exploration before production** — Think deeply, then create
+### Explore Before You Create
+
+Before writing that paper or making that decision—map the territory. Claude helps you explore the problem space, ask better questions, and surface hidden assumptions. Understand what you're really trying to achieve before jumping to solutions. Deep thought before creation leads to work that's actually worth creating.
 
 <p align="center">
 <img src="images/edited/connect%202.png" alt="Connect - Link ideas, find patterns" width="100%">
 </p>
 
-**Connections over content** — Link ideas, find patterns
+### Connect Ideas, Find Patterns
+
+The real breakthroughs happen when ideas connect across domains. Claude helps you weave threads between notes, surface forgotten insights, and notice patterns you'd otherwise miss. Transform scattered thoughts into structured understanding—where every idea finds its place in a growing web of knowledge.
 
 <p align="center">
 <img src="images/edited/iterate2.png" alt="Iterate - Build understanding incrementally" width="100%">
 </p>
 
-**Iteration over perfection** — Build understanding incrementally
+### Iterate Toward Understanding
+
+Understanding builds through cycles of exploration, creation, and refinement. Each conversation with Claude, each note you capture, each connection you make adds another layer. Don't aim for perfect first drafts—aim for progressive clarity. Your vault grows not just in size, but in depth and interconnectedness.
 
 ### In Practice
 
