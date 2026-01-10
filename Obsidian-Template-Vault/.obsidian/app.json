@@ -1,0 +1,18 @@
+{
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 75
+  },
+  "alwaysUpdateLinks": true,
+  "defaultViewMode": "preview",
+  "readableLineLength": false,
+  "newFileLocation": "current",
+  "attachmentFolderPath": "Images",
+  "promptDelete": false,
+  "showUnsupportedFiles": true,
+  "trashOption": "local",
+  "showInlineTitle": true
+}

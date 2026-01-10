@@ -1,8 +1,8 @@
 # ===========================================
 # Obsidian-Claude Portable Distribution
 # ===========================================
-# This .gitignore excludes personal vault content
-# Only configuration, commands, agents, and templates are shared
+# This .gitignore excludes user-specific data
+# Template vault and configurations are shared
 
 # ===========================================
 # API Keys & Secrets
@@ -15,43 +15,26 @@ secrets.json
 credentials.json
 
 # ===========================================
-# Personal Vault Content
+# Obsidian User-Specific Files
 # ===========================================
-# Exclude EVERYTHING in vault except specific folders
-Obsidian-Vault-Backup/*
+# Exclude workspace and session data
+Obsidian-Template-Vault/.obsidian/workspace.json
+Obsidian-Template-Vault/.obsidian/workspace-mobile.json
+Obsidian-Template-Vault/.obsidian/graph.json
+Obsidian-Template-Vault/.obsidian/backlink.json
+Obsidian-Template-Vault/.obsidian/bookmarks.json
+Obsidian-Template-Vault/.obsidian/daily-notes.json
+Obsidian-Template-Vault/.obsidian/periodic-notes.json
 
-# Include only system folders (using negation)
-!Obsidian-Vault-Backup/6. Metadata/
-!Obsidian-Vault-Backup/.obsidian/
+# Plugin user data (settings, caches)
+Obsidian-Template-Vault/.obsidian/plugins/*/data.json
 
-# Exclude personal content in 6. Metadata but keep templates/workflows
-Obsidian-Vault-Backup/6. Metadata/Daily/
-Obsidian-Vault-Backup/6. Metadata/Personal/
+# AI-generated embeddings
+Obsidian-Template-Vault/.smart-env/
+Obsidian-Template-Vault/.smart-connections/
 
-# Keep PARA folder structure with .gitkeep
-!Obsidian-Vault-Backup/0. Inbox/
-Obsidian-Vault-Backup/0. Inbox/*
-!Obsidian-Vault-Backup/0. Inbox/.gitkeep
-
-!Obsidian-Vault-Backup/1. Projects/
-Obsidian-Vault-Backup/1. Projects/*
-!Obsidian-Vault-Backup/1. Projects/.gitkeep
-
-!Obsidian-Vault-Backup/2. Areas (Ongoing)/
-Obsidian-Vault-Backup/2. Areas (Ongoing)/*
-!Obsidian-Vault-Backup/2. Areas (Ongoing)/.gitkeep
-
-!Obsidian-Vault-Backup/3. Resources (Dynamic)/
-Obsidian-Vault-Backup/3. Resources (Dynamic)/*
-!Obsidian-Vault-Backup/3. Resources (Dynamic)/.gitkeep
-
-!Obsidian-Vault-Backup/4. Archive (Supportive)/
-Obsidian-Vault-Backup/4. Archive (Supportive)/*
-!Obsidian-Vault-Backup/4. Archive (Supportive)/.gitkeep
-
-!Obsidian-Vault-Backup/Images/
-Obsidian-Vault-Backup/Images/*
-!Obsidian-Vault-Backup/Images/.gitkeep
+# Trash folder
+Obsidian-Template-Vault/.trash/
 
 # ===========================================
 # Large Binary Files
@@ -59,23 +42,7 @@ Obsidian-Vault-Backup/Images/*
 *.exe
 *.dll
 *.bin
-Obsidian-Vault-Backup/.obsidian/plugins/mcp-tools/bin/
-
-# ===========================================
-# Obsidian Internal Files
-# ===========================================
-Obsidian-Vault-Backup/.obsidian/workspace.json
-Obsidian-Vault-Backup/.obsidian/workspace-mobile.json
-Obsidian-Vault-Backup/.obsidian/graph.json
-Obsidian-Vault-Backup/.obsidian/backlink.json
-Obsidian-Vault-Backup/.obsidian/bookmarks.json
-Obsidian-Vault-Backup/.obsidian/daily-notes.json
-Obsidian-Vault-Backup/.obsidian/periodic-notes.json
-
-# Plugin caches and data
-Obsidian-Vault-Backup/.obsidian/plugins/*/data.json
-Obsidian-Vault-Backup/.obsidian/plugins/smart-connections/*
-Obsidian-Vault-Backup/.obsidian/plugins/obsidian-local-rest-api/data.json
+Obsidian-Template-Vault/.obsidian/plugins/mcp-tools/bin/
 
 # ===========================================
 # System Files

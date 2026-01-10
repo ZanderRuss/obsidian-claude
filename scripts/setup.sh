@@ -199,7 +199,7 @@ for folder in "${PARA_FOLDERS[@]}"; do
 done
 
 # Copy templates
-SOURCE_TEMPLATES="$SOURCE_ROOT/Obsidian-Vault-Backup/6. Metadata/Templates"
+SOURCE_TEMPLATES="$SOURCE_ROOT/Obsidian-Template-Vault/6. Metadata/Templates"
 DEST_TEMPLATES="$VAULT_PATH/6. Metadata/Templates"
 if [ -d "$SOURCE_TEMPLATES" ]; then
     cp -r "$SOURCE_TEMPLATES/"* "$DEST_TEMPLATES/" 2>/dev/null || true

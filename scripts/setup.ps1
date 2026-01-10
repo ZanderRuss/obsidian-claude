@@ -185,7 +185,7 @@ foreach ($folder in $paraFolders) {
 }
 
 # Copy templates
-$sourceTemplates = Join-Path $scriptRoot "Obsidian-Vault-Backup\6. Metadata\Templates"
+$sourceTemplates = Join-Path $scriptRoot "Obsidian-Template-Vault\6. Metadata\Templates"
 $destTemplates = Join-Path $VaultPath "6. Metadata\Templates"
 if (Test-Path $sourceTemplates) {
     Copy-Item -Path "$sourceTemplates\*" -Destination $destTemplates -Recurse -Force

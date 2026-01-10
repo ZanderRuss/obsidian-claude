@@ -2,7 +2,7 @@
 
 A comprehensive, **portable** integration between [Obsidian](https://obsidian.md) and [Claude Code](https://claude.ai/code) for AI-powered knowledge management using the PARA method.
 
-**29 commands • 16 agents • Full research workflow • MCP integration**
+**29 commands • 16 agents • 17 curated plugins • Full research workflow • MCP integration**
 
 ## Philosophy
 
@@ -46,7 +46,7 @@ The setup script will:
 ### Option 2: Start Fresh with Sample Vault
 
 1. Clone this repository
-2. Open `Obsidian-Vault-Backup` folder as a vault in Obsidian
+2. Open `Obsidian-Template-Vault` folder as a vault in Obsidian
 3. Enable the Local REST API plugin
 4. Copy your API key to `.claude/mcp.json`
 5. Run Claude Code: `claude`
@@ -83,7 +83,7 @@ pip install "paper-qa>=5"
 │   ├── hooks/                        # Automation hooks
 │   ├── mcp.json                      # MCP server configuration
 │   └── settings.local.json           # Local settings
-├── Obsidian-Vault-Backup/            # Obsidian vault (PARA structure)
+├── Obsidian-Template-Vault/            # Obsidian vault (PARA structure)
 │   ├── 0. Inbox/                     # Capture point
 │   ├── 1. Projects/                  # Active initiatives
 │   ├── 2. Areas (Ongoing)/           # Ongoing responsibilities
@@ -94,6 +94,49 @@ pip install "paper-qa>=5"
 ├── CLAUDE.md                         # Master Claude configuration
 └── README.md                         # This file
 ```
+
+## Included Plugins (17)
+
+The template vault comes pre-configured with curated plugins for research workflows:
+
+### Essential
+
+| Plugin | Purpose |
+|--------|---------|
+| [Local REST API](https://github.com/coddingtonbear/obsidian-local-rest-api) | Claude Code MCP integration |
+| [MCP Tools](https://github.com/jacksteamdev/obsidian-mcp-tools) | Claude Desktop integration |
+| [Dataview](https://github.com/blacksmithgu/obsidian-dataview) | Queries, dashboards |
+| [Templater](https://github.com/SilentVoid13/Templater) | Advanced templates |
+
+### Organization
+
+| Plugin | Purpose |
+|--------|---------|
+| [Omnisearch](https://github.com/scambier/obsidian-omnisearch) | Full-text search |
+| [Tag Wrangler](https://github.com/pjeby/tag-wrangler) | Tag management |
+| [Auto Note Mover](https://github.com/farux/obsidian-auto-note-mover) | PARA automation |
+| [Homepage](https://github.com/mirnovov/obsidian-homepage) | Auto-open dashboard |
+| [Calendar](https://github.com/liamcain/obsidian-calendar-plugin) | Daily notes calendar |
+
+### Research & Writing
+
+| Plugin | Purpose |
+|--------|---------|
+| [Longform](https://github.com/kevboh/longform) | Thesis/paper organization |
+| [Kanban](https://github.com/mgmeyers/obsidian-kanban) | Project management |
+| [Excalidraw](https://github.com/zsviczian/obsidian-excalidraw-plugin) | Diagrams, flowcharts |
+| [Zotero Integration](https://github.com/mgmeyers/obsidian-zotero-desktop-connector) | Import annotations |
+
+### Formatting
+
+| Plugin | Purpose |
+|--------|---------|
+| [Linter](https://github.com/platers/obsidian-linter) | Markdown formatting |
+| [Table Editor](https://github.com/ganesshkumar/obsidian-table-editor) | Spreadsheet-like tables |
+| [Banners](https://github.com/noatpad/obsidian-banners) | Visual note headers |
+| [Icon Folder](https://github.com/FlorianWoworetz/obsidian-iconize) | Folder icons |
+
+> **Note**: Plugins marked for installation (Longform, Kanban, Excalidraw, Zotero Integration) need to be installed via Obsidian's Community Plugins on first launch.
 
 ## Commands
 
@@ -254,7 +297,7 @@ Located in `.claude/mcp.json`:
 2. Set API key: `export ANTHROPIC_API_KEY=your-key` (or `OPENAI_API_KEY`)
 3. Usage: `pqa ask "Your question" --paper-directory /path/to/pdfs`
 
-See: [Research Tools Setup.md](Obsidian-Vault-Backup/6.%20Metadata/Reference/Research%20Tools%20Setup.md)
+See: [Research Tools Setup.md](Obsidian-Template-Vault/6.%20Metadata/Reference/Research%20Tools%20Setup.md)
 
 ## Automation Pipelines
 
@@ -269,7 +312,7 @@ Record → Transcribe (Whisper) → Sync to Inbox → /voice-process → Structu
 - PowerShell + Whisper (Windows)
 - Tasker (Android)
 
-See: [Workflow - Voice Memo Automation.md](Obsidian-Vault-Backup/6.%20Metadata/Workflows/Workflow%20-%20Voice%20Memo%20Automation.md)
+See: [Workflow - Voice Memo Automation.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20Voice%20Memo%20Automation.md)
 
 ### GitHub CI/CD
 
@@ -279,7 +322,7 @@ Create Issue (mobile) → GitHub Action → Claude processes → Commits result
 
 Trigger vault tasks from anywhere via GitHub Issues with the `claude-task` label.
 
-See: [Workflow - GitHub Automation.md](Obsidian-Vault-Backup/6.%20Metadata/Workflows/Workflow%20-%20GitHub%20Automation.md)
+See: [Workflow - GitHub Automation.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20GitHub%20Automation.md)
 
 ### Research Pipeline
 
@@ -289,7 +332,7 @@ Query → /research-assistant → Web Search → /web-clip → Synthesis → Str
 
 Automated research with source evaluation (CRAAP test) and structured output.
 
-See: [Workflow - Research Automation.md](Obsidian-Vault-Backup/6.%20Metadata/Workflows/Workflow%20-%20Research%20Automation.md)
+See: [Workflow - Research Automation.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20Research%20Automation.md)
 
 ### Academic Paper Pipeline
 
@@ -309,7 +352,7 @@ End-to-end academic paper writing workflow:
 8. `/export-paper` → LaTeX/PDF for submission
 9. `/paper-to-code` → Extract implementation
 
-See: [Workflow - Academic Research Pipeline.md](Obsidian-Vault-Backup/6.%20Metadata/Workflows/Workflow%20-%20Academic%20Research%20Pipeline.md)
+See: [Workflow - Academic Research Pipeline.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20Academic%20Research%20Pipeline.md)
 
 ## Hooks
 
@@ -327,7 +370,7 @@ Validates commit messages follow conventional commit format:
 
 ## Templates
 
-Located in `Obsidian-Vault-Backup/6. Metadata/Templates/`:
+Located in `Obsidian-Template-Vault/6. Metadata/Templates/`:
 
 ### General Templates
 

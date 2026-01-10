@@ -22,19 +22,19 @@ This is an Obsidian vault with AI-powered knowledge management using the PARA me
 ## Vault Structure (PARA Method)
 
 ```text
-Obsidian-Vault-Backup/
+Obsidian-Template-Vault/
 ├── 0. Inbox/                  # Temporary capture point
 ├── 1. Projects/               # Active initiatives with deadlines
 ├── 2. Areas (Ongoing)/        # Ongoing responsibilities
 ├── 3. Resources (Dynamic)/    # Reference materials
 ├── 4. Archive (Supportive)/   # Completed/inactive items
 ├── Images/                    # Attachments
-├── Templates/                 # Obsidian templates
+├── Home.md                    # Dashboard with Dataview queries
 ├── 6. Metadata/               # System documentation
 │   ├── Templates/             # Note templates
 │   ├── Workflows/             # Automation documentation
 │   └── Reference/             # System reference
-└── .obsidian/                 # Obsidian configuration
+└── .obsidian/                 # Obsidian configuration (17 plugins)
 ```
 
 ### PARA Categorization Guide
