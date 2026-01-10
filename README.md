@@ -6,10 +6,6 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 ---
 
-> **New to coding?** Check out our [step-by-step installation guide](INSTALLATION.md) - no technical knowledge required!
-
----
-
 ## Philosophy
 
 > "AI amplifies thinking, not just writing."
@@ -21,13 +17,90 @@ This vault uses Claude as a **thinking partner** — an AI that helps explore id
 - **Connections over content** — Link ideas, find patterns
 - **Iteration over perfection** — Build understanding incrementally
 
-## Quick Start
+## What Can You Do With This?
 
-### Option 1: Non-Technical Setup (Recommended for beginners)
+| You Want To... | Just Say... |
+|----------------|-------------|
+| Find research papers | "Find papers about climate change" |
+| Write academic documents | "Help me write an introduction for my paper" |
+| Analyze data | "Run a statistical analysis on this data" |
+| Create charts | "Make a bar chart showing these results" |
+| Manage citations | "Create a citation for this paper" |
+| Search the web | "Search for the latest news on AI" |
+| Work with documents | "Create a Word document with this content" |
 
-See [INSTALLATION.md](INSTALLATION.md) for a guided setup with Claude Code Desktop.
+Claude becomes your research assistant, writing partner, and data analyst - all in one.
 
-### Option 2: Apply to Your Existing Vault
+---
+
+## How It Works
+
+You'll use **two apps together**:
+
+```
++-------------------+          +-------------------+
+|  Claude Code      |  <---->  |     Obsidian      |
+|  Desktop          |          |                   |
+|                   |          |                   |
+|  Your AI partner  |          |  Your notes vault |
+|  that helps you   |          |  where everything |
+|  think & work     |          |  is stored        |
++-------------------+          +-------------------+
+         |                              |
+         +----------- Both open to -----+
+                  the same folder
+```
+
+---
+
+## Quick Start (No Coding Required)
+
+### Step 1: Download This Project
+
+Click the green **Code** button above, then **Download ZIP**.
+
+```
++------------------------------------------+
+|  [<> Code v]                             |
+|  +------------------------------------+  |
+|  | Clone                              |  |
+|  | Open with GitHub Desktop           |  |
+|  | Download ZIP  <-- Click this       |  |
+|  +------------------------------------+  |
++------------------------------------------+
+```
+
+**Extract the ZIP file** to a location you'll remember (like `Documents/obsidian-claude/`).
+
+### Step 2: Open the Folder in Claude Code Desktop
+
+1. **Open Claude Code Desktop** (download from [claude.ai/download](https://claude.ai/download))
+2. **Select the folder** you just extracted (File > Open Folder)
+3. Navigate to the folder containing `SETUP.bat` and `README.md`
+
+> **Why this matters:** Claude Code Desktop can only work with files in the folder you select.
+
+### Step 3: Run Setup
+
+In Claude Code Desktop, ask Claude: "Please run the setup script"
+
+Or type: `run SETUP.bat` (Windows) or `run SETUP.command` (Mac)
+
+### Step 4: Open the Vault in Obsidian
+
+1. **Open Obsidian** (download from [obsidian.md](https://obsidian.md))
+2. Click **"Open folder as vault"**
+3. Navigate to: `your-folder/Obsidian-Template-Vault/`
+
+**That's it!** You now have Claude Code Desktop and Obsidian working together.
+
+> For more detailed instructions, see [INSTALLATION.md](INSTALLATION.md)
+
+---
+
+## Quick Start (For Developers)
+
+### Apply to Your Existing Vault
 
 Run the setup script to apply this configuration to your existing Obsidian vault:
 
@@ -53,7 +126,7 @@ The setup script will:
 - Install research tools (Zotero MCP, PaperQA2)
 - Provide setup instructions for Obsidian plugins
 
-### Option 3: Start Fresh with Sample Vault
+### Start Fresh with Sample Vault
 
 1. Clone this repository
 2. Open `Obsidian-Template-Vault` folder as a vault in Obsidian
