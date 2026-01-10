@@ -8,7 +8,7 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 ## Philosophy
 
-> "Your thoughts, research and writing connected. From scattered ideas to structured knowledge—AI that thinks *with* you, not *for* you."
+> "Your thoughts, research and writing connected. From scattered ideas to structured knowledge, AI that thinks *with* you, not *for* you."
 
 <p align="center">
 <img src="images/edited/amplify%202.png" alt="Amplify - Research partner, thought partner, writing partner" width="100%">
