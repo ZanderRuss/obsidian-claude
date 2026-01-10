@@ -8,13 +8,15 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 ## The Problem
 
-> Your ideas are scattered—across note apps, documents, AI chat histories, and your head. Great conversations vanish. Insights never connect. There's a gap between capturing a thought and actually developing it into something deeper. 
+> Your ideas are scattered across note apps, documents, AI chat histories, and your head. Great conversations vanish. Insights never connect. There's a gap between capturing a thought and actually developing it into something deeper. 
 
 ---
 
 ## Philosophy
 
-> "Your thoughts, research and writing connected. From scattered ideas to structured knowledge, AI that thinks *with* you, not *for* you. Capture it. Store it. Connect it. Your thoughts, research, chats, documents, and projects—organized, woven into an interconnected web where insights surface across domains."
+> "Your thoughts, research and writing connected. From scattered ideas to structured knowledge, AI that thinks *with* you, not *for* you.
+
+> Capture it. Store it. Connect it. Your thoughts, research, chats, documents, and projects all organised and woven into an interconnected web where insights surface across domains."
 
 ---
 
