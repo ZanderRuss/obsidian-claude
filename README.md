@@ -16,7 +16,7 @@ Most people use AI to skip thinking. They ask for answers and get generic conten
 
 ### The Solution
 
-This vault flips that. Claude is your **thinking partner**—an AI that helps you explore, question, and connect ideas. Your Obsidian vault becomes your **second brain**, accumulating context over time. The more you use it, the smarter the system gets—because *you* get smarter.
+This vault flips that. Claude is your **thinking partner**—an AI that helps you explore, question, and connect ideas. Your Obsidian vault becomes your **second brain**, accumulating context over time. The more you use it, the smarter the system gets.
 
 **Why Obsidian + Claude?**
 
