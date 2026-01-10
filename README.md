@@ -192,7 +192,6 @@ The template vault comes pre-configured with curated plugins for research workfl
 | `/paper-review` | Simulate peer review feedback | Before submission |
 | `/paper-polish` | Grammar, style, consistency | Final editing |
 | `/export-paper` | Export to LaTeX/PDF/Word | Submission prep |
-| `/paper-to-code` | Extract implementation from paper | Code implementation |
 
 ## Agents
 
@@ -350,7 +349,6 @@ End-to-end academic paper writing workflow:
 6. `/paper-draft` → Write sections with citations
 7. `/paper-review` → Simulate peer review
 8. `/export-paper` → LaTeX/PDF for submission
-9. `/paper-to-code` → Extract implementation
 
 See: [Workflow - Academic Research Pipeline.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20Academic%20Research%20Pipeline.md)
 

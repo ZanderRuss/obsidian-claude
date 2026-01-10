@@ -99,7 +99,6 @@ Obsidian-Template-Vault/
 | `/paper-review` | Simulate peer review feedback | Before submission |
 | `/paper-polish` | Grammar, style, consistency | Final editing pass |
 | `/export-paper` | Export to LaTeX/PDF/Word | Submission preparation |
-| `/paper-to-code` | Extract implementation from paper | Implementing methods |
 
 ## Available Agents
 
@@ -229,7 +228,6 @@ Ideate → Literature → Evidence → Outline → Draft → Review → Export
 7. `/paper-review` → Simulate peer review
 8. `/paper-polish` → Final editing pass
 9. `/export-paper` → LaTeX/PDF for submission
-10. `/paper-to-code` → Extract implementation
 
 See: `6. Metadata/Workflows/Workflow - Academic Research Pipeline.md`
 

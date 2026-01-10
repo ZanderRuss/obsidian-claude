@@ -11,7 +11,7 @@ status: active
 
 # Academic Research Pipeline
 
-A comprehensive end-to-end workflow for AI research, paper writing, and code implementation at WSU.
+A comprehensive end-to-end workflow for AI research and paper writing.
 
 ## Pipeline Overview
 
@@ -324,7 +324,6 @@ Export to submission-ready formats, prepare supplementary materials.
 - `/export-paper latex` - Export to LaTeX
 - `/export-paper pdf` - Generate PDF
 - `/export-paper arxiv` - Prepare arXiv submission
-- `/paper-to-code` - Extract implementation from paper
 
 ### Export Formats
 
@@ -334,20 +333,6 @@ Export to submission-ready formats, prepare supplementary materials.
 | PDF | `/export-paper pdf` | Preprint, sharing |
 | Word | `/export-paper word` | Collaborator edits |
 | arXiv | `/export-paper arxiv` | Preprint server |
-
-### Code Extraction
-
-When your paper includes novel methods:
-
-```
-/paper-to-code methodology
-
-Output:
-- Implementation skeleton
-- Key algorithms
-- Experiment scripts
-- Requirements.txt
-```
 
 ---
 
@@ -457,7 +442,6 @@ Add to `.claude/mcp.json`:
 | Review | `/paper-review` | Feedback |
 | Polish | `/paper-polish` | Clean manuscript |
 | Export | `/export-paper` | LaTeX/PDF |
-| Code | `/paper-to-code` | Implementation |
 
 ---
 
