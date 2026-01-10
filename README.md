@@ -16,7 +16,7 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 > "Your thoughts, research and writing connected. From scattered ideas to structured knowledge, AI that thinks *with* you, not *for* you."
 >
-> Capture it. Store it. Connect it. Your thoughts, research, chats, documents, and projects all organised and woven into an interconnected web where insights surface across domains."
+> Capture it. Store it. Connect it. Your thoughts, research, chats, documents, and projects all organised and woven into an interconnected web where insights surface across domains.
 
 ---
 
