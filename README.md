@@ -10,6 +10,12 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 > "Your thoughts, connected. From scattered ideas to structured knowledge—AI that thinks *with* you, not *for* you."
 
+<p align="center">
+  <img src="images/17.jpg" alt="Amplify thinking, not just writing" width="30%">
+  <img src="images/7.jpg" alt="Explore deep thought before creation" width="30%">
+  <img src="images/15.jpg" alt="Connect link ideas find patterns" width="30%">
+</p>
+
 ### The Problem
 
 Most people use AI to skip thinking. They ask for answers and get generic content that sounds good but teaches nothing. The knowledge lives in the AI, not in you.
