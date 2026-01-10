@@ -10,28 +10,12 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 > "Your thoughts, connected. From scattered ideas to structured knowledge—AI that thinks *with* you, not *for* you."
 
-<table>
-<tr>
-<td width="33%" align="center">
-<img src="images/17.jpg" alt="Amplify thinking, not just writing">
-<br>
-<strong>AMPLIFY</strong><br>
-<em>Thinking, not just writing</em>
-</td>
-<td width="33%" align="center">
-<img src="images/7.jpg" alt="Explore deep thought before creation">
-<br>
-<strong>EXPLORE</strong><br>
-<em>Deep thought before creation</em>
-</td>
-<td width="33%" align="center">
-<img src="images/15.jpg" alt="Connect link ideas find patterns">
-<br>
-<strong>CONNECT</strong><br>
-<em>Link ideas, find patterns</em>
-</td>
-</tr>
-</table>
+<p align="center">
+<img src="images/edited/amplify%202.png" alt="Amplify - Research partner, thought partner, writing partner" width="24%">
+<img src="images/edited/explore%202.png" alt="Explore - Deep thought before creation" width="24%">
+<img src="images/edited/20.png" alt="Connect - Link ideas, find patterns" width="24%">
+<img src="images/edited/iterate.png" alt="Iterate - Build understanding incrementally" width="24%">
+</p>
 
 ### The Problem
 
@@ -379,6 +363,10 @@ Skills provide specialized AI capabilities accessible via natural language or co
 | `security-auditor` | Security analysis |
 
 ### Research Team
+
+<p align="center">
+<img src="images/edited/research.png" alt="Research - Literature review, research methodologist, paper editor, citation manager, experiment designer" width="60%">
+</p>
 
 | Agent | Purpose |
 |-------|---------|
