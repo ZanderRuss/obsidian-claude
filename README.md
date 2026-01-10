@@ -16,7 +16,7 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 
 ### Amplify Your Thinking
 
-Claude becomes your research partner, thought partner, and writing partner—helping you dig deeper into ideas, challenge your assumptions, and discover angles you hadn't considered. Your vault accumulates context over time, so every conversation builds on the last. The more you use it, the smarter the system gets—because *you* get smarter.
+Claude becomes your research partner, thought partner, and writing partner—helping you dig deeper into ideas, challenge your assumptions, and discover angles you hadn't considered. Your vault accumulates context over time, so every conversation builds on the last. The more you use it, the smarter the system gets.
 
 <p align="center">
 <img src="images/edited/explore%202.png" alt="Explore - Deep thought before creation" width="100%">
