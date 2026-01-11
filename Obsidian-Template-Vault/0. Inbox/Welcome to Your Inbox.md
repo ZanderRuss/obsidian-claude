@@ -6,7 +6,6 @@ type: note
 created: 2025-01-10
 status: active
 ---
-
 # Welcome to Your Inbox
 
 This is your **capture point** - the single entry point for all new ideas, notes, and information.

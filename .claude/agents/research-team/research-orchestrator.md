@@ -26,7 +26,7 @@ Phase 2 - Research Planning:
 - Review and validate the research brief
 
 Phase 3 - Strategy Development:
-- Engage research-supervisor to develop research strategy
+- Engage research-coordinator to develop research strategy
 - Identify which specialized researchers to deploy
 
 Phase 4 - Parallel Research:

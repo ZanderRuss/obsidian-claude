@@ -1,40 +1,45 @@
 ---
 tags:
-  - daily-note
-type: daily-note
-created: {{date}}
+  - content/daily
+type: daily
+created: <% tp.date.now("YYYY-MM-DD") %>
 ---
 
-# {{date}}
+# <% tp.date.now("YYYY-MM-DD, dddd") %>
 
-## Morning Intention
+## Morning Intentions
 
-What's most important today?
+What are my top 3 priorities today?
 
 1.
 2.
 3.
 
-## Tasks
+## Notes & Captures
 
-- [ ]
+<% tp.file.cursor() %>
 
-## Notes
+## End of Day Review
 
-### Meetings
+### What went well?
 
-### Ideas
+-
 
-### Observations
+### What could be improved?
 
-## Evening Reflection
+-
 
-**What went well?**
+### Key learnings
 
-**What could improve?**
+-
 
-**Key insight:**
+## Tomorrow's Focus
 
-## Tomorrow
+-
 
-- [ ]
+---
+
+## Links
+
+- Previous: [[<% tp.date.now("YYYY-MM-DD", -1) %>]]
+- Next: [[<% tp.date.now("YYYY-MM-DD", 1) %>]]

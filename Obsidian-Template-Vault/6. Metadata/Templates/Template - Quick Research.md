@@ -1,23 +1,19 @@
 ---
 tags:
   - content/research
-type: research
+  - status/quick
+type: quick-research
 created: <% tp.date.now("YYYY-MM-DD") %>
-modified: <% tp.date.now("YYYY-MM-DD") %>
 status: draft
 ---
 
 # <% tp.file.title %>
 
-## Summary
+## Question
 
 <% tp.file.cursor() %>
 
-## Key Findings
-
--
-
-## Methodology
+## Quick Findings
 
 -
 
@@ -25,10 +21,6 @@ status: draft
 
 -
 
-## Questions
-
--
-
-## Related
+## Follow-up
 
 -

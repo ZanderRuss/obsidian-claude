@@ -41,6 +41,70 @@ A comprehensive end-to-end workflow for AI research and paper writing.
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
+---
+
+## Research Tracks
+
+This vault supports two research workflows with different rigor levels:
+
+### Quick Research Track
+
+```
+Query → /quick-research → Single Output Note
+```
+
+**Use for:**
+
+- Exploration and background research
+- Time-constrained investigations
+- Understanding before committing to deep work
+
+**Characteristics:**
+
+- Single output file
+- 5-10 sources
+- No quality gates
+- ~15-30 minutes
+
+**Output:** `3. Resources (Dynamic)/Research/Quick Research - [Topic].md`
+
+### Complete Research Track
+
+```
+Query → /research-project-init → 6-Phase Pipeline → Publication-Ready Output
+```
+
+**Use for:**
+
+- Thesis/dissertation work
+- Academic publications
+- Systematic literature reviews
+- Any work requiring rigorous citations
+
+**Characteristics:**
+
+- 6-phase folder structure
+- 20+ sources (minimum 12 peer-reviewed)
+- Enforced quality gates at Phase 3 (Synthesis) and Phase 4 (Draft)
+- Publication-ready outputs
+
+**Phases:**
+
+1. `00-brief.md` — Define scope and questions
+2. `10-sources.md` — Collect and evaluate sources
+3. `20-notes.md` — Extract findings and themes
+4. `30-synthesis.md` — Synthesize findings (Quality Gate)
+5. `40-draft.md` — Write paper (Quality Gate)
+6. `99-bibliography.md` — Compile citations
+
+**Output:** `3. Resources (Dynamic)/Research/[Project Name]/`
+
+**Templates:** See `6. Metadata/Templates/Research/` for phase templates.
+
+For detailed information, see [[Advanced Research Features]].
+
+---
+
 ## Phase 1: Ideation
 
 ### Purpose

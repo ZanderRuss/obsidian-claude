@@ -1,59 +1,49 @@
 ---
 tags:
-  - project
-  - {{topic}}
+  - content/projects
 type: project
-created: {{date}}
+created: <% tp.date.now("YYYY-MM-DD") %>
+modified: <% tp.date.now("YYYY-MM-DD") %>
 status: active
-deadline:
+deadline: 
 ---
 
-# {{title}}
+# <% tp.file.title %>
 
 ## Overview
 
-Brief description of this project and its purpose.
+<% tp.file.cursor() %>
 
 ## Goals
 
-- [ ] Primary goal
-- [ ] Secondary goal
+- [ ] Goal 1
+- [ ] Goal 2
+- [ ] Goal 3
 
 ## Success Criteria
 
-What does "done" look like?
-
-- [ ] Criterion 1
-- [ ] Criterion 2
-
-## Key Deliverables
-
-1. Deliverable 1
-2. Deliverable 2
+-
 
 ## Tasks
 
-### Phase 1: [Name]
+### Phase 1
 
 - [ ] Task 1
 - [ ] Task 2
 
-### Phase 2: [Name]
+### Phase 2
 
 - [ ] Task 1
+- [ ] Task 2
 
 ## Resources
 
-- [[Related Resource 1]]
-- [[Related Resource 2]]
+-
 
-## Notes & Updates
+## Notes
 
-### {{date}}
-
-Initial project creation.
+-
 
 ## Related
 
-- **Area**: [[Related Area]]
-- **Projects**: [[Related Project]]
+-

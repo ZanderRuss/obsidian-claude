@@ -1,53 +1,35 @@
 ---
 tags:
-  - moc
-  - {{topic}}
+  - type/moc
 type: moc
-created: {{date}}
+created: <% tp.date.now("YYYY-MM-DD") %>
+modified: <% tp.date.now("YYYY-MM-DD") %>
 ---
 
-# MOC - {{title}}
+# <% tp.file.title %>
 
 ## Overview
 
-Brief description of this knowledge domain and why it matters.
+<% tp.file.cursor() %>
 
-## Core Concepts
+## Key Concepts
 
-Key ideas and foundational notes:
+-
 
-- [[Concept 1]]
-- [[Concept 2]]
-- [[Concept 3]]
+## Related Notes
 
-## Projects
-
-Active and completed projects in this area:
-
-- [[Project 1]]
-- [[Project 2]]
+```dataview
+LIST
+FROM ""
+WHERE contains(file.outlinks, this.file.link) OR contains(file.inlinks, this.file.link)
+SORT file.mtime DESC
+LIMIT 20
+```
 
 ## Resources
 
-Reference materials and learning resources:
+-
 
-- [[Resource 1]]
-- [[Resource 2]]
+## Questions to Explore
 
-## Key People/Entities
-
-- [[Person/Entity 1]]
-
-## Timeline/History
-
-Important dates and evolution of understanding.
-
-## Open Questions
-
-- [ ] Question to explore
-- [ ] Question to explore
-
-## Related MOCs
-
-- [[Related MOC 1]]
-- [[Related MOC 2]]
+-

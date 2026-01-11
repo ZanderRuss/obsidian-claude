@@ -1,15 +1,15 @@
 ---
 tags:
-  - meeting
-  - {{topic}}
+  - content/meeting
 type: meeting
-created: {{date}}
+created: 2026-01-11
 attendees: []
 ---
 
-# Meeting: {{title}}
+# Meeting: Template - Meeting Notes
 
-**Date**: {{date}}
+**Date**: 2026-01-11
+**Time**: 14:19
 **Attendees**:
 **Location/Link**:
 
@@ -23,7 +23,11 @@ attendees: []
 
 ### Topic 1
 
+<% tp.file.cursor() %>
+
 ### Topic 2
+
+
 
 ## Decisions Made
 
@@ -42,5 +46,4 @@ attendees: []
 
 ## Related
 
-- [[Related Project]]
-- [[Related Note]]
+-

@@ -88,3 +88,9 @@ status: active
 - Alias: `[[Note Name|Display Text]]`
 - Embed: `![[Note Name]]`
 - Heading: `[[Note Name#Heading]]`
+
+## See Also
+
+- [[Vault Usage Guide]] - Keyboard shortcuts, templates, daily workflow
+- [[Card View System]] - Card/tile view documentation
+- [[Local REST API Setup]] - MCP integration for Claude

@@ -2,7 +2,8 @@
   "accentColor": "",
   "enabledCssSnippets": [
     "dashboard",
-    "dashboard-readlinelength"
+    "dashboard-readlinelength",
+    "dataview-cards"
   ],
   "baseFontSizeAction": true,
   "nativeMenus": true,

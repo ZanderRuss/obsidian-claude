@@ -2,7 +2,7 @@
 
 A comprehensive, **portable** integration between [Obsidian](https://obsidian.md) and [Claude Code](https://claude.ai/code) for AI-powered knowledge management and research using the PARA method.
 
-**29 commands • 16 agents • 18 AI skills • 17 curated plugins • Full research workflow • MCP integration**
+**31 commands • 26 agents • 18 AI skills • 3 hooks • 17 curated plugins • Full research workflow • MCP integration**
 
 ---
 
@@ -207,18 +207,25 @@ You'll use **two apps together**:
 
 ### Academic Research Workflow
 
-| Command | Purpose | Usage |
-|---------|---------|-------|
-| `/research-ideate` | Socratic exploration of research ideas | Starting new research |
-| `/lit-search` | Literature search (Zotero + web) | Finding relevant papers |
-| `/deep-research` | Comprehensive multi-source investigation | Background research |
-| `/evidence-qa` | Evidence-grounded Q&A over PDFs | Research questions |
-| `/lit-review` | Generate structured literature review | Related work sections |
-| `/paper-outline` | Create paper structure for venue | Starting paper writing |
-| `/paper-draft` | Draft specific paper sections | Writing methodology |
-| `/paper-review` | Simulate peer review feedback | Before submission |
-| `/paper-polish` | Grammar, style, consistency | Final editing |
-| `/export-paper` | Export to LaTeX/PDF/Word | Submission prep |
+**Two-Track System:**
+- **Quick Research**: 5-10 sources, single file, ~15-30 min, no quality gates
+- **Complete Research**: 20+ sources (12 peer-reviewed), 6-phase pipeline, PhD-grade with enforced quality gates
+
+| Command | Purpose | Track | Usage |
+|---------|---------|-------|-------|
+| `/research-ideate` | Socratic exploration of research ideas | Both | Starting new research |
+| `/quick-research` | Rapid 5-10 source investigation | Quick | Exploration, background research |
+| `/research-project-init` | Create phased research folder structure | Complete | Starting PhD-level projects |
+| `/research-progress` | Check research phase completion & gaps | Complete | Progress tracking, source analysis |
+| `/lit-search` | Literature search (Zotero + web) | Both | Finding relevant papers |
+| `/deep-research` | Comprehensive multi-source investigation | Complete | Background research, surveys |
+| `/evidence-qa` | Evidence-grounded Q&A over PDFs | Complete | Research questions with citations |
+| `/lit-review` | Generate structured literature review | Complete | Related work sections |
+| `/paper-outline` | Create paper structure for venue | Complete | Starting paper writing |
+| `/paper-draft` | Draft specific paper sections | Complete | Writing methodology, experiments |
+| `/paper-review` | Simulate peer review feedback | Complete | Before submission |
+| `/paper-polish` | Grammar, style, consistency | Complete | Final editing pass |
+| `/export-paper` | Export to LaTeX/PDF/Word | Complete | Submission preparation |
 
 ## AI Skills (18)
 
@@ -244,9 +251,9 @@ Skills provide specialized AI capabilities accessible via natural language or co
 | `scientific-brainstorming` | Research ideation |
 | `scientific-critical-thinking` | Research evaluation |
 
-## Agents
+## Agents (26)
 
-### Obsidian Operations Team
+### Obsidian Operations Team (7)
 
 | Agent | Purpose |
 |-------|---------|
@@ -258,28 +265,44 @@ Skills provide specialized AI capabilities accessible via natural language or co
 | `connection-agent` | Link and relationship management |
 | `review-agent` | Content quality review |
 
-### Development & Documentation
+### Workflow Support (3)
 
 | Agent | Purpose |
 |-------|---------|
-| `code-reviewer` | Code review for plugin development |
-| `debugger` | Debug issues in scripts and plugins |
-| `technical-writer` | Documentation generation |
-| `security-auditor` | Security analysis |
+| `prompt-engineer` | Prompt optimization |
+| `search-specialist` | Deep web research and fact-checking |
+| `task-decomposition-expert` | Break complex projects into steps |
 
-### Research Team
+### Research Team (16)
 
 <p align="center">
 <img src="images/edited/research.png" alt="Research - Literature review, research methodologist, paper editor, citation manager, experiment designer" width="100%">
 </p>
 
-| Agent | Purpose |
-|-------|---------|
-| `literature-reviewer` | Literature analysis and synthesis |
-| `research-methodologist` | Experimental design and methodology |
-| `paper-editor` | Academic writing polish and style |
-| `citation-manager` | Citation verification and BibTeX |
-| `experiment-designer` | ML experiment design and ablations |
+| Category | Agents |
+|----------|--------|
+| **Orchestration** (5) | `research-orchestrator`, `research-coordinator`, `research-progress-tracker`, `research-brief-generator`, `query-clarifier` |
+| **Gathering** (4) | `academic-researcher`, `technical-researcher`, `data-analyst`, `fact-checker` |
+| **Analysis** (4) | `research-synthesizer`, `literature-reviewer`, `citation-manager`, `research-methodologist` |
+| **Writing** (3) | `report-generator`, `paper-editor`, `experiment-designer` |
+
+## Hooks (3)
+
+Hooks are Python scripts that run automatically to transform and validate Claude's output:
+
+| Hook | Trigger | Purpose |
+| ------ | --------- | --------- |
+| `obsidian-markdown.py` | Write to vault files | Converts standard markdown to Obsidian format (wikilinks, callouts, frontmatter) |
+| `conventional-commits.py` | Git commits | Validates commit messages follow conventional format (`feat:`, `fix:`, etc.) |
+| `research-quality-gate.py` | Write to research files | Enforces citation requirements for Complete Research Track (blocks `[citation needed]`, requires References section) |
+
+**How hooks work:**
+
+- Run silently in the background before tool execution
+- Can **pass**, **block**, or **modify** Claude's actions
+- Configured in `.claude/settings.json`
+
+See: [.claude/hooks/README.md](.claude/hooks/README.md) for details
 
 ## Included Plugins (17)
 
@@ -361,11 +384,33 @@ See: [Workflow - Research Automation.md](Obsidian-Template-Vault/6.%20Metadata/W
 
 ### Academic Paper Pipeline
 
+This vault supports **two research tracks**:
+
+**Quick Research Track** (exploration, background research):
+
 ```
-Ideate → Literature → Evidence → Outline → Draft → Review → Export
+/quick-research → WebSearch (5-10 sources) → Single Output File
 ```
 
-End-to-end academic paper writing workflow:
+- No quality gates
+- ~15-30 minutes
+- Output: `3. Resources (Dynamic)/Research/Quick Research - [Topic].md`
+
+**Complete Research Track** (PhD-grade, publications, thesis):
+
+```
+/research-project-init → 6-Phase Pipeline:
+  Phase 0: Brief (00-brief.md)
+  Phase 1: Sources (10-sources.md)
+  Phase 2: Notes (20-notes.md)
+  Phase 3: Synthesis (30-synthesis.md) ← Quality Gate (citations required)
+  Phase 4: Draft (40-draft.md) ← Quality Gate (no unsupported claims)
+  Phase 5: Bibliography (99-bibliography.md)
+
+/research-progress → Check phase completion and gaps
+```
+
+**Full Academic Pipeline**:
 
 1. `/research-ideate` → Research questions & hypotheses
 2. `/lit-search` → Find papers in Zotero + web
@@ -374,7 +419,8 @@ End-to-end academic paper writing workflow:
 5. `/paper-outline` → Structure for target venue
 6. `/paper-draft` → Write sections with citations
 7. `/paper-review` → Simulate peer review
-8. `/export-paper` → LaTeX/PDF for submission
+8. `/paper-polish` → Final editing pass
+9. `/export-paper` → LaTeX/PDF for submission
 
 See: [Workflow - Academic Research Pipeline.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20Academic%20Research%20Pipeline.md)
 
@@ -550,7 +596,7 @@ type/          → moc, meeting, thinking-log, flashcards
 | `3. Resources (Dynamic)` | Reference material | Research, how-tos |
 | `4. Archive (Supportive)` | Completed or inactive | Done projects |
 
-## Hooks
+## Hooks (3)
 
 ### Obsidian Markdown Converter
 
@@ -563,6 +609,8 @@ Automatically converts standard markdown to Obsidian Flavored Markdown when writ
 - `> Note:` → `> [!note]` (callouts)
 - Adds frontmatter if missing (tags, type, created, status)
 
+**Path coverage**: Processes all vault files including `0. Inbox`, `1. Projects`, `2. Areas`, `3. Resources`, `4. Archive`, and `6. Metadata`.
+
 This runs silently in the background—paste research in any format and it auto-converts.
 
 ### Conventional Commits
@@ -570,12 +618,24 @@ This runs silently in the background—paste research in any format and it auto-
 Located in `.claude/hooks/conventional-commits.py`
 
 Validates commit messages follow conventional commit format:
+
 - `feat:` - New features
 - `fix:` - Bug fixes
 - `docs:` - Documentation
 - `refactor:` - Code refactoring
 - `test:` - Tests
 - `chore:` - Maintenance
+
+### Research Quality Gate
+
+Located in `.claude/hooks/research-quality-gate.py`
+
+Enforces citation requirements for Complete Research Track files:
+
+- **Phase 3 (Synthesis)**: Requires citations, blocks `[citation needed]` markers
+- **Phase 4 (Draft)**: Requires References section, blocks `[unsupported]` markers
+
+Quality gates only apply to standard phase file names (`30-synthesis`, `40-draft`). Save as WIP to bypass temporarily.
 
 ---
 
@@ -645,7 +705,7 @@ chmod +x scripts/setup.sh
 ```
 
 The setup script will:
-- Copy all 29 commands and 16 agents to your vault
+- Copy all 31 commands and 26 agents to your vault
 - Create PARA folder structure (if missing)
 - Copy templates and CLAUDE.md
 - Install research tools (Zotero MCP, PaperQA2)
@@ -706,12 +766,18 @@ See: [Research Tools Setup.md](Obsidian-Template-Vault/6.%20Metadata/Reference/R
 ```
 .
 ├── .claude/                          # Claude Code configuration
-│   ├── agents/                       # 16 specialized AI agents
-│   ├── commands/                     # 29 slash commands
+│   ├── agents/                       # 26 specialized AI agents
+│   │   ├── obsidian-operations/      # 7 vault maintenance agents
+│   │   ├── workflow-support/         # 3 planning/research agents
+│   │   └── research-team/            # 16 research & writing agents
+│   ├── commands/                     # 31 slash commands
 │   ├── skills/                       # 18 AI skills
-│   ├── hooks/                        # Automation hooks
+│   ├── hooks/                        # 3 automation hooks
+│   │   ├── obsidian-markdown.py      # Markdown format conversion
+│   │   ├── conventional-commits.py   # Commit message validation
+│   │   └── research-quality-gate.py  # Research citation enforcement
 │   ├── mcp.json                      # MCP server configuration
-│   └── settings.local.json           # Local settings
+│   └── settings.json                 # Project settings & hook registration
 ├── Obsidian-Template-Vault/          # Obsidian vault (PARA structure)
 │   ├── 0. Inbox/                     # Capture point
 │   ├── 1. Projects/                  # Active initiatives
@@ -719,7 +785,10 @@ See: [Research Tools Setup.md](Obsidian-Template-Vault/6.%20Metadata/Reference/R
 │   ├── 3. Resources (Dynamic)/       # Reference materials
 │   ├── 4. Archive (Supportive)/      # Completed items
 │   ├── 6. Metadata/                  # System docs & templates
-│   └── .obsidian/                    # Obsidian config
+│   │   ├── Templates/                # Note templates (including Research/)
+│   │   ├── Workflows/                # Automation documentation
+│   │   └── Reference/                # System reference & guides
+│   └── .obsidian/                    # Obsidian config (17 plugins)
 ├── CLAUDE.md                         # Master Claude configuration
 ├── INSTALLATION.md                   # Non-technical setup guide
 └── README.md                         # This file

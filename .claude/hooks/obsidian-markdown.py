@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Hook: Obsidian Markdown Converter
-Triggers on: PreToolUse (Edit, Write)
+Triggers on: PreToolUse (Edit, Write, MultiEdit)
 Purpose: Auto-convert standard markdown to Obsidian Flavored Markdown
 
 Conversions:
@@ -127,6 +127,25 @@ def process_content(content: str) -> str:
     return content
 
 
+# Paths that should receive Obsidian Markdown processing
+VAULT_PATH_PATTERNS = [
+    'Obsidian-Template-Vault',
+    '3. Resources',
+    '1. Projects',
+    '2. Areas',
+    '0. Inbox',
+    '4. Archive',
+    '6. Metadata'
+]
+
+
+def is_vault_file(file_path: str) -> bool:
+    """Check if file is in an Obsidian vault location."""
+    if not file_path.endswith('.md'):
+        return False
+    return any(pattern in file_path for pattern in VAULT_PATH_PATTERNS)
+
+
 def main():
     # Read hook input from stdin
     try:
@@ -146,8 +165,8 @@ def main():
     # Get file path
     file_path = tool_input.get('file_path', '')
 
-    # Only process .md files in Obsidian-Template-Vault
-    if 'Obsidian-Template-Vault' not in file_path or not file_path.endswith('.md'):
+    # Only process .md files in Obsidian vault locations
+    if not is_vault_file(file_path):
         sys.exit(0)
 
     # For Write tool, process the content
@@ -180,6 +199,29 @@ def main():
                 }
                 print(json.dumps(result))
                 sys.exit(0)
+
+    # For MultiEdit tool, process each edit's new_string
+    elif tool_name == 'MultiEdit':
+        edits = tool_input.get('edits', [])
+        modified = False
+        for edit in edits:
+            new_string = edit.get('new_string', '')
+            if new_string:
+                new_content = convert_markdown_links_to_wikilinks(new_string)
+                new_content = convert_image_embeds(new_content)
+                new_content = convert_blockquotes_to_callouts(new_content)
+                if new_content != new_string:
+                    edit['new_string'] = new_content
+                    modified = True
+
+        if modified:
+            tool_input['edits'] = edits
+            result = {
+                'decision': 'modify',
+                'modified_tool_input': tool_input
+            }
+            print(json.dumps(result))
+            sys.exit(0)
 
     # No modifications needed
     sys.exit(0)

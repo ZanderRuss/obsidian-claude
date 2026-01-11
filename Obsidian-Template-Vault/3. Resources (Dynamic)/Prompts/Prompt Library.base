@@ -1,0 +1,29 @@
+{
+  "view": "card",
+  "filters": [
+    {
+      "property": "file.folder",
+      "operator": "starts-with",
+      "value": "3. Resources (Dynamic)/Prompts"
+    }
+  ],
+  "properties": [
+    "file.link",
+    "category",
+    "description",
+    "cover"
+  ],
+  "sort": [
+    {
+      "property": "category",
+      "direction": "asc"
+    }
+  ],
+  "cardOptions": {
+    "coverProperty": "cover",
+    "primaryProperty": "file.link",
+    "imageHeight": 150,
+    "imageFit": "cover"
+  },
+  "groupBy": "category"
+}

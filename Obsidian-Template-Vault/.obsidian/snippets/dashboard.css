@@ -1,62 +1,195 @@
-/* Updated 2023-11-02 */
+/* Dashboard Styles - Updated 2025-01-11 */
 
+/* ===== BASE DASHBOARD ===== */
 .dashboard {
     font-family: inherit;
-    padding-left: 25px !important;
-    padding-right: 25px !important;
-    padding-top: 20px !important;
+    padding: 10px 25px 25px 25px !important;
 }
 
 .dashboard .markdown-preview-section {
     max-width: 100%;
+    padding-top: 0 !important;
 }
 
-/* Title at top of the document */
-.dashboard .markdown-preview-section .title {
-    top: 60px;
-    position: absolute;
-    font-size: 26pt !important;
-    font-weight: bolder;
-    letter-spacing: 8px;
-}
-
-.dashboard h1 {
-    border-bottom-style: dotted !important;
-    border-width: 1px !important;
-    padding-bottom: 3px !important;
-}
-
-
-/* Get rid of the parent bullet */
-.dashboard div.markdown-preview-section > div > ul > li > .list-bullet {
+/* Hide inline title (H1 serves as title) */
+.dashboard .inline-title {
     display: none !important;
 }
 
-/* Remove the indentation guide lines */
-.dashboard.markdown-rendered.show-indentation-guide li > ul::before,
-.dashboard.markdown-rendered.show-indentation-guide li > ol::before {
-  display: none;
+/* ===== BANNER SPACING ===== */
+.dashboard .obsidian-banner-wrapper {
+    margin-bottom: 0 !important;
 }
 
-div.markdown-preview-section > div > ul.has-list-bullet > li {
-    padding-left: 0p !important;
+.dashboard .obsidian-banner-wrapper + div {
+    margin-top: 0 !important;
 }
 
-.dashboard div > ul {
+/* ===== HEADINGS ===== */
+.dashboard h1 {
+    border-bottom: 2px solid var(--interactive-accent) !important;
+    padding-bottom: 8px !important;
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+}
+
+.dashboard h2 {
+    color: var(--text-normal);
+    font-size: 1.3em !important;
+    margin-top: 25px !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+/* ===== QUICK ACTIONS AS BUTTONS ===== */
+.dashboard .quick-actions ul {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 10px !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.dashboard .quick-actions li {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.dashboard .quick-actions li .list-bullet {
+    display: none !important;
+}
+
+.dashboard .quick-actions a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--interactive-accent);
+    color: var(--text-on-accent) !important;
+    border-radius: 6px;
+    text-decoration: none !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.dashboard .quick-actions a:hover {
+    background: var(--interactive-accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== STATS GRID ===== */
+.dashboard .stats-grid ul {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px !important;
+    list-style: none !important;
+    padding: 0 !important;
+}
+
+.dashboard .stats-grid li {
+    background: var(--background-secondary);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid var(--background-modifier-border);
+}
+
+.dashboard .stats-grid li .list-bullet {
+    display: none !important;
+}
+
+.dashboard .stats-grid strong {
+    display: block;
+    font-size: 1.5em;
+    color: var(--interactive-accent);
+}
+
+/* ===== RECENT WORK LIST ===== */
+.dashboard div > ul:not(.dataview):not(.quick-actions ul):not(.stats-grid ul) {
     list-style: none;
     display: flex;
-    column-gap: 50px;
+    column-gap: 40px;
+    row-gap: 8px;
     flex-flow: row wrap;
+    padding-left: 0 !important;
 }
 
-.dashboard div > ul > li {
-    min-width: 250px;
-    width: 15%;
+.dashboard div > ul:not(.dataview) > li {
+    min-width: 200px;
+    width: 18%;
 }
 
-/* Dataview support */
+.dashboard div > ul > li > .list-bullet {
+    display: none !important;
+}
+
+/* ===== DATAVIEW TABLES ===== */
+.dashboard .dataview.table-view-table {
+    margin-top: 10px;
+}
+
+/* ===== CALLOUT STYLING ===== */
+.dashboard .callout {
+    margin: 15px 0;
+}
+
+.dashboard .callout[data-callout="tip"] {
+    background: var(--background-secondary);
+}
+
+/* ===== HORIZONTAL RULES ===== */
+.dashboard hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--background-modifier-border) 20%,
+        var(--background-modifier-border) 80%,
+        transparent
+    );
+    margin: 25px 0;
+}
+
+/* ===== COMMAND TABLE ===== */
+.dashboard table {
+    width: auto !important;
+    margin-top: 10px;
+}
+
+.dashboard table th,
+.dashboard table td {
+    padding: 8px 15px !important;
+}
+
+.dashboard table code {
+    background: var(--background-secondary);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* ===== BLOCKQUOTE (TAGLINE) ===== */
+.dashboard blockquote {
+    border-left: 3px solid var(--interactive-accent);
+    padding-left: 15px;
+    margin: 10px 0 20px 0;
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+/* ===== INDENTATION GUIDES ===== */
+.dashboard.markdown-rendered.show-indentation-guide li > ul::before,
+.dashboard.markdown-rendered.show-indentation-guide li > ol::before {
+    display: none;
+}
+
+/* ===== DATAVIEW LIST ===== */
 .dashboard ul.dataview {
-    row-gap: 0px !important;
-    list-style-type: disc !important;
+    row-gap: 5px !important;
+    list-style-type: none !important;
 }
 
+.dashboard ul.dataview li {
+    padding: 4px 0;
+}

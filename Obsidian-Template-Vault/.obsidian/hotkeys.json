@@ -2,28 +2,50 @@
   "markdown:toggle-preview": [],
   "templater-obsidian:replace-in-file-templater": [
     {
-      "modifiers": [
-        "Mod"
-      ],
+      "modifiers": ["Mod"],
       "key": "R"
     }
   ],
   "highlightr-plugin:Grey": [
     {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
+      "modifiers": ["Mod", "Shift"],
       "key": "H"
     }
   ],
   "colored-text:color-text": [
     {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
+      "modifiers": ["Mod", "Shift"],
       "key": "C"
+    }
+  ],
+  "templater-obsidian:insert-6. Metadata/Templates/Template - Quick Note.md": [
+    {
+      "modifiers": ["Alt"],
+      "key": "N"
+    }
+  ],
+  "templater-obsidian:insert-6. Metadata/Templates/Template - Project.md": [
+    {
+      "modifiers": ["Alt"],
+      "key": "P"
+    }
+  ],
+  "templater-obsidian:insert-6. Metadata/Templates/Template - Research Note.md": [
+    {
+      "modifiers": ["Alt"],
+      "key": "R"
+    }
+  ],
+  "templater-obsidian:insert-6. Metadata/Templates/Template - Daily Note.md": [
+    {
+      "modifiers": ["Alt"],
+      "key": "D"
+    }
+  ],
+  "templater-obsidian:insert-6. Metadata/Templates/Template - Meeting Notes.md": [
+    {
+      "modifiers": ["Alt"],
+      "key": "M"
     }
   ]
 }

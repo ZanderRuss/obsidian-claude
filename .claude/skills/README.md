@@ -68,9 +68,16 @@ Claude will then guide you through using that skill.
 
 ### For Web Search
 
-| Skill Name | What It Helps You Do |
-|------------|---------------------|
-| `/ai-search` | Search the web using AI (works out of the box!) |
+| Skill Name               | What It Helps You Do                                      |
+|--------------------------|-----------------------------------------------------------|
+| `/ai-search`             | Search the web using AI (works out of the box!)           |
+| `/perplexity-search`     | AI-powered search with Perplexity models via OpenRouter   |
+
+### For Developers
+
+| Skill Name               | What It Helps You Do                                        |
+|--------------------------|-------------------------------------------------------------|
+| `/mcp-builder`           | Build MCP servers to connect Claude with external services |
 
 ---
 
@@ -170,6 +177,7 @@ Just ask Claude! Type something like:
 | I Want To... | Type This |
 |--------------|-----------|
 | Search the web | `/ai-search` or just ask Claude to search |
+| Search with Perplexity | `/perplexity-search` |
 | Write a paper | `/scientific-writing` |
 | Find research papers | `/literature-review` or `/citation-management` |
 | Create citations | `/citation-management` |
@@ -178,6 +186,8 @@ Just ask Claude! Type something like:
 | Work with Word docs | `/docx` |
 | Work with Excel | `/xlsx` |
 | Extract PDF text | `/pdf-processing-pro` |
+| Write Obsidian notes | `/obsidian-markdown` |
+| Build MCP servers | `/mcp-builder` |
 
 ---
 

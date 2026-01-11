@@ -1,33 +1,16 @@
 ---
 tags:
-  - content/research
-type: research
+  - status/unprocessed
+type: note
 created: <% tp.date.now("YYYY-MM-DD") %>
 modified: <% tp.date.now("YYYY-MM-DD") %>
-status: draft
 ---
 
 # <% tp.file.title %>
 
-## Summary
-
 <% tp.file.cursor() %>
 
-## Key Findings
-
--
-
-## Methodology
-
--
-
-## Sources
-
--
-
-## Questions
-
--
+---
 
 ## Related
 

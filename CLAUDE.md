@@ -84,11 +84,15 @@ Obsidian-Template-Vault/
 | `/create-pr` | Create pull requests |
 | `/pr-review` | Review pull requests |
 | `/update-docs` | Update documentation |
+| `/create-architecture-documentation` | Generate architecture docs with diagrams |
 
 ### Academic Research Workflow
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
+| `/quick-research` | Rapid 5-10 source investigation | Casual exploration, time-constrained |
+| `/research-project-init` | Create phased research folder | Starting Complete Research Track |
+| `/research-progress` | Check research phase completion | Monitor progress, find gaps |
 | `/research-ideate` | Socratic exploration of research ideas | Starting new research, brainstorming |
 | `/lit-search` | Literature search across Zotero + web | Finding relevant papers |
 | `/deep-research` | Comprehensive multi-source investigation | Background research, surveys |
@@ -112,13 +116,6 @@ Obsidian-Template-Vault/
 - **connection-agent**: Link and relationship management
 - **review-agent**: Content quality review
 
-### Development & Documentation
-
-- **code-reviewer**: Code review for plugin development
-- **debugger**: Debug issues in scripts and plugins
-- **technical-writer**: Documentation generation
-- **security-auditor**: Security analysis
-
 ### Research Team
 
 - **literature-reviewer**: Literature analysis, synthesis, and critical evaluation
@@ -127,6 +124,7 @@ Obsidian-Template-Vault/
 - **citation-manager**: Citation verification and BibTeX management
 - **experiment-designer**: ML experiment design and ablation planning
 - **research-orchestrator**: Multi-phase research coordination with quality gates
+- **research-progress-tracker**: Progress monitoring and gap analysis
 - **academic-researcher**: Academic database searching
 - **research-synthesizer**: Cross-source synthesis
 - **fact-checker**: Claim verification
@@ -137,15 +135,11 @@ Obsidian-Template-Vault/
 - **research-brief-generator**: Research brief creation
 - **technical-researcher**: Technical implementation research
 
-### AI Specialists
+### Workflow Support
 
 - **prompt-engineer**: Prompt optimization
 - **task-decomposition-expert**: Complex task breakdown
 - **search-specialist**: Search optimization
-- **data-scientist**: Data science workflows
-- **ai-engineer**: AI system design
-- **ml-engineer**: ML pipeline development
-- **nlp-engineer**: NLP task automation
 
 ## MCP Integration
 
