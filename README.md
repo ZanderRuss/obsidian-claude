@@ -552,6 +552,19 @@ type/          → moc, meeting, thinking-log, flashcards
 
 ## Hooks
 
+### Obsidian Markdown Converter
+
+Located in `.claude/hooks/obsidian-markdown.py`
+
+Automatically converts standard markdown to Obsidian Flavored Markdown when writing to vault files:
+
+- `[text](file.md)` → `[[file|text]]` (wikilinks)
+- `![alt](image.png)` → `![[image.png]]` (embeds)
+- `> Note:` → `> [!note]` (callouts)
+- Adds frontmatter if missing (tags, type, created, status)
+
+This runs silently in the background—paste research in any format and it auto-converts.
+
 ### Conventional Commits
 
 Located in `.claude/hooks/conventional-commits.py`
