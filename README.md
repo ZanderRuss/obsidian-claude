@@ -25,7 +25,7 @@ A comprehensive, **portable** integration between [Obsidian](https://obsidian.md
 Claude becomes your research partner, thought partner, and writing partner—helping you dig deeper into ideas, challenge your assumptions, and discover angles you hadn't considered. Your vault accumulates context over time, so every conversation builds on the last. The more you use it, the smarter the system gets.
 
 <p align="center">
-<img src="images/edited/amplify%202.png" alt="Amplify - Research partner, thought partner, writing partner" width="100%">
+<img src="images/Amplify-Thinking.png" alt="Amplify - Research partner, thought partner, writing partner" width="100%">
 </p>
 
 ---
@@ -35,7 +35,7 @@ Claude becomes your research partner, thought partner, and writing partner—hel
 Before writing that paper or making that decision—map the territory. Claude helps you explore the problem space, ask better questions, and surface hidden assumptions. Understand what you're really trying to achieve before jumping to solutions. Deep thought before creation leads to work that's actually worth creating.
 
 <p align="center">
-<img src="images/edited/explore%202.png" alt="Explore - Deep thought before creation" width="100%">
+<img src="images/Explore-Before-Creation.png" alt="Explore - Deep thought before creation" width="100%">
 </p>
 
 ---
@@ -46,7 +46,7 @@ The real breakthroughs happen when ideas connect across domains. Claude helps yo
 
 
 <p align="center">
-<img src="images/edited/connect%202.png" alt="Connect - Link ideas, find patterns" width="100%">
+<img src="images/Connect-Discover.png" alt="Connect - Link ideas, find patterns" width="100%">
 </p>
 
 ---
@@ -56,7 +56,7 @@ The real breakthroughs happen when ideas connect across domains. Claude helps yo
 Understanding builds through cycles of exploration, creation, and refinement. Each conversation with Claude, each note you capture, each connection you make adds another layer. Don't aim for perfect first drafts—aim for progressive clarity. Your vault grows not just in size, but in depth and interconnectedness.
 
 <p align="center">
-<img src="images/edited/iterate2.png" alt="Iterate - Build understanding incrementally" width="100%">
+<img src="images/Iterate-Incrementally.png" alt="Iterate - Build understanding incrementally" width="100%">
 </p>
 
 ---
@@ -276,7 +276,7 @@ Skills provide specialized AI capabilities accessible via natural language or co
 ### Research Team (16)
 
 <p align="center">
-<img src="images/edited/research.png" alt="Research - Literature review, research methodologist, paper editor, citation manager, experiment designer" width="100%">
+<img src="images/Research-Team.png" alt="Research - Literature review, research methodologist, paper editor, citation manager, experiment designer" width="100%">
 </p>
 
 | Category | Agents |
