@@ -3,5 +3,18 @@
     "allow": [
       "mcp__filesystem__read_multiple_files"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/obsidian-markdown.py"
+          }
+        ]
+      }
+    ]
   }
 }

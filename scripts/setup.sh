@@ -161,10 +161,16 @@ if [ -d "$SOURCE_CLAUDE_DIR" ]; then
         print_step "Copied $AGENT_COUNT agents"
     fi
 
-    # Copy mcp.json (but don't overwrite existing)
-    if [ -f "$SOURCE_CLAUDE_DIR/mcp.json" ] && [ ! -f "$CLAUDE_DIR/mcp.json" ]; then
-        cp "$SOURCE_CLAUDE_DIR/mcp.json" "$CLAUDE_DIR/mcp.json"
-        print_step "Copied MCP configuration"
+    # Copy mcp.json.example
+    if [ -f "$SOURCE_CLAUDE_DIR/mcp.json.example" ]; then
+        cp "$SOURCE_CLAUDE_DIR/mcp.json.example" "$CLAUDE_DIR/mcp.json.example"
+        print_step "Copied MCP configuration template"
+    fi
+
+    # Create mcp.json from example if it doesn't exist
+    if [ ! -f "$CLAUDE_DIR/mcp.json" ] && [ -f "$CLAUDE_DIR/mcp.json.example" ]; then
+        cp "$CLAUDE_DIR/mcp.json.example" "$CLAUDE_DIR/mcp.json"
+        print_step "Created mcp.json from template"
         print_warning "Edit $CLAUDE_DIR/mcp.json and add your Obsidian API key"
     fi
 fi

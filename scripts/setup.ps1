@@ -143,13 +143,22 @@ if (Test-Path $sourceClaudeDir) {
         Write-Step "Copied $agentCount agents"
     }
 
-    # Copy mcp.json (but don't overwrite API keys)
-    $sourceMcp = Join-Path $sourceClaudeDir "mcp.json"
+    # Copy mcp.json.example
+    $sourceMcpExample = Join-Path $sourceClaudeDir "mcp.json.example"
+    $destMcpExample = Join-Path $claudeDir "mcp.json.example"
+    if (Test-Path $sourceMcpExample) {
+        Copy-Item -Path $sourceMcpExample -Destination $destMcpExample -Force
+        Write-Step "Copied MCP configuration template"
+    }
+
+    # Create mcp.json from example if it doesn't exist
     $destMcp = Join-Path $claudeDir "mcp.json"
-    if ((Test-Path $sourceMcp) -and (-not (Test-Path $destMcp))) {
-        Copy-Item -Path $sourceMcp -Destination $destMcp
-        Write-Step "Copied MCP configuration"
-        Write-Warning "Edit $destMcp and add your Obsidian API key"
+    if (-not (Test-Path $destMcp)) {
+        if (Test-Path $destMcpExample) {
+            Copy-Item -Path $destMcpExample -Destination $destMcp
+            Write-Step "Created mcp.json from template"
+            Write-Warning "Edit $destMcp and add your Obsidian API key"
+        }
     }
 }
 

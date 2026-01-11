@@ -149,33 +149,36 @@ Obsidian-Template-Vault/
 
 ## MCP Integration
 
-This vault has MCP (Model Context Protocol) configured for direct vault access:
+This vault has MCP (Model Context Protocol) configured for direct vault access using [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian):
 
-- **Obsidian REST API**: Port 27124 (HTTPS) or 27123 (HTTP)
-- **Obsidian MCP**: mcp-obsidian for vault operations
+- **Obsidian MCP**: mcp-obsidian for vault operations (requires Local REST API plugin)
 - **Zotero MCP**: zotero-mcp for reference library integration
 
-### Local REST API Setup (for users who need help)
+### Configuration Files
 
-When helping users connect Claude to their Obsidian vault, guide them through:
+| File | Purpose | Committed? |
+|------|---------|------------|
+| `.claude/mcp.json` | Your MCP config (with API keys) | No (gitignored) |
+| `.claude/mcp.json.example` | Template to copy | Yes |
+| `.claude/settings.json` | Shared project settings | Yes |
+| `.claude/settings.local.json` | Your local overrides | No (gitignored) |
+
+### Setup (for users who need help)
+
+When helping users connect Claude to their Obsidian vault:
 
 1. **Install the plugin**: Settings > Community plugins > Browse > "Local REST API" > Install > Enable
 2. **Copy API key**: Settings > Community plugins > Local REST API > copy the key shown
-3. **Choose connection method**:
-   - HTTPS (port 27124): More secure, requires `OBSIDIAN_VERIFY_SSL: false`
-   - HTTP (port 27123): Simpler, enable "Non-encrypted (HTTP) Server" in plugin settings
-4. **Configure MCP** in `.claude/mcp.json` or Claude Desktop config:
+3. **Configure MCP**: Copy `.claude/mcp.json.example` to `.claude/mcp.json` and add the API key:
 
 ```json
 {
   "mcpServers": {
     "obsidian": {
-      "command": "npx",
-      "args": ["-y", "mcp-obsidian"],
+      "command": "uvx",
+      "args": ["mcp-obsidian"],
       "env": {
-        "OBSIDIAN_API_KEY": "key-from-plugin-settings",
-        "OBSIDIAN_HOST": "https://127.0.0.1:27124",
-        "OBSIDIAN_VERIFY_SSL": "false"
+        "OBSIDIAN_API_KEY": "key-from-plugin-settings"
       }
     }
   }
@@ -186,7 +189,6 @@ When helping users connect Claude to their Obsidian vault, guide them through:
 - Obsidian must be running for the API to work
 - API key must match exactly (no extra spaces)
 - Restart Claude Code after config changes
-- If HTTPS fails, try HTTP on port 27123
 
 See: `6. Metadata/Reference/Local REST API Setup.md` for detailed guide
 

@@ -169,89 +169,23 @@ Your API Key must be passed in requests via an authorization header:
 
 ---
 
-#### Part C: Choose Connection Method
+#### Part C: Configure Claude
 
-There are TWO ways to connect. Choose ONE:
+Tell the user: "Now I need to add your API key to Claude's configuration."
 
-**Option 1: HTTPS (Recommended - More Secure)**
-- Uses port 27124 (encrypted)
-- Requires SSL verification bypass (we'll handle this)
-- Best for: Most users
+**The simplest way:** Copy the example config file in this project:
 
-**Option 2: HTTP (Simpler - No SSL Issues)**
-- Uses port 27123 (unencrypted)
-- Only works locally (127.0.0.1)
-- Best for: Users having certificate issues
+1. Navigate to the `.claude` folder in this project
+2. Copy `mcp.json.example` to `mcp.json`
+3. Open `mcp.json` and replace `YOUR_API_KEY_HERE` with your API key
+4. Save the file
+5. Restart Claude Code Desktop
 
-For Option 2, enable "Enable Non-encrypted (HTTP) Server" in the plugin settings.
+**That's it!** The config uses [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian) which connects automatically.
 
 ---
 
-#### Part D: Configure Claude
-
-Tell the user: "Now I need to add this to Claude's configuration. Here's exactly what to do:"
-
-**Windows:**
-1. Press `Win+R` to open Run dialog
-2. Type `%APPDATA%\Claude` and press Enter
-3. Look for `claude_desktop_config.json`
-   - If it exists, open it with Notepad
-   - If it doesn't exist, create a new text file with that exact name
-4. Add this content (replace YOUR_API_KEY_HERE with the key you copied):
-
-```json
-{
-  "mcpServers": {
-    "obsidian": {
-      "command": "npx",
-      "args": ["-y", "mcp-obsidian"],
-      "env": {
-        "OBSIDIAN_API_KEY": "YOUR_API_KEY_HERE",
-        "OBSIDIAN_HOST": "https://127.0.0.1:27124",
-        "OBSIDIAN_VERIFY_SSL": "false"
-      }
-    }
-  }
-}
-```
-
-**If using HTTP (Option 2 above), use this instead:**
-```json
-{
-  "mcpServers": {
-    "obsidian": {
-      "command": "npx",
-      "args": ["-y", "mcp-obsidian"],
-      "env": {
-        "OBSIDIAN_API_KEY": "YOUR_API_KEY_HERE",
-        "OBSIDIAN_HOST": "http://127.0.0.1:27123"
-      }
-    }
-  }
-}
-```
-
-5. Save the file
-6. **Completely restart Claude Code Desktop** (quit and reopen, not just close the window)
-
-**Mac:**
-1. Open Finder
-2. Press `Cmd+Shift+G` (Go to Folder)
-3. Type `~/Library/Application Support/Claude/` and press Enter
-4. Open or create `claude_desktop_config.json`
-5. Add the same content as Windows above
-6. Save and restart Claude Code Desktop completely
-
-**Linux:**
-1. Open file manager or terminal
-2. Navigate to `~/.config/Claude/`
-3. Open or create `claude_desktop_config.json`
-4. Add the same content as Windows above
-5. Save and restart Claude Code Desktop completely
-
----
-
-#### Part E: Verify Connection
+#### Part D: Verify Connection
 
 After restarting Claude Code Desktop:
 
@@ -259,22 +193,6 @@ After restarting Claude Code Desktop:
 2. **Test the connection** - Ask Claude: "Can you list the notes in my vault?"
 
 If it works, you'll see a list of your notes!
-
----
-
-#### Understanding the Settings
-
-| Setting | What It Does |
-|---------|--------------|
-| `OBSIDIAN_API_KEY` | Your secret password to access the vault |
-| `OBSIDIAN_HOST` | Where to find Obsidian (localhost on port 27124 or 27123) |
-| `OBSIDIAN_VERIFY_SSL` | Set to "false" because the plugin uses a self-signed certificate |
-
-**Why `OBSIDIAN_VERIFY_SSL: false`?**
-The Local REST API plugin creates its own SSL certificate for security. Since this certificate isn't from a public authority (like Let's Encrypt), we tell Claude to trust it anyway. This is safe because:
-- Everything runs locally on your computer (127.0.0.1)
-- No data leaves your machine
-- The API key still protects access
 
 ---
 
