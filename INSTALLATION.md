@@ -332,20 +332,27 @@ chmod +x scripts/setup.sh
 ./scripts/setup.sh -v ~/path/to/your/vault
 ```
 
+### Configuration Files
+
+| File | Purpose | Committed to Git? |
+|------|---------|-------------------|
+| `.claude/mcp.json` | Your MCP config with API keys | No (gitignored) |
+| `.claude/mcp.json.example` | Template to copy | Yes |
+| `.claude/settings.json` | Shared project settings | Yes |
+| `.claude/settings.local.json` | Your local overrides | No (gitignored) |
+
 ### MCP Configuration
 
-The vault can connect to Obsidian via [Model Context Protocol](https://modelcontextprotocol.io/):
+The vault connects to Obsidian via [Model Context Protocol](https://modelcontextprotocol.io/) using [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian):
 
 ```json
 {
   "mcpServers": {
     "obsidian": {
-      "command": "npx",
-      "args": ["-y", "mcp-obsidian"],
+      "command": "uvx",
+      "args": ["mcp-obsidian"],
       "env": {
-        "OBSIDIAN_API_KEY": "your-api-key",
-        "OBSIDIAN_HOST": "https://127.0.0.1:27124",
-        "OBSIDIAN_VERIFY_SSL": "false"
+        "OBSIDIAN_API_KEY": "your-api-key"
       }
     },
     "zotero": {
@@ -357,6 +364,10 @@ The vault can connect to Obsidian via [Model Context Protocol](https://modelcont
   }
 }
 ```
+
+**Setup:**
+1. Copy `.claude/mcp.json.example` to `.claude/mcp.json`
+2. Replace `YOUR_API_KEY_HERE` with your Obsidian Local REST API key
 
 ### Research Tools (Advanced)
 
@@ -517,7 +528,7 @@ claude
 
 ## Credits
 
-Built with [mcp-obsidian](https://github.com/smithery-ai/mcp-obsidian), [Zotero MCP](https://github.com/54yyyu/zotero-mcp), [PaperQA2](https://github.com/Future-House/paper-qa), and many other open source projects.
+Built with [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian), [Zotero MCP](https://github.com/54yyyu/zotero-mcp), [PaperQA2](https://github.com/Future-House/paper-qa), and many other open source projects.
 
 Inspired by [Claudesidian](https://github.com/heyitsnoah/claudesidian) and the "AI as thinking partner" philosophy.
 

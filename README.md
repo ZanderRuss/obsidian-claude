@@ -380,7 +380,37 @@ See: [Workflow - Academic Research Pipeline.md](Obsidian-Template-Vault/6.%20Met
 
 ## MCP Integration
 
-The vault connects to Obsidian via the [Model Context Protocol](https://modelcontextprotocol.io/) for direct vault access.
+The vault connects to Obsidian via the [Model Context Protocol](https://modelcontextprotocol.io/) using [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian).
+
+### Prerequisites
+
+1. **Install Local REST API plugin in Obsidian:**
+   - Open Obsidian Settings (gear icon)
+   - Go to Community plugins > Browse
+   - Search "Local REST API" and install it
+   - Enable the plugin
+
+2. **Copy your API key:**
+   - In Settings > Community plugins > Local REST API
+   - Copy the API key shown at the top
+
+### Configuration Files
+
+| File | Purpose | Committed? |
+|------|---------|------------|
+| `.claude/mcp.json` | Your MCP config (with API keys) | No (gitignored) |
+| `.claude/mcp.json.example` | Template to copy | Yes |
+| `.claude/settings.json` | Shared project settings | Yes |
+| `.claude/settings.local.json` | Your local overrides | No (gitignored) |
+
+### Setup
+
+1. Copy the example config:
+   ```bash
+   cp .claude/mcp.json.example .claude/mcp.json
+   ```
+
+2. Edit `.claude/mcp.json` and replace `YOUR_API_KEY_HERE` with your API key
 
 ### Configuration
 
@@ -390,12 +420,10 @@ Located in `.claude/mcp.json`:
 {
   "mcpServers": {
     "obsidian": {
-      "command": "npx",
-      "args": ["-y", "mcp-obsidian"],
+      "command": "uvx",
+      "args": ["mcp-obsidian"],
       "env": {
-        "OBSIDIAN_API_KEY": "your-api-key",
-        "OBSIDIAN_HOST": "https://127.0.0.1:27124",
-        "OBSIDIAN_VERIFY_SSL": "false"
+        "OBSIDIAN_API_KEY": "your-api-key-from-plugin"
       }
     },
     "zotero": {
@@ -407,6 +435,8 @@ Located in `.claude/mcp.json`:
   }
 }
 ```
+
+The MCP server uses sensible defaults (localhost:27124 with HTTPS). For advanced options, see: [mcp-obsidian docs](https://github.com/MarkusPfundstein/mcp-obsidian)
 
 ### Obsidian MCP Capabilities
 
@@ -692,12 +722,50 @@ See: [Research Tools Setup.md](Obsidian-Template-Vault/6.%20Metadata/Reference/R
 
 ## Troubleshooting
 
-### MCP Connection Issues
+### MCP Connection Issues (Local REST API)
 
-1. Ensure Obsidian is running with Local REST API enabled
-2. Verify HTTPS is enabled on port 27124
-3. Check API key matches in `.claude/mcp.json`
-4. Restart Claude Code after config changes
+**Quick checklist:**
+
+1. Is Obsidian running? (The API only works when Obsidian is open)
+2. Is the Local REST API plugin enabled in Obsidian?
+3. Does the API key in your config match the one in plugin settings?
+4. Did you restart Claude Code after changing the config?
+
+**Step-by-step diagnosis:**
+
+1. **Check Obsidian plugin settings:**
+   - Settings > Community plugins > Local REST API
+   - Verify "Enable Encrypted (HTTPS) Server" is ON
+   - Note the port (default: 27124 for HTTPS, 27123 for HTTP)
+
+2. **Verify your configuration:**
+   ```json
+   {
+     "OBSIDIAN_API_KEY": "must-match-plugin-settings",
+     "OBSIDIAN_HOST": "https://127.0.0.1:27124",
+     "OBSIDIAN_VERIFY_SSL": "false"
+   }
+   ```
+
+3. **Test the API manually:**
+   - Open browser: `http://127.0.0.1:27123/` (if HTTP enabled)
+   - You should see a response (even an auth error means it's working)
+
+**If HTTPS isn't working, try HTTP:**
+
+1. In plugin settings, enable "Enable Non-encrypted (HTTP) Server"
+2. Update config: `"OBSIDIAN_HOST": "http://127.0.0.1:27123"`
+3. Remove `OBSIDIAN_VERIFY_SSL` line
+4. Restart Claude Code
+
+**Certificate issues:**
+
+The plugin uses a self-signed SSL certificate. If you see certificate errors:
+- Use `"OBSIDIAN_VERIFY_SSL": "false"` in your config
+- Or switch to HTTP mode (port 27123)
+- Or click "Re-generate Certificates" in plugin settings
+
+See [Local REST API documentation](https://coddingtonbear.github.io/obsidian-local-rest-api/) for more details.
 
 ### Command Not Found
 
@@ -720,7 +788,7 @@ Built with:
 **Core Integration:**
 - [Claude Code Templates](https://github.com/davila7/claude-code-templates) - CLI tool for templates
 - [Claudesidian](https://github.com/heyitsnoah/claudesidian) - Thinking partner philosophy
-- [mcp-obsidian](https://github.com/smithery-ai/mcp-obsidian) - MCP server for Obsidian
+- [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian) - MCP server for Obsidian
 - [Obsidian Local REST API](https://github.com/coddingtonbear/obsidian-local-rest-api) - REST API plugin
 
 **Research Tools:**

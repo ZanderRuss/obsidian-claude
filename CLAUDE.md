@@ -151,9 +151,44 @@ Obsidian-Template-Vault/
 
 This vault has MCP (Model Context Protocol) configured for direct vault access:
 
-- **Obsidian REST API**: Port 27124 (HTTPS)
+- **Obsidian REST API**: Port 27124 (HTTPS) or 27123 (HTTP)
 - **Obsidian MCP**: mcp-obsidian for vault operations
 - **Zotero MCP**: zotero-mcp for reference library integration
+
+### Local REST API Setup (for users who need help)
+
+When helping users connect Claude to their Obsidian vault, guide them through:
+
+1. **Install the plugin**: Settings > Community plugins > Browse > "Local REST API" > Install > Enable
+2. **Copy API key**: Settings > Community plugins > Local REST API > copy the key shown
+3. **Choose connection method**:
+   - HTTPS (port 27124): More secure, requires `OBSIDIAN_VERIFY_SSL: false`
+   - HTTP (port 27123): Simpler, enable "Non-encrypted (HTTP) Server" in plugin settings
+4. **Configure MCP** in `.claude/mcp.json` or Claude Desktop config:
+
+```json
+{
+  "mcpServers": {
+    "obsidian": {
+      "command": "npx",
+      "args": ["-y", "mcp-obsidian"],
+      "env": {
+        "OBSIDIAN_API_KEY": "key-from-plugin-settings",
+        "OBSIDIAN_HOST": "https://127.0.0.1:27124",
+        "OBSIDIAN_VERIFY_SSL": "false"
+      }
+    }
+  }
+}
+```
+
+**Common issues:**
+- Obsidian must be running for the API to work
+- API key must match exactly (no extra spaces)
+- Restart Claude Code after config changes
+- If HTTPS fails, try HTTP on port 27123
+
+See: `6. Metadata/Reference/Local REST API Setup.md` for detailed guide
 
 ### Obsidian MCP Capabilities
 
@@ -176,15 +211,6 @@ This vault has MCP (Model Context Protocol) configured for direct vault access:
 |------------------------------|------------------------------------------------------|
 | **Zotero MCP**               | Searching existing library, getting PDF annotations  |
 | **citation-management skill** | Google Scholar/PubMed search, DOI→BibTeX, validation |
-
-### PaperQA2 Capabilities
-
-- RAG-based Q&A over PDF corpus with evidence grounding
-- Multi-document synthesis with source verification
-- CLI: `pqa ask "question" --paper-directory /path/to/pdfs`
-- Python API for programmatic access
-
-**Setup**: See `6. Metadata/Reference/Research Tools Setup.md`
 
 ## Automation Pipelines
 
@@ -295,6 +321,54 @@ status: draft|active|completed|archived
 | Voice memos | Prefixed | `Voice-2025-01-10-1430.md` |
 | Web clips | Prefixed | `Clip - Article Title.md` |
 | Research | Prefixed | `Research - Topic.md` |
+
+## Obsidian Flavored Markdown
+
+**IMPORTANT**: When creating or editing notes in this vault, use **Obsidian Flavored Markdown** syntax.
+
+For full syntax reference, see: `.claude/skills/obsidian-markdown/SKILL.md`
+
+### Key Differences from Standard Markdown
+
+| Feature | Standard Markdown | Obsidian Markdown |
+|---------|-------------------|-------------------|
+| Internal links | `[Note](Note.md)` | `[[Note]]` |
+| Aliased links | `[Display](Note.md)` | `[[Note\|Display]]` |
+| Embeds | N/A | `![[Note]]` or `![[image.png]]` |
+| Callouts | N/A | `> [!note]` |
+| Highlights | N/A | `==highlighted==` |
+| Block references | N/A | `[[Note#^block-id]]` |
+
+### Quick Reference
+
+```markdown
+[[Note Name]]                    Internal link
+[[Note Name|Display Text]]       Aliased link
+[[Note Name#Heading]]            Link to heading
+![[Note Name]]                   Embed note
+![[image.png]]                   Embed image
+![[image.png|300]]               Embed with width
+
+> [!note] Title                  Callout (note, tip, warning, etc.)
+> Content here
+
+==highlighted text==             Highlight
+%%hidden comment%%               Comment (not rendered)
+```
+
+### Frontmatter (Properties)
+
+All notes should include YAML frontmatter:
+
+```yaml
+---
+tags:
+  - topic/subtopic
+type: note
+created: 2025-01-10
+status: draft
+---
+```
 
 ## Tag Hierarchy
 

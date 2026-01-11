@@ -99,7 +99,6 @@ temp/
 .claude/transcripts/
 .claude/cache/
 .claude/plans/
-.claude/settings.json
 .claude/templates-analysis/
 
 # ===========================================
