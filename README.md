@@ -304,7 +304,7 @@ Hooks are Python scripts that run automatically to transform and validate Claude
 
 See: [.claude/hooks/README.md](.claude/hooks/README.md) for details
 
-## Included Plugins (17)
+## Included Plugins (16)
 
 The template vault comes pre-configured with curated plugins for research workflows:
 
@@ -312,10 +312,11 @@ The template vault comes pre-configured with curated plugins for research workfl
 
 | Plugin | Purpose |
 |--------|---------|
-| [Local REST API](https://github.com/coddingtonbear/obsidian-local-rest-api) | Claude Code MCP integration |
-| [MCP Tools](https://github.com/jacksteamdev/obsidian-mcp-tools) | Claude Desktop integration |
+| [Local REST API](https://github.com/coddingtonbear/obsidian-local-rest-api) | **Required for MCP** - Enables Claude to read/write your vault |
 | [Dataview](https://github.com/blacksmithgu/obsidian-dataview) | Queries, dashboards |
 | [Templater](https://github.com/SilentVoid13/Templater) | Advanced templates |
+
+> **Note:** We use [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian) (external Python tool) for MCP connectivity, which connects via the Local REST API plugin.
 
 ### Organization
 
@@ -424,43 +425,92 @@ This vault supports **two research tracks**:
 
 See: [Workflow - Academic Research Pipeline.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20Academic%20Research%20Pipeline.md)
 
-## MCP Integration
+## MCP Integration (Connecting Claude to Your Vault)
 
-The vault connects to Obsidian via the [Model Context Protocol](https://modelcontextprotocol.io/) using [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian).
+MCP (Model Context Protocol) lets Claude directly read and write to your Obsidian vault and Zotero library. This is **optional** but powerful.
 
-### Prerequisites
+---
 
-1. **Install Local REST API plugin in Obsidian:**
-   - Open Obsidian Settings (gear icon)
-   - Go to Community plugins > Browse
-   - Search "Local REST API" and install it
-   - Enable the plugin
+### Quick Setup (5 minutes)
 
-2. **Copy your API key:**
-   - In Settings > Community plugins > Local REST API
-   - Copy the API key shown at the top
+#### Step 1: Install the Obsidian Plugin
 
-### Configuration Files
+1. Open **Obsidian** with your vault
+2. Go to **Settings** (gear icon) → **Community plugins**
+3. Click **Browse**, search for "**Local REST API**"
+4. Click **Install**, then **Enable**
+5. Go back to **Community plugins** → click **Local REST API**
+6. **Copy the API key** shown at the top (you'll need this!)
 
-| File | Purpose | Committed? |
-|------|---------|------------|
-| `.claude/mcp.json` | Your MCP config (with API keys) | No (gitignored) |
-| `.claude/mcp.json.example` | Template to copy | Yes |
-| `.claude/settings.json` | Shared project settings | Yes |
-| `.claude/settings.local.json` | Your local overrides | No (gitignored) |
+#### Step 2: Install Required Tools
 
-### Setup
+Open a terminal (PowerShell on Windows, Terminal on Mac) and run:
 
-1. Copy the example config:
+```bash
+# Install uv (Python package manager) if you don't have it
+pip install uv
+
+# Install the Obsidian MCP connector
+# (This happens automatically when Claude starts, but you can pre-install)
+uvx mcp-obsidian --help
+```
+
+**For Zotero users** (optional):
+```bash
+pip install zotero-mcp
+```
+
+#### Step 3: Configure Claude
+
+You need to tell Claude where to find Obsidian. There are **two places** to configure this, depending on how you use Claude:
+
+| How You Use Claude | Config File Location |
+|--------------------|---------------------|
+| **Claude Desktop App** (chat interface) | See "Claude Desktop Setup" below |
+| **Claude Code** (terminal/CLI) | See "Claude Code Setup" below |
+
+> **Tip:** Configure both if you want MCP everywhere!
+
+---
+
+### Claude Desktop Setup
+
+1. **Find the config file:**
+   - **Windows:** Press `Win+R`, type `%APPDATA%\Claude`, press Enter. Open `claude_desktop_config.json`
+   - **Mac:** Open Finder, press `Cmd+Shift+G`, type `~/Library/Application Support/Claude/`
+
+2. **Add this to the file** (inside the `"mcpServers": {` section):
+
+```json
+    "obsidian": {
+      "command": "uvx",
+      "args": ["mcp-obsidian"],
+      "env": {
+        "OBSIDIAN_API_KEY": "PASTE-YOUR-API-KEY-HERE"
+      }
+    },
+    "zotero": {
+      "command": "zotero-mcp",
+      "args": ["serve"],
+      "env": {
+        "ZOTERO_LOCAL": "true"
+      }
+    }
+```
+
+3. **Replace** `PASTE-YOUR-API-KEY-HERE` with the key you copied from Obsidian
+4. **Restart Claude Desktop** (File → Quit, then reopen)
+
+---
+
+### Claude Code Setup
+
+1. **Copy the example config:**
    ```bash
-   cp .claude/mcp.json.example .claude/mcp.json
+   cp .mcp.json.example .mcp.json
    ```
 
-2. Edit `.claude/mcp.json` and replace `YOUR_API_KEY_HERE` with your API key
-
-### Configuration
-
-Located in `.claude/mcp.json`:
+2. **Edit `.mcp.json`** and replace `YOUR_OBSIDIAN_API_KEY_HERE` with your API key
 
 ```json
 {
@@ -474,6 +524,7 @@ Located in `.claude/mcp.json`:
     },
     "zotero": {
       "command": "zotero-mcp",
+      "args": ["serve"],
       "env": {
         "ZOTERO_LOCAL": "true"
       }
@@ -482,21 +533,43 @@ Located in `.claude/mcp.json`:
 }
 ```
 
-The MCP server uses sensible defaults (localhost:27124 with HTTPS). For advanced options, see: [mcp-obsidian docs](https://github.com/MarkusPfundstein/mcp-obsidian)
+3. **Start Claude Code from the project directory:**
+   ```bash
+   cd /path/to/obsidian-claude
+   claude
+   ```
 
-### Obsidian MCP Capabilities
+> **Note:** MCP servers only load when Claude Code starts. After changing `.mcp.json`, open a new terminal and run `claude` again.
 
-- Direct file read/write operations
-- Semantic search across vault
-- Programmatic note creation
-- Template execution
+---
 
-### Zotero MCP Capabilities
+### Troubleshooting MCP
 
-- Semantic search across your library
-- Citation retrieval with BibTeX export
-- PDF annotation extraction
-- Full-text document access
+**"MCP not connecting"**
+- Is Obsidian running? (It must be open!)
+- Is Zotero running? (Required for Zotero MCP)
+- Did you restart Claude after editing the config?
+- Does your API key match exactly? (No extra spaces)
+
+**"Command not found: uvx"**
+- Run `pip install uv` first
+
+**Still stuck?**
+- Check the [mcp-obsidian docs](https://github.com/MarkusPfundstein/mcp-obsidian)
+- See `6. Metadata/Reference/Local REST API Setup.md` in the vault
+
+---
+
+### What MCP Enables
+
+Once connected, Claude can:
+
+| Obsidian | Zotero |
+|----------|--------|
+| Read/write notes directly | Search your library |
+| Search across your vault | Get citations + BibTeX |
+| Create notes from templates | Extract PDF annotations |
+| Navigate between linked notes | Full-text document access |
 
 ### PaperQA2 Capabilities
 

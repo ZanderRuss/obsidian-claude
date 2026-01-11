@@ -334,14 +334,24 @@ chmod +x scripts/setup.sh
 
 ### Configuration Files
 
-| File | Purpose | Committed to Git? |
-|------|---------|-------------------|
-| `.claude/mcp.json` | Your MCP config with API keys | No (gitignored) |
-| `.claude/mcp.json.example` | Template to copy | Yes |
-| `.claude/settings.json` | Shared project settings | Yes |
-| `.claude/settings.local.json` | Your local overrides | No (gitignored) |
+| File | Purpose | Used By | Committed? |
+|------|---------|---------|------------|
+| `.mcp.json` | MCP config (project root) | Claude Code CLI | No (gitignored) |
+| `.mcp.json.example` | Template to copy | — | Yes |
+| `claude_desktop_config.json` | MCP config in AppData | Claude Desktop App | No |
+| `.claude/settings.json` | Shared project settings | Both | Yes |
+| `.claude/settings.local.json` | Your local overrides | Both | No (gitignored) |
 
 ### MCP Configuration
+
+This project supports **two different Claude environments**:
+
+| Environment | What It Is | Config Location |
+|-------------|------------|-----------------|
+| **Claude Desktop App** | The standalone desktop application | `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/` (Mac) |
+| **Claude Code CLI** | Terminal-based Claude Code | `.mcp.json` in project root |
+
+> **Important:** These are separate configurations. Configure both if you want MCP everywhere.
 
 The vault connects to Obsidian via [Model Context Protocol](https://modelcontextprotocol.io/) using [mcp-obsidian](https://github.com/MarkusPfundstein/mcp-obsidian):
 
@@ -357,6 +367,7 @@ The vault connects to Obsidian via [Model Context Protocol](https://modelcontext
     },
     "zotero": {
       "command": "zotero-mcp",
+      "args": ["serve"],
       "env": {
         "ZOTERO_LOCAL": "true"
       }
@@ -365,9 +376,15 @@ The vault connects to Obsidian via [Model Context Protocol](https://modelcontext
 }
 ```
 
-**Setup:**
-1. Copy `.claude/mcp.json.example` to `.claude/mcp.json`
-2. Replace `YOUR_API_KEY_HERE` with your Obsidian Local REST API key
+**For Claude Code CLI:**
+1. Copy `.mcp.json.example` to `.mcp.json` (at project root)
+2. Replace `YOUR_OBSIDIAN_API_KEY_HERE` with your Obsidian Local REST API key
+3. Start Claude Code from the project directory: `claude`
+
+**For Claude Desktop App:**
+1. Open `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (Mac)
+2. Add the obsidian and zotero servers to the `mcpServers` object
+3. Fully quit and reopen Claude Desktop
 
 ### Research Tools (Advanced)
 
@@ -388,9 +405,9 @@ pip install "paper-qa>=5"
 
 See: [Research Tools Setup.md](Obsidian-Template-Vault/6.%20Metadata/Reference/Research%20Tools%20Setup.md)
 
-### Included Plugins (17)
+### Included Plugins (16)
 
-**Essential:** Local REST API, MCP Tools, Dataview, Templater
+**Essential:** Local REST API (for MCP), Dataview, Templater
 
 **Organization:** Omnisearch, Tag Wrangler, Auto Note Mover, Homepage, Calendar
 

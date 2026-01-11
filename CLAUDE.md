@@ -150,12 +150,22 @@ This vault has MCP (Model Context Protocol) configured for direct vault access u
 
 ### Configuration Files
 
-| File | Purpose | Committed? |
-|------|---------|------------|
-| `.claude/mcp.json` | Your MCP config (with API keys) | No (gitignored) |
-| `.claude/mcp.json.example` | Template to copy | Yes |
-| `.claude/settings.json` | Shared project settings | Yes |
-| `.claude/settings.local.json` | Your local overrides | No (gitignored) |
+| File | Purpose | Used By | Committed? |
+|------|---------|---------|------------|
+| `.mcp.json` | MCP config (project root) | Claude Code CLI | No (gitignored) |
+| `.mcp.json.example` | Template to copy | — | Yes |
+| `claude_desktop_config.json` | MCP config in AppData | Claude Desktop App | No |
+| `.claude/settings.json` | Shared project settings | Both | Yes |
+| `.claude/settings.local.json` | Your local overrides | Both | No (gitignored) |
+
+### Two Environments
+
+This project supports **two different Claude environments**:
+
+| Environment | Config Location | When to Use |
+|-------------|-----------------|-------------|
+| **Claude Desktop App** | `%APPDATA%\Claude\claude_desktop_config.json` (Win) | Main desktop chat |
+| **Claude Code CLI** | `.mcp.json` in project root | Terminal-based sessions |
 
 ### Setup (for users who need help)
 
@@ -163,8 +173,9 @@ When helping users connect Claude to their Obsidian vault:
 
 1. **Install the plugin**: Settings > Community plugins > Browse > "Local REST API" > Install > Enable
 2. **Copy API key**: Settings > Community plugins > Local REST API > copy the key shown
-3. **Configure MCP**: Copy `.claude/mcp.json.example` to `.claude/mcp.json` and add the API key:
+3. **Configure MCP** based on which environment they use:
 
+**For Claude Code CLI** (`.mcp.json` in project root):
 ```json
 {
   "mcpServers": {
@@ -179,10 +190,15 @@ When helping users connect Claude to their Obsidian vault:
 }
 ```
 
+**For Claude Desktop App** (add to `claude_desktop_config.json`):
+Same JSON structure, but add to the existing `mcpServers` object in the Desktop config file.
+
 **Common issues:**
 - Obsidian must be running for the API to work
+- Zotero must be running for Zotero MCP to work
 - API key must match exactly (no extra spaces)
-- Restart Claude Code after config changes
+- Restart Claude Code/Desktop after config changes
+- Claude Code CLI uses `.mcp.json` at project root (NOT `.claude/mcp.json`)
 
 See: `6. Metadata/Reference/Local REST API Setup.md` for detailed guide
 
@@ -445,11 +461,7 @@ SORT created DESC
 
 ### Local REST API
 
-Enabled on port 27124 (HTTPS) for external programmatic access.
-
-### MCP Tools Plugin
-
-Installed for enhanced AI integration capabilities.
+Enabled on port 27124 (HTTPS) for external programmatic access. This is required for mcp-obsidian to connect.
 
 ## Performance Guidelines
 
