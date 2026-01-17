@@ -22,7 +22,7 @@ SKILL_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(SKILL_ROOT / "perplexity-search" / "scripts"))
 
 try:
-    from perplexity_search import search_with_perplexity, check_setup
+    from perplexity_search import search_with_perplexity, check_dependencies
 except ImportError:
     print("Error: Could not import perplexity_search module.")
     print("Ensure perplexity-search skill is installed.")
@@ -338,7 +338,7 @@ Examples:
         return 0
 
     if args.check_setup:
-        return check_setup()
+        return check_dependencies()
 
     # Require query for search
     if not args.query:

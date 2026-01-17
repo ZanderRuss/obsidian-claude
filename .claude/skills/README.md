@@ -120,7 +120,7 @@ Claude will guide you through using the skill for your specific task.
 ---
 
 #### `/scientific-slides`
-**Build presentation decks for research talks.** Create PowerPoint or LaTeX Beamer presentations with proper structure, visual design, timing guidance, and evidence-based content.
+**Build presentation decks for research talks.** Create PowerPoint or LaTeX Beamer presentations with proper structure, visual design, timing guidance, and evidence-based content. Includes AI-powered image generation for slides and figures.
 
 
 **Use when:**
@@ -129,6 +129,10 @@ Claude will guide you through using the skill for your specific task.
 - Creating thesis defense slides
 - Building research presentations for professional audiences
 - Need visually engaging, research-backed slides
+- Want AI-generated diagrams, figures, or visual slides
+
+
+**Requires (for AI image generation):** `GEMINI_API_KEY` (direct, recommended) OR `OPENROUTER_API_KEY` (fallback)
 
 
 **Features:**
@@ -138,6 +142,13 @@ Claude will guide you through using the skill for your specific task.
 - Timing guidance and delivery preparation
 - Research-backed content with proper citations
 - Avoids text-heavy bullet points (visual-first approach)
+- **AI Image Generation** (via Google Gemini):
+  - **Dual backend**: Direct Gemini API or OpenRouter fallback
+  - **Model options**: `flash` (fast prototyping) or `pro` (final quality)
+  - **Full slides**: Complete slide images with title, content, visuals
+  - **Visuals only**: Just figures/diagrams to place on slides
+  - **Reference images**: Attach context images for generation
+  - **Iterative refinement**: Quality review with automatic improvement
 
 ---
 
@@ -417,7 +428,7 @@ Claude will guide you through using the skill for your specific task.
 ---
 
 #### `/perplexity-search`
-**AI-powered search with Perplexity models.** Search using Perplexity via LiteLLM and OpenRouter. Access Sonar Pro, Sonar Pro Search (advanced agentic search), and Sonar Reasoning Pro models with a single API key.
+**AI-powered search with Perplexity models.** Search using direct Perplexity API (preferred) or OpenRouter fallback. Access Sonar Pro, Sonar Pro Search (advanced agentic search), and Sonar Reasoning Pro models with full feature support.
 
 
 **Use when:**
@@ -427,18 +438,24 @@ Claude will guide you through using the skill for your specific task.
 - Getting real-time answers grounded in web sources
 - Verifying facts with source citations
 - Want Perplexity-specific models (Sonar Pro, Sonar Reasoning)
+- Need academic mode for scholarly sources
+- Analyzing PDFs with file attachments
 
 
-**Requires:** OpenRouter API key (single key for all Perplexity models)
+**Requires:** `PERPLEXITY_API_KEY` (direct API, recommended) OR `OPENROUTER_API_KEY` (fallback)
 
 
 **Features:**
 
+- **Dual backend**: Direct Perplexity API (full features) or OpenRouter fallback
+- **Academic mode**: Prioritizes peer-reviewed scholarly sources
+- **Pro Search**: Multi-step reasoning for complex queries (streaming)
+- **Date filtering**: Publication date, last updated, recency filters
+- **Domain filtering**: Allowlist/denylist up to 20 domains
+- **File attachments**: PDF analysis (up to 50MB, 30 files)
+- **Presets**: academic, technical, news, medical, legal
 - Multiple Perplexity models (Sonar Pro, Sonar Pro Search, Sonar Reasoning Pro)
-- Real-time web grounding
-- Source citations
-- Scientific literature search
-- Single API key setup (OpenRouter)
+- Real-time web grounding with source citations
 
 ---
 
@@ -525,6 +542,19 @@ Additional packages may be installed by specific skills as needed.
 
 ## Configuration
 
+### API Keys Setup
+
+Skills auto-load API keys from a `.env` file in the project root. No manual `export` commands needed!
+
+**Quick Setup:**
+
+```bash
+# Copy template and edit with your keys
+cp .env.template .env
+```
+
+See [.env.template](../.env.template) for all supported environment variables.
+
 ### Web Search Setup
 
 #### Default (No Setup)
@@ -537,9 +567,31 @@ See detailed guide: `.claude/skills/ai-search/references/provider_setup.md`
 
 ### Perplexity Search Setup
 
-Requires OpenRouter API key. Get yours at: <https://openrouter.ai/>
+**Option 1 (Recommended):** Direct Perplexity API
+
+- Set `PERPLEXITY_API_KEY` in `.env`
+- Get key from: <https://www.perplexity.ai/settings/api>
+- Full feature support (academic mode, Pro Search, domain filtering)
+
+**Option 2:** OpenRouter Fallback
+
+- Set `OPENROUTER_API_KEY` in `.env`
+- Get key from: <https://openrouter.ai/>
+- Limited features (basic search only)
 
 See skill documentation: `.claude/skills/perplexity-search/SKILL.md`
+
+### Scientific Slides / AI Image Generation Setup
+
+**Option 1 (Recommended):** Direct Gemini API
+
+- Set `GEMINI_API_KEY` in `.env`
+- Get key from: <https://aistudio.google.com/apikey>
+
+**Option 2:** OpenRouter Fallback
+
+- Set `OPENROUTER_API_KEY` in `.env`
+- Get key from: <https://openrouter.ai/>
 
 ---
 
