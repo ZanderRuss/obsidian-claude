@@ -5,6 +5,13 @@
 # Template vault and configurations are shared
 
 # ===========================================
+# LIVE VAULT - EXCLUDE ENTIRELY
+# ===========================================
+# The live vault contains personal/business data
+# Only the Template Vault should be committed
+Obsidian-Vault-Live/
+
+# ===========================================
 # API Keys & Secrets
 # ===========================================
 .mcp.json
@@ -12,6 +19,8 @@
 .claude/settings.local.json
 *.env
 .env.*
+!.env.template
+!.env.example
 secrets.json
 credentials.json
 
@@ -19,23 +28,23 @@ credentials.json
 # Obsidian User-Specific Files
 # ===========================================
 # Exclude workspace and session data
-Obsidian-Template-Vault/.obsidian/workspace.json
-Obsidian-Template-Vault/.obsidian/workspace-mobile.json
-Obsidian-Template-Vault/.obsidian/graph.json
-Obsidian-Template-Vault/.obsidian/backlink.json
-Obsidian-Template-Vault/.obsidian/bookmarks.json
-Obsidian-Template-Vault/.obsidian/daily-notes.json
-Obsidian-Template-Vault/.obsidian/periodic-notes.json
+Obsidian-Vault-Live/.obsidian/workspace.json
+Obsidian-Vault-Live/.obsidian/workspace-mobile.json
+Obsidian-Vault-Live/.obsidian/graph.json
+Obsidian-Vault-Live/.obsidian/backlink.json
+Obsidian-Vault-Live/.obsidian/bookmarks.json
+Obsidian-Vault-Live/.obsidian/daily-notes.json
+Obsidian-Vault-Live/.obsidian/periodic-notes.json
 
 # Plugin user data (settings, caches)
-Obsidian-Template-Vault/.obsidian/plugins/*/data.json
+Obsidian-Vault-Live/.obsidian/plugins/*/data.json
 
 # AI-generated embeddings
-Obsidian-Template-Vault/.smart-env/
-Obsidian-Template-Vault/.smart-connections/
+Obsidian-Vault-Live/.smart-env/
+Obsidian-Vault-Live/.smart-connections/
 
 # Trash folder
-Obsidian-Template-Vault/.trash/
+Obsidian-Vault-Live/.trash/
 
 # ===========================================
 # Large Binary Files
@@ -43,7 +52,7 @@ Obsidian-Template-Vault/.trash/
 *.exe
 *.dll
 *.bin
-Obsidian-Template-Vault/.obsidian/plugins/mcp-tools/bin/
+Obsidian-Vault-Live/.obsidian/plugins/mcp-tools/bin/
 
 # ===========================================
 # System Files

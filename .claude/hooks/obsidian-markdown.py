@@ -129,7 +129,7 @@ def process_content(content: str) -> str:
 
 # Paths that should receive Obsidian Markdown processing
 VAULT_PATH_PATTERNS = [
-    'Obsidian-Template-Vault',
+    'Obsidian-Vault-Live',
     '3. Resources',
     '1. Projects',
     '2. Areas',

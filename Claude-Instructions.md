@@ -28,7 +28,7 @@ Download from [claude.ai/download](https://claude.ai/download) if you haven't al
 Your folder should look like this:
 +-- obsidian-claude/
     +-- .claude/
-    +-- Obsidian-Template-Vault/
+    +-- Obsidian-Vault-Live/
     +-- SETUP.bat
     +-- SETUP.command
     +-- README.md
@@ -109,7 +109,7 @@ Guide them to open the vault in Obsidian:
 
 1. Open Obsidian (download from obsidian.md if needed)
 2. Click "Open folder as vault"
-3. Navigate to the `Obsidian-Template-Vault` folder inside this project
+3. Navigate to the `Obsidian-Vault-Live` folder inside this project
 4. Click "Open"
 
 Explain: "Now you have both apps working together:

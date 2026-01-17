@@ -1,11 +1,106 @@
-# Core dependencies for Claude Code skills
-requests>=2.28.0
-bibtexparser>=1.4.0
-biopython>=1.80
+# =============================================================================
+# Core Dependencies for Claude Code Skills
+# =============================================================================
+# Install all: pip install -r requirements.txt
+# Or install selectively based on which skills you use
 
-# Optional - for Google Scholar
-scholarly>=1.7.0
+# -----------------------------------------------------------------------------
+# Core (Required for most skills)
+# -----------------------------------------------------------------------------
+requests>=2.28.0           # HTTP client for API calls
+python-dotenv>=1.0.0       # Auto-load .env files for API keys
 
-# Optional - for advanced validation
-crossref-commons>=0.0.7
-pylatexenc>=2.10
+# -----------------------------------------------------------------------------
+# Perplexity Search Skill
+# -----------------------------------------------------------------------------
+# Direct API: requires only requests (included above)
+# OpenRouter fallback: requires litellm
+litellm>=1.0.0             # Optional: OpenRouter backend for perplexity-search
+
+# -----------------------------------------------------------------------------
+# Scientific Slides / Image Generation
+# -----------------------------------------------------------------------------
+# Direct Gemini API: requires only requests (included above)
+# OpenRouter fallback: works with requests alone
+# Pillow for image processing (optional, for advanced operations)
+Pillow>=9.0.0              # Optional: Image processing
+
+# -----------------------------------------------------------------------------
+# PDF Processing Pro Skill
+# -----------------------------------------------------------------------------
+pdfplumber>=0.10.0         # PDF text and table extraction
+pdf2image>=1.16.0          # Convert PDF pages to images
+pytesseract>=0.3.10        # OCR for scanned PDFs (requires Tesseract)
+# Note: Tesseract must be installed separately:
+#   Windows: choco install tesseract
+#   macOS: brew install tesseract
+#   Linux: apt install tesseract-ocr
+
+# -----------------------------------------------------------------------------
+# Data Visualization Skills (plotly, seaborn)
+# -----------------------------------------------------------------------------
+plotly>=5.18.0             # Interactive visualizations
+kaleido>=0.2.1             # Static image export for Plotly (PNG/PDF/SVG)
+seaborn>=0.13.0            # Statistical visualizations
+matplotlib>=3.7.0          # Plotting foundation
+pandas>=2.0.0              # Data manipulation
+numpy>=1.24.0              # Numerical computing
+
+# -----------------------------------------------------------------------------
+# Statistical Analysis Skill
+# -----------------------------------------------------------------------------
+scipy>=1.11.0              # Scientific computing, statistical tests
+statsmodels>=0.14.0        # Statistical modeling (regression, ANOVA)
+pingouin>=0.5.3            # Advanced statistics, effect sizes
+# Optional for Bayesian analysis:
+# pymc>=5.0.0              # Bayesian modeling
+# arviz>=0.17.0            # Bayesian visualization
+
+# -----------------------------------------------------------------------------
+# Citation Management Skill
+# -----------------------------------------------------------------------------
+bibtexparser>=1.4.0        # BibTeX parsing and generation
+biopython>=1.80            # PubMed/NCBI access
+scholarly>=1.7.0           # Google Scholar search
+
+# -----------------------------------------------------------------------------
+# Advanced Validation (citation-management)
+# -----------------------------------------------------------------------------
+crossref-commons>=0.0.7    # DOI validation and metadata
+pylatexenc>=2.10           # LaTeX encoding handling
+
+# -----------------------------------------------------------------------------
+# AI Search Skill
+# -----------------------------------------------------------------------------
+# Uses requests (included above) for all providers
+# Direct APIs: OpenAI, Anthropic, Gemini, Perplexity
+# No additional dependencies needed beyond requests
+
+# -----------------------------------------------------------------------------
+# Literature Review / Scientific Writing
+# -----------------------------------------------------------------------------
+# Uses built-in Claude capabilities and Zotero MCP
+# No additional Python dependencies required
+
+# =============================================================================
+# Quick Install Commands
+# =============================================================================
+#
+# Minimal (core skills only):
+#   pip install requests python-dotenv
+#
+# PDF processing:
+#   pip install pdfplumber pdf2image pytesseract Pillow
+#
+# Data visualization:
+#   pip install plotly kaleido seaborn matplotlib pandas numpy
+#
+# Statistical analysis:
+#   pip install scipy statsmodels pingouin pandas numpy
+#
+# Citation management:
+#   pip install bibtexparser biopython scholarly
+#
+# Everything:
+#   pip install -r requirements.txt
+# =============================================================================

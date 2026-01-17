@@ -17,7 +17,7 @@ For quick exploration, recommend `/quick-research` instead.
 ### 2. Create Project Folder
 
 Create folder structure at:
-`Obsidian-Template-Vault/3. Resources (Dynamic)/Research/[Project Name]/`
+`Obsidian-Vault-Live/3. Resources (Dynamic)/Research/[Project Name]/`
 
 ### 3. Generate Phase Files
 

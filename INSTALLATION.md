@@ -107,7 +107,7 @@ The setup will:
 
 1. **Open Obsidian** (download from [obsidian.md](https://obsidian.md) if needed)
 2. Click **"Open folder as vault"**
-3. Navigate to: `your-folder/Obsidian-Template-Vault/`
+3. Navigate to: `your-folder/Obsidian-Vault-Live/`
 4. Click "Open"
 
 ```
@@ -116,7 +116,7 @@ The setup will:
 |  +------------------------------------+  |
 |  |                                    |  |
 |  |  Open folder as vault              |  |
-|  |  [Obsidian-Template-Vault]         |  |
+|  |  [Obsidian-Vault-Live]         |  |
 |  |                                    |  |
 |  +------------------------------------+  |
 +------------------------------------------+
@@ -280,7 +280,7 @@ This vault uses Claude as a **thinking partner** - an AI that helps explore idea
 │   ├── skills/                       # 18 AI skills
 │   ├── hooks/                        # Automation hooks
 │   └── settings.json                 # Settings
-├── Obsidian-Template-Vault/          # Obsidian vault (PARA structure)
+├── Obsidian-Vault-Live/          # Obsidian vault (PARA structure)
 │   ├── 0. Inbox/                     # Capture point
 │   ├── 1. Projects/                  # Active initiatives
 │   ├── 2. Areas (Ongoing)/           # Ongoing responsibilities
@@ -403,7 +403,7 @@ zotero-mcp update-db --fulltext  # Build search index
 pip install "paper-qa>=5"
 ```
 
-See: [Research Tools Setup.md](Obsidian-Template-Vault/6.%20Metadata/Reference/Research%20Tools%20Setup.md)
+See: [Research Tools Setup.md](Obsidian-Vault-Live/6.%20Metadata/Reference/Research%20Tools%20Setup.md)
 
 ### Included Plugins (16)
 

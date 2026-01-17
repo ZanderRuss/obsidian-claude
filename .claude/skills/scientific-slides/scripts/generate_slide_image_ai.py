@@ -1,32 +1,46 @@
 #!/usr/bin/env python3
 """
-AI-powered slide image generation using Nano Banana Pro.
+AI-powered slide image generation using Google Gemini (Nano Banana).
 
 This script generates presentation slides or slide visuals using AI:
 - full_slide mode: Generate complete slides with title, content, and visuals (for PDF workflow)
 - visual_only mode: Generate just images/figures to place on slides (for PPT workflow)
 
+Supports two backends:
+1. Direct Gemini API (preferred) - uses GEMINI_API_KEY
+2. OpenRouter fallback - uses OPENROUTER_API_KEY
+
+Model options:
+- flash: gemini-2.5-flash-image (fast iteration, prototyping)
+- pro: gemini-3-pro-image-preview (high quality, final outputs)
+
 Supports attaching reference images for context (e.g., "create a slide about this chart").
 
 Uses smart iterative refinement:
-1. Generate initial image with Nano Banana Pro
-2. Quality review using Gemini 3 Pro
+1. Generate initial image with selected model
+2. Quality review using Gemini Pro
 3. Only regenerate if quality is below threshold
 4. Repeat until quality meets standards (max iterations)
 
 Requirements:
-    - OPENROUTER_API_KEY environment variable
+    - GEMINI_API_KEY (direct) OR OPENROUTER_API_KEY (fallback)
     - requests library
 
 Usage:
-    # Full slide for PDF workflow
-    python generate_slide_image_ai.py "Title: Introduction to ML\nKey points: supervised learning, neural networks" -o slide_01.png
-    
+    # Full slide for PDF workflow (auto-selects backend)
+    python generate_slide_image_ai.py "Title: Introduction to ML\\nKey points: supervised learning" -o slide_01.png
+
+    # Use flash model for rapid prototyping
+    python generate_slide_image_ai.py "Neural network diagram" -o figure.png --model flash
+
+    # Use pro model for final quality
+    python generate_slide_image_ai.py "Professional title slide" -o title.png --model pro
+
     # Visual only for PPT workflow
     python generate_slide_image_ai.py "Neural network architecture diagram" -o figure.png --visual-only
-    
+
     # With reference images attached
-    python generate_slide_image_ai.py "Create a slide explaining this chart" -o slide.png --attach chart.png --attach logo.png
+    python generate_slide_image_ai.py "Create a slide explaining this chart" -o slide.png --attach chart.png
 """
 
 import argparse
@@ -86,14 +100,38 @@ def _load_env_file():
 
 class SlideImageGenerator:
     """Generate presentation slides or visuals using AI with iterative refinement.
-    
+
     Two modes:
     - full_slide: Generate complete slide with title, content, visuals (for PDF workflow)
     - visual_only: Generate just the image/figure for a slide (for PPT workflow)
+
+    Two backends:
+    - direct: Uses GEMINI_API_KEY for Google Generative AI API (preferred)
+    - openrouter: Uses OPENROUTER_API_KEY via OpenRouter (fallback)
     """
-    
+
     # Quality threshold for presentations (lower than journal/conference papers)
     QUALITY_THRESHOLD = 6.5
+
+    # Model configurations
+    MODELS = {
+        "flash": {
+            "gemini": "gemini-2.5-flash-preview-05-20",  # Direct API model name
+            "openrouter": "google/gemini-2.5-flash-preview-05-20",  # OpenRouter model name
+            "description": "Fast iteration and prototyping"
+        },
+        "pro": {
+            "gemini": "gemini-2.5-pro-preview-05-06",  # Direct API model name (supports image gen)
+            "openrouter": "google/gemini-2.5-pro-preview-05-06",  # OpenRouter model name
+            "description": "High quality final outputs"
+        }
+    }
+
+    # Review model (text-only, for quality assessment)
+    REVIEW_MODELS = {
+        "gemini": "gemini-2.5-pro-preview-05-06",
+        "openrouter": "google/gemini-2.5-pro-preview-05-06"
+    }
     
     # Guidelines for generating full slides (complete slide images)
     FULL_SLIDE_GUIDELINES = """
@@ -167,44 +205,192 @@ STYLE:
 - Corporate/academic level of polish
 """
     
-    def __init__(self, api_key: Optional[str] = None, verbose: bool = False):
+    def __init__(self, api_key: Optional[str] = None, verbose: bool = False,
+                 backend: str = "auto", model: str = "pro"):
         """
         Initialize the generator.
-        
+
         Args:
-            api_key: OpenRouter API key (or use OPENROUTER_API_KEY env var)
+            api_key: API key (GEMINI_API_KEY or OPENROUTER_API_KEY depending on backend)
             verbose: Print detailed progress information
+            backend: "auto", "direct" (Gemini API), or "openrouter"
+            model: "flash" (fast prototyping) or "pro" (high quality)
         """
-        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
-        
-        if not self.api_key:
-            _load_env_file()
-            self.api_key = os.getenv("OPENROUTER_API_KEY")
-        
-        if not self.api_key:
-            raise ValueError(
-                "OPENROUTER_API_KEY not found. Please either:\n"
-                "  1. Set the OPENROUTER_API_KEY environment variable\n"
-                "  2. Add OPENROUTER_API_KEY to your .env file\n"
-                "  3. Pass api_key parameter to the constructor\n"
-                "Get your API key from: https://openrouter.ai/keys"
-            )
-        
+        _load_env_file()
+
         self.verbose = verbose
         self._last_error = None
-        self.base_url = "https://openrouter.ai/api/v1"
-        # Nano Banana Pro for image generation
-        self.image_model = "google/gemini-3-pro-image-preview"
-        # Gemini 3 Pro for quality review
-        self.review_model = "google/gemini-3-pro"
+        self.model_type = model if model in self.MODELS else "pro"
+
+        # Determine backend
+        if backend == "auto":
+            gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+            openrouter_key = os.getenv("OPENROUTER_API_KEY")
+
+            if gemini_key:
+                self.backend = "direct"
+                self.api_key = gemini_key
+            elif openrouter_key:
+                self.backend = "openrouter"
+                self.api_key = openrouter_key
+            else:
+                raise ValueError(
+                    "No API key found. Please set one of:\n"
+                    "  1. GEMINI_API_KEY (direct Gemini API - recommended)\n"
+                    "  2. GOOGLE_API_KEY (alternative for Gemini API)\n"
+                    "  3. OPENROUTER_API_KEY (OpenRouter fallback)\n\n"
+                    "Get keys from:\n"
+                    "  - Gemini: https://aistudio.google.com/apikey\n"
+                    "  - OpenRouter: https://openrouter.ai/keys"
+                )
+        elif backend == "direct":
+            self.backend = "direct"
+            self.api_key = api_key or os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+            if not self.api_key:
+                raise ValueError("GEMINI_API_KEY or GOOGLE_API_KEY required for direct backend")
+        else:  # openrouter
+            self.backend = "openrouter"
+            self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
+            if not self.api_key:
+                raise ValueError("OPENROUTER_API_KEY required for OpenRouter backend")
+
+        # Set URLs and model names based on backend
+        if self.backend == "direct":
+            self.base_url = "https://generativelanguage.googleapis.com/v1beta"
+            self.image_model = self.MODELS[self.model_type]["gemini"]
+            self.review_model = self.REVIEW_MODELS["gemini"]
+        else:
+            self.base_url = "https://openrouter.ai/api/v1"
+            self.image_model = self.MODELS[self.model_type]["openrouter"]
+            self.review_model = self.REVIEW_MODELS["openrouter"]
+
+        self._log(f"Backend: {self.backend}")
+        self._log(f"Model: {self.model_type} ({self.image_model})")
         
     def _log(self, message: str):
         """Log message if verbose mode is enabled."""
         if self.verbose:
             print(f"[{time.strftime('%H:%M:%S')}] {message}")
     
-    def _make_request(self, model: str, messages: List[Dict[str, Any]], 
+    def _make_request(self, model: str, messages: List[Dict[str, Any]],
                      modalities: Optional[List[str]] = None) -> Dict[str, Any]:
+        """Make a request to the API (direct Gemini or OpenRouter)."""
+        self._log(f"Making request to {model} via {self.backend}...")
+
+        if self.backend == "direct":
+            return self._make_gemini_request(model, messages, modalities)
+        else:
+            return self._make_openrouter_request(model, messages, modalities)
+
+    def _make_gemini_request(self, model: str, messages: List[Dict[str, Any]],
+                            modalities: Optional[List[str]] = None) -> Dict[str, Any]:
+        """Make a request to the direct Gemini API."""
+        # Gemini API endpoint for generateContent
+        url = f"{self.base_url}/models/{model}:generateContent?key={self.api_key}"
+
+        # Convert messages to Gemini format
+        contents = []
+        for msg in messages:
+            role = msg.get("role", "user")
+            gemini_role = "user" if role == "user" else "model"
+
+            content = msg.get("content", "")
+            parts = []
+
+            if isinstance(content, str):
+                parts.append({"text": content})
+            elif isinstance(content, list):
+                for block in content:
+                    if isinstance(block, dict):
+                        if block.get("type") == "text":
+                            parts.append({"text": block.get("text", "")})
+                        elif block.get("type") == "image_url":
+                            img_url = block.get("image_url", {})
+                            if isinstance(img_url, dict):
+                                url_data = img_url.get("url", "")
+                            else:
+                                url_data = img_url
+                            if url_data.startswith("data:"):
+                                # Extract base64 data
+                                mime_match = url_data.split(";")[0].split(":")[1] if ";" in url_data else "image/png"
+                                base64_data = url_data.split(",")[1] if "," in url_data else ""
+                                parts.append({
+                                    "inline_data": {
+                                        "mime_type": mime_match,
+                                        "data": base64_data
+                                    }
+                                })
+
+            contents.append({"role": gemini_role, "parts": parts})
+
+        payload = {"contents": contents}
+
+        # Add generation config for image output
+        if modalities and "image" in modalities:
+            payload["generationConfig"] = {
+                "responseModalities": ["TEXT", "IMAGE"],
+                "responseMimeType": "text/plain"
+            }
+
+        try:
+            response = requests.post(url, json=payload, timeout=180)
+
+            try:
+                response_json = response.json()
+            except json.JSONDecodeError:
+                response_json = {"raw_text": response.text[:500]}
+
+            if response.status_code != 200:
+                error_detail = response_json.get("error", response_json)
+                self._log(f"HTTP {response.status_code}: {error_detail}")
+                raise RuntimeError(f"Gemini API request failed: {error_detail}")
+
+            # Convert Gemini response to OpenRouter-like format for compatibility
+            return self._convert_gemini_response(response_json)
+
+        except requests.exceptions.Timeout:
+            raise RuntimeError("Gemini API request timed out after 180 seconds")
+        except requests.exceptions.RequestException as e:
+            raise RuntimeError(f"Gemini API request failed: {str(e)}")
+
+    def _convert_gemini_response(self, gemini_response: Dict[str, Any]) -> Dict[str, Any]:
+        """Convert Gemini API response to OpenRouter-like format."""
+        candidates = gemini_response.get("candidates", [])
+        if not candidates:
+            return {"choices": [], "error": "No candidates in response"}
+
+        candidate = candidates[0]
+        content = candidate.get("content", {})
+        parts = content.get("parts", [])
+
+        # Extract text and images
+        text_parts = []
+        images = []
+
+        for part in parts:
+            if "text" in part:
+                text_parts.append(part["text"])
+            elif "inlineData" in part:
+                inline = part["inlineData"]
+                mime_type = inline.get("mimeType", "image/png")
+                data = inline.get("data", "")
+                images.append({
+                    "type": "image_url",
+                    "image_url": {"url": f"data:{mime_type};base64,{data}"}
+                })
+
+        return {
+            "choices": [{
+                "message": {
+                    "content": "\n".join(text_parts) if text_parts else "",
+                    "images": images
+                }
+            }],
+            "usage": gemini_response.get("usageMetadata", {})
+        }
+
+    def _make_openrouter_request(self, model: str, messages: List[Dict[str, Any]],
+                                 modalities: Optional[List[str]] = None) -> Dict[str, Any]:
         """Make a request to OpenRouter API."""
         headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -212,17 +398,15 @@ STYLE:
             "HTTP-Referer": "https://github.com/scientific-writer",
             "X-Title": "Scientific Slide Generator"
         }
-        
+
         payload = {
             "model": model,
             "messages": messages
         }
-        
+
         if modalities:
             payload["modalities"] = modalities
-        
-        self._log(f"Making request to {model}...")
-        
+
         try:
             response = requests.post(
                 f"{self.base_url}/chat/completions",
@@ -230,22 +414,22 @@ STYLE:
                 json=payload,
                 timeout=120
             )
-            
+
             try:
                 response_json = response.json()
             except json.JSONDecodeError:
                 response_json = {"raw_text": response.text[:500]}
-            
+
             if response.status_code != 200:
                 error_detail = response_json.get("error", response_json)
                 self._log(f"HTTP {response.status_code}: {error_detail}")
-                raise RuntimeError(f"API request failed (HTTP {response.status_code}): {error_detail}")
-            
+                raise RuntimeError(f"OpenRouter API request failed (HTTP {response.status_code}): {error_detail}")
+
             return response_json
         except requests.exceptions.Timeout:
-            raise RuntimeError("API request timed out after 120 seconds")
+            raise RuntimeError("OpenRouter API request timed out after 120 seconds")
         except requests.exceptions.RequestException as e:
-            raise RuntimeError(f"API request failed: {str(e)}")
+            raise RuntimeError(f"OpenRouter API request failed: {str(e)}")
     
     def _extract_image_from_response(self, response: Dict[str, Any]) -> Optional[bytes]:
         """Extract base64-encoded image from API response."""
@@ -596,7 +780,7 @@ Generate a high-quality {'visual/figure' if visual_only else 'presentation slide
             print(f"\n[Iteration {i}/{iterations}]")
             print("-" * 40)
             
-            print(f"Generating image with Nano Banana Pro...")
+            print(f"Generating image with {self.model_type} model ({self.image_model})...")
             image_data = self.generate_image(current_prompt, attachments=attachments)
             
             if not image_data:
@@ -620,7 +804,7 @@ Generate a high-quality {'visual/figure' if visual_only else 'presentation slide
                 f.write(image_data)
             print(f"✓ Generated image (iteration {i})")
             
-            print(f"Reviewing image with Gemini 3 Pro...")
+            print(f"Reviewing image with {self.review_model}...")
             critique, score, needs_improvement = self.review_image(
                 str(temp_path), user_prompt, i, visual_only, iterations
             )
@@ -682,64 +866,112 @@ Generate a high-quality {'visual/figure' if visual_only else 'presentation slide
 def main():
     """Command-line interface."""
     parser = argparse.ArgumentParser(
-        description="Generate presentation slides or visuals using Nano Banana Pro AI",
+        description="Generate presentation slides or visuals using Google Gemini (Nano Banana)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Generate a full slide (for PDF workflow)
-  python generate_slide_image_ai.py "Title: Machine Learning Basics\\nKey points: supervised learning, neural networks, deep learning" -o slide_01.png
-  
+  # Generate a full slide (auto-detects backend)
+  python generate_slide_image_ai.py "Title: Machine Learning Basics\\nKey points: supervised learning" -o slide_01.png
+
+  # Use flash model for rapid prototyping
+  python generate_slide_image_ai.py "Neural network diagram" -o figure.png --model flash
+
+  # Use pro model for final quality
+  python generate_slide_image_ai.py "Professional title slide" -o title.png --model pro
+
+  # Force direct Gemini API
+  python generate_slide_image_ai.py "Data visualization" -o chart.png --backend direct
+
+  # Force OpenRouter backend
+  python generate_slide_image_ai.py "Architecture diagram" -o arch.png --backend openrouter
+
   # Generate just a visual/figure (for PPT workflow)
-  python generate_slide_image_ai.py "Neural network architecture diagram with input, hidden, and output layers" -o figure.png --visual-only
-  
-  # With reference images attached (Nano Banana Pro will see these)
-  python generate_slide_image_ai.py "Create a slide explaining this chart with key insights" -o slide.png --attach chart.png
-  python generate_slide_image_ai.py "Combine these images into a comparison slide" -o compare.png --attach before.png --attach after.png
-  
-  # With custom iterations
-  python generate_slide_image_ai.py "Title slide for AI Conference 2025" -o title.png --iterations 2
-  
-  # Verbose output
+  python generate_slide_image_ai.py "Neural network architecture diagram" -o figure.png --visual-only
+
+  # With reference images attached
+  python generate_slide_image_ai.py "Create a slide explaining this chart" -o slide.png --attach chart.png
+
+  # Verbose output (shows backend and model info)
   python generate_slide_image_ai.py "Data flow diagram" -o flow.png -v
 
-Environment:
-  OPENROUTER_API_KEY    OpenRouter API key (required)
+Models:
+  flash   gemini-2.5-flash-image     Fast iteration and prototyping
+  pro     gemini-3-pro-image-preview High quality final outputs (default)
+
+API Keys (set in .env or environment):
+  GEMINI_API_KEY      Direct Gemini API (recommended)
+  GOOGLE_API_KEY      Alternative for Gemini API
+  OPENROUTER_API_KEY  OpenRouter fallback
         """
     )
-    
+
     parser.add_argument("prompt", help="Description of the slide or visual to generate")
     parser.add_argument("-o", "--output", required=True, help="Output image path")
+    parser.add_argument("--model", choices=["flash", "pro"], default="pro",
+                       help="Model: flash (fast) or pro (quality, default)")
+    parser.add_argument("--backend", choices=["auto", "direct", "openrouter"], default="auto",
+                       help="API backend: auto (default), direct (Gemini), openrouter")
     parser.add_argument("--attach", action="append", dest="attachments", metavar="IMAGE",
                        help="Attach image file(s) as context for generation (can use multiple times)")
     parser.add_argument("--visual-only", action="store_true",
                        help="Generate just the visual/figure (for PPT workflow)")
     parser.add_argument("--iterations", type=int, default=2,
                        help="Maximum refinement iterations (default: 2)")
-    parser.add_argument("--api-key", help="OpenRouter API key (or set OPENROUTER_API_KEY)")
+    parser.add_argument("--api-key", help="API key (overrides environment)")
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
-    
+    parser.add_argument("--check-setup", action="store_true",
+                       help="Check if API keys are configured")
+
     args = parser.parse_args()
-    
-    api_key = args.api_key or os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
-        print("Error: OPENROUTER_API_KEY environment variable not set")
-        print("\nSet it with:")
-        print("  export OPENROUTER_API_KEY='your_api_key'")
-        sys.exit(1)
-    
+
+    # Check setup if requested
+    if args.check_setup:
+        print("Checking setup...")
+        print("\n--- Direct Gemini API ---")
+        gemini_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+        if gemini_key:
+            print(f"✓ GEMINI_API_KEY: Set ({gemini_key[:10]}...)")
+        else:
+            print("✗ GEMINI_API_KEY: Not set")
+            print("  Get from: https://aistudio.google.com/apikey")
+
+        print("\n--- OpenRouter Backend ---")
+        openrouter_key = os.getenv("OPENROUTER_API_KEY")
+        if openrouter_key:
+            print(f"✓ OPENROUTER_API_KEY: Set ({openrouter_key[:10]}...)")
+        else:
+            print("✗ OPENROUTER_API_KEY: Not set")
+            print("  Get from: https://openrouter.ai/keys")
+
+        print("\n--- Available Models ---")
+        for name, config in SlideImageGenerator.MODELS.items():
+            print(f"  {name}: {config['description']}")
+
+        if gemini_key or openrouter_key:
+            print("\n✓ Setup complete! At least one backend is available.")
+            sys.exit(0)
+        else:
+            print("\n✗ Setup incomplete. Set at least one API key.")
+            sys.exit(1)
+
     if args.iterations < 1 or args.iterations > 2:
         print("Error: Iterations must be between 1 and 2")
         sys.exit(1)
-    
+
     # Validate attachments exist
     if args.attachments:
         for att in args.attachments:
             if not Path(att).exists():
                 print(f"Error: Attachment file not found: {att}")
                 sys.exit(1)
-    
+
     try:
-        generator = SlideImageGenerator(api_key=api_key, verbose=args.verbose)
+        generator = SlideImageGenerator(
+            api_key=args.api_key,
+            verbose=args.verbose,
+            backend=args.backend,
+            model=args.model
+        )
         results = generator.generate_slide(
             user_prompt=args.prompt,
             output_path=args.output,
@@ -747,9 +979,11 @@ Environment:
             iterations=args.iterations,
             attachments=args.attachments
         )
-        
+
         if results["success"]:
             print(f"\n✓ Success! Image saved to: {args.output}")
+            print(f"  Backend: {generator.backend}")
+            print(f"  Model: {generator.model_type} ({generator.image_model})")
             sys.exit(0)
         else:
             print(f"\n✗ Generation failed. Check review log for details.")

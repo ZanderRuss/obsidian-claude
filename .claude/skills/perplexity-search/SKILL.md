@@ -1,27 +1,39 @@
 ---
 name: perplexity-search
-description: Perform AI-powered web searches with real-time information using Perplexity models via LiteLLM and OpenRouter. This skill should be used when conducting web searches for current information, finding recent scientific literature, getting grounded answers with source citations, or accessing information beyond the model's knowledge cutoff. Provides access to multiple Perplexity models including Sonar Pro, Sonar Pro Search (advanced agentic search), and Sonar Reasoning Pro through a single OpenRouter API key.
+description: Perform AI-powered web searches with real-time information using Perplexity models. Supports academic mode for scholarly sources, Pro Search for multi-step reasoning, date/domain filtering, file attachments for PDF analysis, and presets for common use cases. Access via direct Perplexity API (preferred) or OpenRouter fallback.
 ---
 
 # Perplexity Search
 
 ## Overview
 
-Perform AI-powered web searches using Perplexity models through LiteLLM and OpenRouter. Perplexity provides real-time, web-grounded answers with source citations, making it ideal for finding current information, recent scientific literature, and facts beyond the model's training data cutoff.
+Perform AI-powered web searches using Perplexity models with full support for:
 
-This skill provides access to all Perplexity models through OpenRouter, requiring only a single API key (no separate Perplexity account needed).
+- **Academic mode** - Prioritize peer-reviewed scholarly sources
+- **Pro Search** - Multi-step reasoning for complex analysis
+- **Date filtering** - Publication date ranges and recency filters
+- **Domain filtering** - Allowlist/denylist with TLD support (`.edu`, `.gov`)
+- **File attachments** - Analyze PDFs and documents directly
+- **Presets** - Quick configurations for common use cases
+
+This skill provides access to all Perplexity models through either:
+1. **Direct Perplexity API** (preferred) - Full feature support
+2. **OpenRouter fallback** - Basic features via single API key
+
+> **Best Practices Reference**: See `.claude/docs/perplexity-best-practices.md` for comprehensive API documentation and agent integration guidance.
 
 ## When to Use This Skill
 
 Use this skill when:
 - Searching for current information or recent developments (2024 and beyond)
-- Finding latest scientific publications and research
+- Finding latest scientific publications and research (**use `--academic`**)
 - Getting real-time answers grounded in web sources
 - Verifying facts with source citations
 - Conducting literature searches across multiple domains
 - Accessing information beyond the model's knowledge cutoff
 - Performing domain-specific research (biomedical, technical, clinical)
-- Comparing current approaches or technologies
+- Analyzing PDFs or documents with questions (**use `--files`**)
+- Comparing current approaches or technologies (**use `--pro`**)
 
 **Do not use** for:
 - Simple calculations or logic problems (use directly)
@@ -32,23 +44,27 @@ Use this skill when:
 
 ### Setup (One-time)
 
-1. **Get OpenRouter API key**:
-   - Visit https://openrouter.ai/keys
-   - Create account and generate API key
-   - Add credits to account (minimum $5 recommended)
+**Option 1: Direct Perplexity API (Recommended - Full Features)**
 
-2. **Configure environment**:
+1. Get API key from https://www.perplexity.ai/settings/api
+2. Add to `.env` file:
    ```bash
-   # Set API key
-   export OPENROUTER_API_KEY='sk-or-v1-your-key-here'
-
-   # Or use setup script
-   python scripts/setup_env.py --api-key sk-or-v1-your-key-here
+   PERPLEXITY_API_KEY=pplx-your-key-here
    ```
+
+**Option 2: OpenRouter Fallback (Basic Features)**
+
+1. Get API key from https://openrouter.ai/keys
+2. Add to `.env` file:
+   ```bash
+   OPENROUTER_API_KEY=sk-or-v1-your-key-here
+   ```
+
+> **Note**: Direct API supports all features (academic mode, domain filtering, etc.). OpenRouter has limited feature support.
 
 3. **Install dependencies**:
    ```bash
-   uv pip install litellm
+   uv pip install requests python-dotenv
    ```
 
 4. **Verify setup**:
@@ -56,386 +72,415 @@ Use this skill when:
    python scripts/perplexity_search.py --check-setup
    ```
 
-See `references/openrouter_setup.md` for detailed setup instructions, troubleshooting, and security best practices.
+## Basic Usage
 
-### Basic Usage
-
-**Simple search:**
 ```bash
-python scripts/perplexity_search.py "What are the latest developments in CRISPR gene editing?"
+# Simple search
+python scripts/perplexity_search.py "What are the latest developments in CRISPR?"
+
+# Academic mode (prioritizes scholarly sources)
+python scripts/perplexity_search.py "CRISPR clinical trials" --academic
+
+# Use preset (combines mode + domains)
+python scripts/perplexity_search.py "gene therapy" --preset academic
+
+# Save results
+python scripts/perplexity_search.py "CAR-T therapy" --output results.json
 ```
 
-**Save results:**
+## New Features
+
+### Academic Mode
+
+Prioritizes peer-reviewed papers, journal articles, and scholarly databases.
+
 ```bash
-python scripts/perplexity_search.py "Recent CAR-T therapy clinical trials" --output results.json
+# Simple academic search
+python scripts/perplexity_search.py "transformer efficiency" --academic
+
+# Academic preset (mode + curated journal domains + high context)
+python scripts/perplexity_search.py "transformer efficiency" --preset academic
 ```
 
-**Use specific model:**
+**When to use**: Literature reviews, systematic reviews, citing research, any academic writing.
+
+### Pro Search (Multi-Step Reasoning)
+
+Enables automated multi-step research with tool orchestration. The model autonomously:
+- Conducts targeted web searches
+- Fetches detailed content from specific URLs
+- Chains tools together for comprehensive answers
+
 ```bash
-python scripts/perplexity_search.py "Compare mRNA and viral vector vaccines" --model sonar-pro-search
+# Enable Pro Search (auto-enables streaming)
+python scripts/perplexity_search.py "Compare PyTorch vs TensorFlow benchmarks" --pro
+
+# Combine with academic mode
+python scripts/perplexity_search.py "Compare BERT vs GPT architectures" --pro --academic
 ```
 
-**Verbose output:**
+**When to use**: Complex comparative analysis, multi-faceted research, deep investigations.
+
+### Date Filtering
+
+Control the time range of search results.
+
 ```bash
-python scripts/perplexity_search.py "Quantum computing for drug discovery" --verbose
+# Publication date range (MM/DD/YYYY or YYYY-MM-DD format)
+python scripts/perplexity_search.py "COVID variants" --date-after 01/01/2024
+python scripts/perplexity_search.py "COVID variants" --date-after 2024-01-01 --date-before 2024-06-30
+
+# Recency filter (quick relative time)
+python scripts/perplexity_search.py "AI news" --recency week
+python scripts/perplexity_search.py "climate research" --recency month
 ```
+
+**Recency options**: `day`, `week`, `month`, `year`
+
+> **Note**: Cannot combine `--recency` with specific date filters.
+
+### Domain Filtering
+
+Control which websites appear in results. Maximum 20 domains.
+
+```bash
+# Allowlist mode (only these domains)
+python scripts/perplexity_search.py "machine learning" --domains "arxiv.org,nature.com,science.org"
+
+# Denylist mode (exclude these domains, prefix with -)
+python scripts/perplexity_search.py "climate change" --domains "-reddit.com,-quora.com,-medium.com"
+
+# TLD filtering (all .edu and .gov sites)
+python scripts/perplexity_search.py "policy research" --domains ".gov,.edu"
+```
+
+**Academic domain shorthand** (via preset):
+```bash
+python scripts/perplexity_search.py "gene editing" --preset academic
+# Applies: nature.com, science.org, cell.com, nih.gov, arxiv.org, etc.
+```
+
+### Presets
+
+Quick configurations for common use cases:
+
+| Preset | Mode | Domains | Other |
+|--------|------|---------|-------|
+| `academic` | academic | nature.com, science.org, arxiv.org, .edu, .gov | high context |
+| `technical` | - | github.com, stackoverflow.com, docs sites | Pro Search |
+| `news` | - | excludes social media | recency: week |
+| `medical` | academic | nih.gov, pubmed.gov, nejm.org, lancet.com | high context |
+| `legal` | - | .gov, .edu, law.cornell.edu | - |
+
+```bash
+# List all presets
+python scripts/perplexity_search.py --list-presets
+
+# Use a preset
+python scripts/perplexity_search.py "diabetes treatment" --preset medical
+python scripts/perplexity_search.py "webpack configuration" --preset technical
+```
+
+### File Attachments (PDF Analysis)
+
+Analyze documents directly with Perplexity. **Transformative for evidence-based Q&A.**
+
+```bash
+# Analyze a PDF
+python scripts/perplexity_search.py "What are the key findings?" --files paper.pdf
+
+# Multiple files
+python scripts/perplexity_search.py "Compare methodologies" --files "paper1.pdf,paper2.pdf"
+
+# Combine with web search for verification
+python scripts/perplexity_search.py "Verify these claims against current research" --files paper.pdf --academic
+```
+
+**Supported formats**: PDF, DOC, DOCX, TXT, RTF
+**Limits**: 50MB per file, 30 files total, 60-second processing timeout
+
+**When to use**: Answering questions about specific papers, verifying claims, extracting methodology details.
 
 ## Available Models
 
-Access models via `--model` parameter:
+| Model | Best For | Cost |
+|-------|----------|------|
+| `sonar-pro` (default) | General search, good balance | $$ |
+| `sonar-pro-search` | Advanced agentic search | $$$ |
+| `sonar` | Simple fact lookups | $ |
+| `sonar-reasoning-pro` | Step-by-step analysis | $$ |
+| `sonar-reasoning` | Basic reasoning | $ |
+| `sonar-deep-research` | Comprehensive deep research | $$$$ |
 
-- **sonar-pro** (default): General-purpose search, best balance of cost and quality
-- **sonar-pro-search**: Most advanced agentic search with multi-step reasoning
-- **sonar**: Basic model, most cost-effective for simple queries
-- **sonar-reasoning-pro**: Advanced reasoning with step-by-step analysis
-- **sonar-reasoning**: Basic reasoning capabilities
+```bash
+# Select model
+python scripts/perplexity_search.py "quantum computing" --model sonar-reasoning-pro
+```
 
-**Model selection guide:**
-- Default queries → `sonar-pro`
-- Complex multi-step analysis → `sonar-pro-search`
-- Explicit reasoning needed → `sonar-reasoning-pro`
-- Simple fact lookups → `sonar`
-- Cost-sensitive bulk queries → `sonar`
+## All CLI Options
 
-See `references/model_comparison.md` for detailed comparison, use cases, pricing, and performance characteristics.
+```
+Usage: perplexity_search.py <query> [options]
 
-## Crafting Effective Queries
+Positional:
+  query                    The search query
 
-### Be Specific and Detailed
+Basic Options:
+  --model MODEL           Model to use (default: sonar-pro)
+  --backend BACKEND       API backend: auto, direct, openrouter
+  --max-tokens N          Maximum tokens (default: 4000)
+  --temperature T         Response temperature 0.0-1.0 (default: 0.2)
+  --output FILE           Save results to JSON file
+  --verbose               Print detailed information
 
-**Good examples:**
-- "What are the latest clinical trial results for CAR-T cell therapy in treating B-cell lymphoma published in 2024?"
-- "Compare the efficacy and safety profiles of mRNA vaccines versus viral vector vaccines for COVID-19"
-- "Explain AlphaFold3 improvements over AlphaFold2 with specific accuracy metrics from 2023-2024 research"
+Search Mode:
+  --academic              Enable academic mode (scholarly sources)
+  --pro                   Enable Pro Search (multi-step reasoning)
+  --preset NAME           Use preset: academic, technical, news, medical, legal
 
-**Bad examples:**
-- "Tell me about cancer treatment" (too broad)
-- "CRISPR" (too vague)
-- "vaccines" (lacks specificity)
+Date Filtering:
+  --date-after DATE       Only after this date (MM/DD/YYYY or YYYY-MM-DD)
+  --date-before DATE      Only before this date
+  --recency PERIOD        Quick filter: day, week, month, year
 
-### Include Time Constraints
+Domain Filtering:
+  --domains DOMAINS       Comma-separated domains (prefix - to exclude)
 
-Perplexity searches real-time web data:
-- "What papers were published in Nature Medicine in 2024 about long COVID?"
-- "What are the latest developments (past 6 months) in large language model efficiency?"
-- "What was announced at NeurIPS 2023 regarding AI safety?"
+File Attachments:
+  --files FILES           Comma-separated file paths (PDF, DOC, TXT)
 
-### Specify Domain and Sources
+Other:
+  --stream                Enable streaming (auto-enabled for Pro Search)
+  --check-setup           Verify API key and dependencies
+  --list-presets          Show available presets
+```
 
-For high-quality results, mention source preferences:
-- "According to peer-reviewed publications in high-impact journals..."
-- "Based on FDA-approved treatments..."
-- "From clinical trial registries like clinicaltrials.gov..."
+## Programmatic Usage
 
-### Structure Complex Queries
+```python
+from scripts.perplexity_search import search_with_perplexity
 
-Break complex questions into clear components:
-1. **Topic**: Main subject
-2. **Scope**: Specific aspect of interest
-3. **Context**: Time frame, domain, constraints
-4. **Output**: Desired format or type of answer
+# Basic search
+result = search_with_perplexity("What are the latest CRISPR developments?")
 
-**Example:**
-"What improvements does AlphaFold3 offer over AlphaFold2 for protein structure prediction, according to research published between 2023 and 2024? Include specific accuracy metrics and benchmarks."
+# Academic search with date filtering
+result = search_with_perplexity(
+    query="Transformer efficiency improvements",
+    academic=True,  # Enable academic mode
+    search_after_date="01/01/2023",  # Papers from 2023+
+    search_domain_filter=["arxiv.org", "nature.com"],
+    verbose=True
+)
 
-See `references/search_strategies.md` for comprehensive guidance on query design, domain-specific patterns, and advanced techniques.
+# Pro Search for complex analysis
+result = search_with_perplexity(
+    query="Compare mRNA vs viral vector vaccine platforms",
+    pro=True,  # Multi-step reasoning
+    preset="medical"  # Use medical preset
+)
+
+# PDF analysis
+result = search_with_perplexity(
+    query="What methodology does this paper use?",
+    files=["paper.pdf"]
+)
+
+if result["success"]:
+    print(result["answer"])
+    if result.get("citations"):
+        print("Citations:", result["citations"])
+else:
+    print(f"Error: {result['error']}")
+```
 
 ## Common Use Cases
 
-### Scientific Literature Search
+### Academic Literature Search
 
 ```bash
+# Find recent peer-reviewed research
 python scripts/perplexity_search.py \
-  "What does recent research (2023-2024) say about the role of gut microbiome in Parkinson's disease? Focus on peer-reviewed studies and include specific bacterial species identified." \
-  --model sonar-pro
+  "What are the latest findings on gut microbiome and Parkinson's disease?" \
+  --preset academic \
+  --date-after 2023-01-01
 ```
 
 ### Technical Documentation
 
 ```bash
+# Search code and docs
 python scripts/perplexity_search.py \
-  "How to implement real-time data streaming from Kafka to PostgreSQL using Python? Include considerations for handling backpressure and ensuring exactly-once semantics." \
-  --model sonar-reasoning-pro
+  "How to implement WebSocket reconnection in Python with exponential backoff?" \
+  --preset technical
 ```
 
-### Comparative Analysis
+### Evidence-Based Analysis
 
 ```bash
+# Analyze a paper and verify against web
 python scripts/perplexity_search.py \
-  "Compare PyTorch versus TensorFlow for implementing transformer models in terms of ease of use, performance, and ecosystem support. Include benchmarks from recent studies." \
-  --model sonar-pro-search
+  "What claims does this paper make and are they supported by current research?" \
+  --files "research_paper.pdf" \
+  --academic
 ```
 
-### Clinical Research
+### Systematic Review Support
 
 ```bash
+# Find papers in date range with academic filter
 python scripts/perplexity_search.py \
-  "What is the evidence for intermittent fasting in managing type 2 diabetes in adults? Focus on randomized controlled trials and report HbA1c changes and weight loss outcomes." \
-  --model sonar-pro
+  "Randomized controlled trials on intermittent fasting for type 2 diabetes" \
+  --preset medical \
+  --date-after 2020-01-01 \
+  --date-before 2024-12-31
 ```
 
-### Trend Analysis
+### News and Current Events
 
 ```bash
+# Recent news excluding social media
 python scripts/perplexity_search.py \
-  "What are the key trends in single-cell RNA sequencing technology over the past 5 years? Highlight improvements in throughput, cost, and resolution, with specific examples." \
-  --model sonar-pro
+  "What are the latest AI regulation developments?" \
+  --preset news
 ```
 
-## Working with Results
+## Integration with Agents
 
-### Programmatic Access
+This skill is used by multiple research agents. Configure them in their agent definitions:
 
-Use `perplexity_search.py` as a module:
+| Agent | Recommended Settings |
+|-------|---------------------|
+| `academic-researcher` | `--preset academic` or `--academic --context-size high` |
+| `literature-reviewer` | `--preset academic --pro` (multi-step synthesis) |
+| `fact-checker` | `--domains "-reddit.com,-quora.com"` (exclude social) |
+| `evidence-qa` | `--files <pdfs>` (primary use case) |
+| `research-synthesizer` | `--pro --academic` (comprehensive synthesis) |
+| `technical-researcher` | `--preset technical` |
 
-```python
-from scripts.perplexity_search import search_with_perplexity
-
-result = search_with_perplexity(
-    query="What are the latest CRISPR developments?",
-    model="openrouter/perplexity/sonar-pro",
-    max_tokens=4000,
-    temperature=0.2,
-    verbose=False
-)
-
-if result["success"]:
-    print(result["answer"])
-    print(f"Tokens used: {result['usage']['total_tokens']}")
-else:
-    print(f"Error: {result['error']}")
-```
-
-### Save and Process Results
-
-```bash
-# Save to JSON
-python scripts/perplexity_search.py "query" --output results.json
-
-# Process with jq
-cat results.json | jq '.answer'
-cat results.json | jq '.usage'
-```
-
-### Batch Processing
-
-Create a script for multiple queries:
-
-```bash
-#!/bin/bash
-queries=(
-  "CRISPR developments 2024"
-  "mRNA vaccine technology advances"
-  "AlphaFold3 accuracy improvements"
-)
-
-for query in "${queries[@]}"; do
-  echo "Searching: $query"
-  python scripts/perplexity_search.py "$query" --output "results_$(echo $query | tr ' ' '_').json"
-  sleep 2  # Rate limiting
-done
-```
+See `.claude/docs/perplexity-best-practices.md` for detailed agent configuration guidance.
 
 ## Cost Management
 
-Perplexity models have different pricing tiers:
-
 **Approximate costs per query:**
-- Sonar: $0.001-0.002 (most cost-effective)
-- Sonar Pro: $0.002-0.005 (recommended default)
-- Sonar Reasoning Pro: $0.005-0.010
-- Sonar Pro Search: $0.020-0.050+ (most comprehensive)
 
-**Cost optimization strategies:**
+| Model | Fast Search | Pro Search |
+|-------|-------------|------------|
+| sonar | $0.001-0.002 | N/A |
+| sonar-pro | $0.002-0.005 | $0.020-0.050 |
+| sonar-reasoning-pro | $0.005-0.010 | N/A |
+| sonar-deep-research | $0.050+ | N/A |
+
+**Cost factors:**
+- Context size: low ($), medium ($$), high ($$$)
+- File attachments: Charged by input tokens (document size)
+- Pro Search: Significantly higher due to multi-step reasoning
+
+**Optimization tips:**
 1. Use `sonar` for simple fact lookups
-2. Default to `sonar-pro` for most queries
-3. Reserve `sonar-pro-search` for complex analysis
+2. Default to `sonar-pro` with `fast` search type
+3. Reserve `--pro` for complex multi-step analysis
 4. Set `--max-tokens` to limit response length
-5. Monitor usage at https://openrouter.ai/activity
-6. Set spending limits in OpenRouter dashboard
+5. Use `--context-size low` for simple queries
 
 ## Troubleshooting
 
-### API Key Not Set
+### Advanced Features Not Working
 
-**Error**: "OpenRouter API key not configured"
+**Issue**: Academic mode or domain filtering not applied
 
-**Solution**:
+**Cause**: Using OpenRouter backend (limited feature support)
+
+**Solution**: Configure direct Perplexity API:
 ```bash
-export OPENROUTER_API_KEY='sk-or-v1-your-key-here'
-# Or run setup script
-python scripts/setup_env.py --api-key sk-or-v1-your-key-here
+# Add to .env
+PERPLEXITY_API_KEY=pplx-your-key-here
+
+# Verify
+python scripts/perplexity_search.py --check-setup
 ```
 
-### LiteLLM Not Installed
+### Pro Search Not Working
 
-**Error**: "LiteLLM not installed"
+**Issue**: Pro Search results look like regular search
 
-**Solution**:
-```bash
-uv pip install litellm
-```
+**Cause**: Pro Search requires streaming
 
-### Rate Limiting
+**Solution**: Streaming is auto-enabled with `--pro`, but ensure you're using direct API.
 
-**Error**: "Rate limit exceeded"
+### File Attachment Errors
 
-**Solutions**:
-- Wait a few seconds before retrying
-- Increase rate limit at https://openrouter.ai/keys
-- Add delays between requests in batch processing
+**Issue**: "File too large" or "Unsupported file type"
 
-### Insufficient Credits
+**Limits**:
+- Max 50MB per file
+- Max 30 files per request
+- Supported: PDF, DOC, DOCX, TXT, RTF
+- PDFs must be text-based (not scanned images)
 
-**Error**: "Insufficient credits"
+### Date Filter Errors
 
-**Solution**:
-- Add credits at https://openrouter.ai/account
-- Enable auto-recharge to prevent interruptions
+**Issue**: "Invalid date format"
 
-See `references/openrouter_setup.md` for comprehensive troubleshooting guide.
+**Solution**: Use `MM/DD/YYYY` (e.g., `01/15/2024`) or `YYYY-MM-DD` (e.g., `2024-01-15`)
 
-## Integration with Other Skills
-
-This skill complements other scientific skills:
-
-### Literature Review
-
-Use with `literature-review` skill:
-1. Use Perplexity to find recent papers and preprints
-2. Supplement PubMed searches with real-time web results
-3. Verify citations and find related work
-4. Discover latest developments post-database indexing
-
-### Scientific Writing
-
-Use with `scientific-writing` skill:
-1. Find recent references for introduction/discussion
-2. Verify current state of the art
-3. Check latest terminology and conventions
-4. Identify recent competing approaches
-
-### Hypothesis Generation
-
-Use with `hypothesis-generation` skill:
-1. Search for latest research findings
-2. Identify current gaps in knowledge
-3. Find recent methodological advances
-4. Discover emerging research directions
-
-### Critical Thinking
-
-Use with `scientific-critical-thinking` skill:
-1. Find evidence for and against hypotheses
-2. Locate methodological critiques
-3. Identify controversies in the field
-4. Verify claims with current evidence
-
-## Best Practices
-
-### Query Design
-
-1. **Be specific**: Include domain, time frame, and constraints
-2. **Use terminology**: Domain-appropriate keywords and phrases
-3. **Specify sources**: Mention preferred publication types or journals
-4. **Structure questions**: Clear components with explicit context
-5. **Iterate**: Refine based on initial results
-
-### Model Selection
-
-1. **Start with sonar-pro**: Good default for most queries
-2. **Upgrade for complexity**: Use sonar-pro-search for multi-step analysis
-3. **Downgrade for simplicity**: Use sonar for basic facts
-4. **Use reasoning models**: When step-by-step analysis needed
-
-### Cost Optimization
-
-1. **Choose appropriate models**: Match model to query complexity
-2. **Set token limits**: Use `--max-tokens` to control costs
-3. **Monitor usage**: Check OpenRouter dashboard regularly
-4. **Batch efficiently**: Combine related simple queries when possible
-5. **Cache results**: Save and reuse results for repeated queries
-
-### Security
-
-1. **Protect API keys**: Never commit to version control
-2. **Use environment variables**: Keep keys separate from code
-3. **Set spending limits**: Configure in OpenRouter dashboard
-4. **Monitor usage**: Watch for unexpected activity
-5. **Rotate keys**: Change keys periodically
+**Note**: Cannot combine `--recency` with `--date-after`/`--date-before`
 
 ## Resources
 
 ### Bundled Resources
 
 **Scripts:**
-- `scripts/perplexity_search.py`: Main search script with CLI interface
-- `scripts/setup_env.py`: Environment setup and validation helper
+- `scripts/perplexity_search.py`: Main search script with all features
 
 **References:**
-- `references/search_strategies.md`: Comprehensive query design guide
-- `references/model_comparison.md`: Detailed model comparison and selection guide
-- `references/openrouter_setup.md`: Complete setup, troubleshooting, and security guide
+- `.claude/docs/perplexity-best-practices.md`: Comprehensive API guide and agent integration
 
 **Assets:**
 - `assets/.env.example`: Example environment file template
 
 ### External Resources
 
-**OpenRouter:**
+**Perplexity:**
+- API Docs: https://docs.perplexity.ai/
+- API Keys: https://www.perplexity.ai/settings/api
+
+**OpenRouter (Fallback):**
 - Dashboard: https://openrouter.ai/account
 - API Keys: https://openrouter.ai/keys
-- Perplexity Models: https://openrouter.ai/perplexity
-- Usage Monitoring: https://openrouter.ai/activity
-- Documentation: https://openrouter.ai/docs
-
-**LiteLLM:**
-- Documentation: https://docs.litellm.ai/
-- OpenRouter Provider: https://docs.litellm.ai/docs/providers/openrouter
-- GitHub: https://github.com/BerriAI/litellm
-
-**Perplexity:**
-- Official Docs: https://docs.perplexity.ai/
 
 ## Dependencies
 
 ### Required
-
 ```bash
-# LiteLLM for API access
-uv pip install litellm
+uv pip install requests
 ```
 
-### Optional
-
+### Recommended
 ```bash
-# For .env file support
-uv pip install python-dotenv
-
-# For JSON processing (usually pre-installed)
-uv pip install jq
+uv pip install python-dotenv  # For .env file support
+uv pip install litellm        # For OpenRouter fallback
 ```
 
 ### Environment Variables
 
-Required:
-- `OPENROUTER_API_KEY`: Your OpenRouter API key
+**Required (one of):**
+- `PERPLEXITY_API_KEY`: Direct API key (full features)
+- `OPENROUTER_API_KEY`: OpenRouter key (basic features)
 
-Optional:
-- `DEFAULT_MODEL`: Default model to use (default: sonar-pro)
+**Optional:**
+- `DEFAULT_MODEL`: Default model (default: sonar-pro)
 - `DEFAULT_MAX_TOKENS`: Default max tokens (default: 4000)
-- `DEFAULT_TEMPERATURE`: Default temperature (default: 0.2)
 
 ## Summary
 
 This skill provides:
 
-1. **Real-time web search**: Access current information beyond training data cutoff
-2. **Multiple models**: From cost-effective Sonar to advanced Sonar Pro Search
-3. **Simple setup**: Single OpenRouter API key, no separate Perplexity account
-4. **Comprehensive guidance**: Detailed references for query design and model selection
-5. **Cost-effective**: Pay-as-you-go pricing with usage monitoring
-6. **Scientific focus**: Optimized for research, literature search, and technical queries
-7. **Easy integration**: Works seamlessly with other scientific skills
+1. **Academic Mode** - Prioritize peer-reviewed scholarly sources
+2. **Pro Search** - Multi-step reasoning for complex analysis
+3. **Date Filtering** - Publication date ranges and recency filters
+4. **Domain Filtering** - Allowlist/denylist with TLD support
+5. **File Attachments** - Analyze PDFs and documents directly
+6. **Presets** - Quick configurations (academic, technical, news, medical, legal)
+7. **Dual Backend** - Direct API (full features) or OpenRouter (fallback)
 
-Conduct AI-powered web searches to find current information, recent research, and grounded answers with source citations.
+For comprehensive API documentation and agent integration guidance, see `.claude/docs/perplexity-best-practices.md`.

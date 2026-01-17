@@ -167,7 +167,25 @@ For high-quality results, mention source preferences:
 
 ### Environment Variables
 
-Set the API key for your preferred provider:
+The easiest way to configure API keys is using a `.env` file at your project root:
+
+**Option 1: Use .env file (Recommended)**
+
+1. Copy the template: `cp .env.template .env`
+2. Edit `.env` and uncomment/fill in the keys you need
+3. Scripts auto-load from `.env` - no manual export needed!
+
+```bash
+# In your .env file:
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+GEMINI_API_KEY=AIza...
+OPENROUTER_API_KEY=sk-or-v1-...
+```
+
+> **Security Note**: The `.env` file is gitignored. Never commit API keys!
+
+**Option 2: Export in shell**
 
 ```bash
 # Claude WebSearch - no configuration needed
@@ -178,11 +196,17 @@ export OPENAI_API_KEY='sk-...'
 # Anthropic
 export ANTHROPIC_API_KEY='sk-ant-...'
 
-# Google Gemini
+# Google Gemini (supports both names)
 export GEMINI_API_KEY='...'
+# or: export GOOGLE_API_KEY='...'
 
 # Perplexity (via OpenRouter)
 export OPENROUTER_API_KEY='sk-or-v1-...'
+```
+
+**Optional dependency for .env support:**
+```bash
+pip install python-dotenv
 ```
 
 ### Configuration File

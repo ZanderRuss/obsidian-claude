@@ -1,6 +1,6 @@
 # Claude Code Commands
 
-This folder contains 31 commands that help you work with your Obsidian vault and manage your knowledge. Think of commands as workflows - each one guides Claude through a specific process to help you accomplish common tasks.
+This folder contains 37 commands that help you work with your Obsidian vault and manage your knowledge. Think of commands as workflows - each one guides Claude through a specific process to help you accomplish common tasks.
 
 ---
 
@@ -81,6 +81,17 @@ Claude will then start the workflow and guide you through the process.
 | `/paper-review` | Simulate peer review feedback | Before submission |
 | `/paper-polish` | Grammar, style, consistency | Final editing pass |
 | `/export-paper` | Export to LaTeX/PDF/Word | Submission preparation |
+
+### Thesis & Paper Writing (Multi-Agent Pipeline)
+
+| Command Name | What It Helps You Do | When to Use |
+|--------------|---------------------|-------------|
+| `/thesis-init` | Initialize thesis project with templates | Starting PhD thesis, large documents |
+| `/thesis-write` | Write complete thesis (90k+ words) | Full thesis production with quality gates |
+| `/chapter-write` | Write a single thesis chapter | Individual chapter drafting |
+| `/paper-write` | Write conference/journal paper | Academic paper submissions |
+| `/quality-check` | Run all quality control agents | Before submission, after revisions |
+| `/paper-revise` | Handle reviewer feedback systematically | Post-review revision process |
 
 ### Git & Documentation
 
@@ -198,6 +209,12 @@ Weekly Check → /extract-todos → /graph-analysis → /smart-link
 | Get peer review feedback | `/paper-review` |
 | Polish my writing | `/paper-polish` |
 | Export to LaTeX/PDF | `/export-paper` |
+| Start a thesis project | `/thesis-init` |
+| Write a complete thesis | `/thesis-write` |
+| Write a thesis chapter | `/chapter-write` |
+| Write a conference paper | `/paper-write` |
+| Run quality checks | `/quality-check` |
+| Handle reviewer comments | `/paper-revise` |
 | Create flashcards | `/flashcards` |
 | Process voice memos | `/voice-process` |
 | Save web articles | `/web-clip` |
@@ -430,12 +447,13 @@ After mastering commands, explore:
 
 ## Summary
 
-**31 commands organized into 6 categories:**
+**37 commands organized into 7 categories:**
 
 - 5 Knowledge Workflows
 - 4 Advanced Analysis
 - 4 Content Transformation
 - 13 Academic Research
+- 6 Thesis & Paper Writing (Multi-Agent Pipeline)
 - 5 Git & Documentation
 
 **Start with these 3:**

@@ -33,7 +33,7 @@ Automatically converts standard markdown to Obsidian Flavored Markdown:
 
 Only processes files in these locations:
 
-- `Obsidian-Template-Vault`
+- `Obsidian-Vault-Live`
 - `0. Inbox`
 - `1. Projects`
 - `2. Areas`

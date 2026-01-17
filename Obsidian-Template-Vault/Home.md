@@ -2,11 +2,10 @@
 cssclasses:
   - dashboard
   - cards
-banner: "![[12.jpg]]"
-banner_y: 0.5
+banner: "![[31.jpg]]"
+banner_y: 0.6
 banner_height: 400
 ---
-
 # Research Vault
 
 > *AI amplifies thinking, not just writing.*

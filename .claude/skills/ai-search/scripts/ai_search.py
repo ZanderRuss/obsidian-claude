@@ -23,8 +23,66 @@ import os
 import sys
 import json
 import argparse
+from pathlib import Path
 from typing import Optional, Dict, Any
 from abc import ABC, abstractmethod
+
+
+# =============================================================================
+# Environment Loading
+# =============================================================================
+
+def _load_env_file():
+    """Load .env file from current directory, parent directories, or project root.
+
+    This allows API keys to be stored in a .env file instead of requiring
+    manual 'export' commands. The function searches:
+    1. Current working directory
+    2. Parent directories (up to 5 levels)
+    3. Script's parent directories (to find project root)
+
+    Returns:
+        bool: True if .env file was found and loaded, False otherwise
+    """
+    try:
+        from dotenv import load_dotenv
+    except ImportError:
+        # python-dotenv not installed - that's okay, user can use env vars directly
+        return False
+
+    # Try current working directory first
+    env_path = Path.cwd() / ".env"
+    if env_path.exists():
+        load_dotenv(dotenv_path=env_path, override=False)
+        return True
+
+    # Try parent directories (up to 5 levels)
+    cwd = Path.cwd()
+    for _ in range(5):
+        env_path = cwd / ".env"
+        if env_path.exists():
+            load_dotenv(dotenv_path=env_path, override=False)
+            return True
+        cwd = cwd.parent
+        if cwd == cwd.parent:
+            break
+
+    # Try the script's parent directories (to find project root)
+    script_dir = Path(__file__).resolve().parent
+    for _ in range(5):
+        env_path = script_dir / ".env"
+        if env_path.exists():
+            load_dotenv(dotenv_path=env_path, override=False)
+            return True
+        script_dir = script_dir.parent
+        if script_dir == script_dir.parent:
+            break
+
+    return False
+
+
+# Auto-load .env on import
+_load_env_file()
 
 
 # =============================================================================

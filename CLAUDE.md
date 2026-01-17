@@ -22,7 +22,7 @@ This is an Obsidian vault with AI-powered knowledge management using the PARA me
 ## Vault Structure (PARA Method)
 
 ```text
-Obsidian-Template-Vault/
+Obsidian-Vault-Live/
 ├── 0. Inbox/                  # Temporary capture point
 ├── 1. Projects/               # Active initiatives with deadlines
 ├── 2. Areas (Ongoing)/        # Ongoing responsibilities
@@ -76,6 +76,18 @@ Obsidian-Template-Vault/
 | `/voice-process` | Structure voice transcriptions | After voice capture |
 | `/web-clip` | Save web articles as markdown | Research, bookmarking |
 
+### Vault Maintenance
+
+| Command | Purpose | When to Use |
+|---------|---------|-------------|
+| `/vault-optimize` | Analyze performance, file sizes, attachments | Monthly or when vault feels slow |
+| `/moc-generate` | Identify and create missing Maps of Content | After adding many notes, monthly |
+| `/tag-normalize` | Standardize tag taxonomy, merge duplicates | Quarterly or when tags feel messy |
+| `/content-curate` | Find outdated/redundant content, suggest improvements | Monthly content review |
+| `/metadata-fix` | Standardize frontmatter across all notes | After bulk imports, quarterly |
+| `/find-connections` | Discover missing links between related notes | After creating notes, weekly |
+| `/vault-review` | Comprehensive quality audit of entire vault | Monthly or before major work |
+
 ### Git & Documentation
 
 | Command | Purpose |
@@ -104,17 +116,32 @@ Obsidian-Template-Vault/
 | `/paper-polish` | Grammar, style, consistency | Final editing pass |
 | `/export-paper` | Export to LaTeX/PDF/Word | Submission preparation |
 
+### Thesis & Paper Writing (Multi-Agent Pipeline)
+
+| Command | Purpose | When to Use |
+|---------|---------|-------------|
+| `/thesis-init` | Initialize thesis project structure | Starting PhD thesis or large document |
+| `/thesis-write` | Write complete thesis with multi-agent pipeline | Full thesis production (90k+ words) |
+| `/chapter-write` | Write single chapter | Individual chapter drafting |
+| `/paper-write` | Write conference/journal paper | Conference submissions, journal articles |
+| `/quality-check` | Run all quality control agents | Before submission, after major revisions |
+| `/paper-revise` | Handle reviewer feedback | Post-review revision process |
+
 ## Available Agents
 
 ### Obsidian Operations Team
 
-- **vault-optimizer**: Performance optimization, file size analysis, attachment management
-- **moc-agent**: Map of Content creation and maintenance
-- **tag-agent**: Tag taxonomy standardization and hierarchy
-- **content-curator**: Content organization and curation
-- **metadata-agent**: Frontmatter and metadata management
-- **connection-agent**: Link and relationship management
-- **review-agent**: Content quality review
+These agents can be invoked via slash commands (see Vault Maintenance section above):
+
+| Agent | Command | Purpose |
+|-------|---------|---------|
+| **vault-optimizer** | `/vault-optimize` | Performance optimization, file size analysis, attachment management |
+| **moc-agent** | `/moc-generate` | Map of Content creation and maintenance |
+| **tag-agent** | `/tag-normalize` | Tag taxonomy standardization and hierarchy |
+| **content-curator** | `/content-curate` | Content organization and curation |
+| **metadata-agent** | `/metadata-fix` | Frontmatter and metadata management |
+| **connection-agent** | `/find-connections` | Link and relationship management |
+| **review-agent** | `/vault-review` | Content quality review |
 
 ### Research Team
 
@@ -134,6 +161,40 @@ Obsidian-Template-Vault/
 - **research-coordinator**: Task coordination
 - **research-brief-generator**: Research brief creation
 - **technical-researcher**: Technical implementation research
+
+### Paper-Writing Team
+
+Multi-agent system for PhD-level academic writing (21 agents across 5 layers):
+
+**Orchestration Layer:**
+- **thesis-orchestrator**: Coordinates entire thesis writing process
+- **chapter-coordinator**: Manages single chapter production
+- **paper-orchestrator**: Coordinates conference/journal paper writing
+
+**Section Writers:**
+- **introduction-writer**: Introduction with research questions, contributions
+- **lit-review-writer**: Literature review with synthesis and gap identification
+- **methodology-writer**: Methods section with domain-appropriate terminology
+- **results-writer**: Results with figures, tables, and analysis
+- **discussion-writer**: Interpretation, limitations, implications
+- **conclusion-writer**: Summary and future work
+- **abstract-writer**: Structured abstracts
+- **figure-designer**: Figure captions and table descriptions
+
+**Quality Control:**
+- **document-validator**: Consistency, cross-references, terminology
+- **argument-validator**: Logic, evidence, claim support, hedging
+- **citation-validator**: Citation accuracy via Zotero integration
+- **plagiarism-checker**: Paraphrase quality, attribution verification
+
+**Revision Agents:**
+- **reviewer-response**: Generate response letters to peer reviewers
+- **change-manager**: Track revisions, generate diffs
+- **change-integrator**: Merge revisions, resolve conflicts
+
+**Export Pipeline:**
+- **latex-specialist**: Convert Markdown to LaTeX
+- **formatting-validator**: Venue compliance checking
 
 ### Workflow Support
 
@@ -442,6 +503,62 @@ type/
 4. Run `/extract-todos` for task consolidation
 5. Archive completed work
 
+## Home Dashboard
+
+The vault includes a professional dashboard at [Home.md](Obsidian-Vault-Live/Home.md) with:
+
+### Dashboard Features
+
+**Live Metrics:**
+
+- Total notes count
+- Active projects count with status warnings
+- Inbox items with overflow alerts
+- Open tasks tracker
+- Areas count
+
+**Today's Focus** (Tasks Plugin):
+
+- 🔥 Overdue & Due Today
+- 📌 High Priority Tasks
+- ⏰ This Week's tasks
+- ✨ Recently Completed
+
+**Organized Sections:**
+
+- Active Projects table
+- Areas of Focus (collapsible for quick access)
+- Prompt Library preview
+- Inbox status
+- Recent Activity log
+- Knowledge Graph analytics (Hub notes, Orphan notes, Vault growth)
+- Recent Notes browser
+- Tasks by Project
+
+**Claude Workflows Reference:**
+
+- All commands organized by category (Daily, Research, Writing, Maintenance, Knowledge)
+- Quick access to command documentation
+
+### Dashboard Philosophy
+
+The dashboard follows these principles:
+- **Simple, reliable queries** over complex calculations
+- **Fast loading** (< 2 seconds)
+- **Progressive disclosure** (collapsible sections)
+- **Working navigation** beats fancy metrics
+- **Clarity over complexity**
+
+All Dataview queries use basic syntax for reliability. Task management is handled by the Tasks plugin for robustness.
+
+### Visual Navigation
+
+**[[Vault Overview]]** - Mind Map Integration:
+
+- Open the note, then `Ctrl+P` (Windows) or `Cmd+P` (Mac) → type "mind map" for visual vault structure
+- Shows all Projects, Areas, Resources organized hierarchically
+- Interactive navigation tool
+
 ## Integration Points
 
 ### Smart Connections
@@ -459,6 +576,13 @@ WHERE status = "active"
 SORT created DESC
 ```
 
+**Dashboard Best Practices:**
+- Keep queries simple (avoid nested choice(), date() functions)
+- Use TABLE queries for structured data
+- Prefer static date formats over dynamic labels
+- Let Tasks plugin handle task filtering
+- Collapse long sections by default
+
 ### Local REST API
 
 Enabled on port 27124 (HTTPS) for external programmatic access. This is required for mcp-obsidian to connect.
@@ -471,6 +595,62 @@ Enabled on port 27124 (HTTPS) for external programmatic access. This is required
 - Remove orphaned attachments periodically
 - Use MOCs instead of deeply nested folders
 - Run `/graph-analysis` monthly for health checks
+
+## AI Provider Routing
+
+This vault uses multiple AI providers for different tasks. Provider routing is configured via environment variables in `.env`.
+
+### Current Routing Configuration
+
+| Task | Provider | Why |
+|------|----------|-----|
+| **Web Search** | Claude WebSearch | Built-in, free, no API key needed |
+| **Web Search Fallback** | Perplexity | Real-time citations when Claude is rate-limited |
+| **Image Generation** | Gemini (Nano Banana Pro) | Best quality for slides and figures |
+| **Literature Search** | Perplexity | Real-time academic paper discovery |
+| **Text Embeddings** | OpenAI | Industry standard, Zotero MCP uses this |
+
+### Environment Variables for Routing
+
+```bash
+# Primary web search provider
+AI_SEARCH_PROVIDER=claude
+
+# Fallback when primary is unavailable
+AI_SEARCH_FALLBACK=perplexity
+
+# Image generation (slides, figures)
+IMAGE_GENERATION_PROVIDER=gemini
+IMAGE_GENERATION_MODEL=google/gemini-3-pro-image-preview
+
+# Literature/academic search
+LITERATURE_SEARCH_PROVIDER=perplexity
+```
+
+### How Skills Use Routing
+
+| Skill | Reads From | Default Behavior |
+|-------|------------|------------------|
+| `ai-search` | `AI_SEARCH_PROVIDER` | Uses Claude WebSearch unless `--provider` flag specified |
+| `perplexity-search` | Always Perplexity | Dedicated Perplexity wrapper |
+| `scientific-slides` | `IMAGE_GENERATION_MODEL` | Uses Gemini via OpenRouter for Nano Banana Pro |
+| `literature-review` | `LITERATURE_SEARCH_PROVIDER` | Uses Perplexity for real-time paper search |
+
+### Required API Keys by Task
+
+| Task | Required Key | Optional Fallback |
+|------|--------------|-------------------|
+| Web Search | None (Claude built-in) | `PERPLEXITY_API_KEY` or `OPENROUTER_API_KEY` |
+| Image Generation | `OPENROUTER_API_KEY` | `GEMINI_API_KEY` (direct) |
+| Literature Search | `PERPLEXITY_API_KEY` | `OPENROUTER_API_KEY` |
+| Embeddings | `OPENAI_API_KEY` | — |
+
+### Notes
+
+- **Claude WebSearch** is always the default for web queries—it's free and requires no API key
+- **Nano Banana Pro** (Gemini image generation) requires OpenRouter API key
+- **Perplexity** can be accessed via direct API key OR via OpenRouter
+- Skills auto-load from `.env` file—no manual `export` needed
 
 ## Security Considerations
 

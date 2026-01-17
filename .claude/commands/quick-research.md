@@ -31,7 +31,7 @@ Rapid investigation for casual research needs. No quality gates, single output f
 
 ## Output Format
 
-Save to: `Obsidian-Template-Vault/3. Resources (Dynamic)/Research/Quick Research - [Topic].md`
+Save to: `Obsidian-Vault-Live/3. Resources (Dynamic)/Research/Quick Research - [Topic].md`
 
 Use the following template structure:
 

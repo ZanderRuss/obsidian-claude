@@ -163,6 +163,24 @@ You'll use **two apps together**:
 
 ---
 
+## Dashboard & Navigation
+
+Your vault opens to a **professional dashboard** (`Home.md`) that provides instant visibility into your knowledge system:
+
+<p align="center">
+<img src="recommended agents.png" alt="Dashboard showing active projects, areas, and vault metrics" width="100%">
+</p>
+
+**Live vault metrics** show total notes, active projects, inbox status, and task counts with automatic health warnings. **Collapsible sections** organize Projects, Areas, Resources, and Recent Activity—keeping information accessible without overwhelming you. The **Knowledge Graph** section reveals hub notes, orphan notes, and vault growth trends to help you strengthen connections.
+
+**Integrated workflows** let you launch Claude commands directly from the dashboard—from `/thinking-partner` for exploring ideas to `/vault-review` for maintenance. The dashboard uses **reliable Dataview queries** optimized for fast loading (< 2 seconds), following a "clarity over complexity" philosophy.
+
+Open **[[Vault Overview]]** and press `Ctrl+P` (Windows) or `Cmd+P` (Mac), then type "mind map" to see your entire vault structure visualized as an interactive mind map—perfect for navigation and planning.
+
+See: [CLAUDE.md - Home Dashboard](CLAUDE.md#home-dashboard) for technical details and Dataview best practices.
+
+---
+
 ## Commands
 
 ### Knowledge Workflows
@@ -359,7 +377,7 @@ Record → Transcribe (Whisper) → Sync to Inbox → /voice-process → Structu
 - PowerShell + Whisper (Windows)
 - Tasker (Android)
 
-See: [Workflow - Voice Memo Automation.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20Voice%20Memo%20Automation.md)
+See: [Workflow - Voice Memo Automation.md](Obsidian-Vault-Live/6.%20Metadata/Workflows/Workflow%20-%20Voice%20Memo%20Automation.md)
 
 ### GitHub CI/CD
 
@@ -369,7 +387,7 @@ Create Issue (mobile) → GitHub Action → Claude processes → Commits result
 
 Trigger vault tasks from anywhere via GitHub Issues with the `claude-task` label.
 
-See: [Workflow - GitHub Automation.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20GitHub%20Automation.md)
+See: [Workflow - GitHub Automation.md](Obsidian-Vault-Live/6.%20Metadata/Workflows/Workflow%20-%20GitHub%20Automation.md)
 
 ### Research Pipeline
 
@@ -379,7 +397,7 @@ Query → /research-assistant → Web Search → /web-clip → Synthesis → Str
 
 Automated research with source evaluation (CRAAP test) and structured output.
 
-See: [Workflow - Research Automation.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20Research%20Automation.md)
+See: [Workflow - Research Automation.md](Obsidian-Vault-Live/6.%20Metadata/Workflows/Workflow%20-%20Research%20Automation.md)
 
 ### Academic Paper Pipeline
 
@@ -421,7 +439,7 @@ This vault supports **two research tracks**:
 8. `/paper-polish` → Final editing pass
 9. `/export-paper` → LaTeX/PDF for submission
 
-See: [Workflow - Academic Research Pipeline.md](Obsidian-Template-Vault/6.%20Metadata/Workflows/Workflow%20-%20Academic%20Research%20Pipeline.md)
+See: [Workflow - Academic Research Pipeline.md](Obsidian-Vault-Live/6.%20Metadata/Workflows/Workflow%20-%20Academic%20Research%20Pipeline.md)
 
 ## MCP Integration (Connecting Claude to Your Vault)
 
@@ -578,7 +596,7 @@ Once connected, Claude can:
 
 ## Templates
 
-Located in `Obsidian-Template-Vault/6. Metadata/Templates/`:
+Located in `Obsidian-Vault-Live/6. Metadata/Templates/`:
 
 ### General Templates
 
@@ -746,7 +764,7 @@ Or type: `run SETUP.bat` (Windows) or `run SETUP.command` (Mac)
 
 1. **Open Obsidian** (download from [obsidian.md](https://obsidian.md))
 2. Click **"Open folder as vault"**
-3. Navigate to: `your-folder/Obsidian-Template-Vault/`
+3. Navigate to: `your-folder/Obsidian-Vault-Live/`
 
 **That's it!** You now have Claude Code Desktop and Obsidian working together.
 
@@ -785,7 +803,7 @@ The setup script will:
 ### Start Fresh with Sample Vault
 
 1. Clone this repository
-2. Open `Obsidian-Template-Vault` folder as a vault in Obsidian
+2. Open `Obsidian-Vault-Live` folder as a vault in Obsidian
 3. Enable the Local REST API plugin
 4. Copy your API key to `.claude/mcp.json`
 5. Run Claude Code: `claude`
@@ -830,7 +848,7 @@ pip install "paper-qa>=5"
 2. Set API key: `export ANTHROPIC_API_KEY=your-key` (or `OPENAI_API_KEY`)
 3. Usage: `pqa ask "Your question" --paper-directory /path/to/pdfs`
 
-See: [Research Tools Setup.md](Obsidian-Template-Vault/6.%20Metadata/Reference/Research%20Tools%20Setup.md)
+See: [Research Tools Setup.md](Obsidian-Vault-Live/6.%20Metadata/Reference/Research%20Tools%20Setup.md)
 
 ## Project Structure
 
@@ -849,7 +867,7 @@ See: [Research Tools Setup.md](Obsidian-Template-Vault/6.%20Metadata/Reference/R
 │   │   └── research-quality-gate.py  # Research citation enforcement
 │   ├── mcp.json                      # MCP server configuration
 │   └── settings.json                 # Project settings & hook registration
-├── Obsidian-Template-Vault/          # Obsidian vault (PARA structure)
+├── Obsidian-Vault-Live/          # Obsidian vault (PARA structure)
 │   ├── 0. Inbox/                     # Capture point
 │   ├── 1. Projects/                  # Active initiatives
 │   ├── 2. Areas (Ongoing)/           # Ongoing responsibilities
@@ -865,10 +883,101 @@ See: [Research Tools Setup.md](Obsidian-Template-Vault/6.%20Metadata/Reference/R
 └── README.md                         # This file
 ```
 
+## API Keys Configuration
+
+Several AI skills require external API keys for features like web search, AI-powered image generation, and literature search. **Claude's built-in WebSearch works without any configuration**—external keys are only needed for specific providers.
+
+### Quick Setup (Recommended)
+
+1. **Copy the template:**
+   ```bash
+   cp .env.template .env
+   ```
+
+2. **Edit `.env`** and uncomment/fill in the keys you need:
+   ```bash
+   # AI Search Providers (only add keys for providers you'll use)
+   OPENAI_API_KEY=sk-...
+   ANTHROPIC_API_KEY=sk-ant-...
+   GEMINI_API_KEY=AIza...
+   OPENROUTER_API_KEY=sk-or-v1-...
+   ```
+
+3. **Install python-dotenv** (optional but recommended):
+   ```bash
+   pip install python-dotenv
+   ```
+
+Scripts auto-load from `.env`—no manual `export` commands needed!
+
+### Where to Get API Keys
+
+| Provider | Used By | Get Key From |
+|----------|---------|--------------|
+| **OpenAI** | AI search, embeddings | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
+| **Anthropic** | AI search (external script) | [console.anthropic.com](https://console.anthropic.com) |
+| **Google Gemini** | AI search, image generation | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
+| **OpenRouter** | Perplexity search, scientific-slides | [openrouter.ai/keys](https://openrouter.ai/keys) |
+
+> **Security Note:** The `.env` file is gitignored and will never be committed. Only `.env.template` (with placeholder values) is tracked.
+
+### Alternative: Shell Environment Variables
+
+If you prefer not to use a `.env` file:
+
+```bash
+# Add to your shell profile (~/.bashrc, ~/.zshrc, or PowerShell $PROFILE)
+export OPENAI_API_KEY='sk-...'
+export OPENROUTER_API_KEY='sk-or-v1-...'
+```
+
+See [.env.template](.env.template) for the complete list of supported environment variables.
+
+## Python Dependencies
+
+Some skills require Python packages. Install what you need based on which skills you use.
+
+### Quick Install
+
+```bash
+# Core (recommended for most users)
+pip install requests python-dotenv
+
+# Everything (all skills)
+pip install -r .claude/skills/requirements.txt
+```
+
+### Dependencies by Skill
+
+| Skill | Required Packages | Install Command |
+|-------|-------------------|-----------------|
+| **Core** | `requests`, `python-dotenv` | `pip install requests python-dotenv` |
+| **perplexity-search** | Core + `litellm` (for OpenRouter) | `pip install litellm` |
+| **scientific-slides** | Core only | (included in Core) |
+| **pdf-processing-pro** | `pdfplumber`, `pdf2image`, `pytesseract`, `Pillow` | `pip install pdfplumber pdf2image pytesseract Pillow` |
+| **plotly** | `plotly`, `kaleido` | `pip install plotly kaleido` |
+| **seaborn** | `seaborn`, `matplotlib`, `pandas`, `numpy` | `pip install seaborn matplotlib pandas numpy` |
+| **statistical-analysis** | `scipy`, `statsmodels`, `pingouin`, `pandas` | `pip install scipy statsmodels pingouin pandas numpy` |
+| **citation-management** | `bibtexparser`, `biopython`, `scholarly` | `pip install bibtexparser biopython scholarly` |
+
+### System Dependencies
+
+Some packages require additional system-level tools:
+
+| Package | System Requirement | Install Instructions |
+|---------|-------------------|----------------------|
+| `pytesseract` | Tesseract OCR | **Windows:** `choco install tesseract`<br>**macOS:** `brew install tesseract`<br>**Linux:** `apt install tesseract-ocr` |
+| `pdf2image` | Poppler | **Windows:** `choco install poppler`<br>**macOS:** `brew install poppler`<br>**Linux:** `apt install poppler-utils` |
+
+> **Tip:** Most users only need the Core packages (`requests`, `python-dotenv`). Install additional packages only when using specific skills.
+
+---
+
 ## Security
 
 - Vault repository should be **private**
-- API keys stored in environment variables or `.claude/mcp.json` (gitignored)
+- API keys stored in `.env` file (gitignored) or environment variables
+- MCP keys go in `.claude/mcp.json` (also gitignored)
 - Review GitHub Action logs for sensitive data
 - Use `.gitignore` for personal/sensitive notes
 - Keep plugins updated
