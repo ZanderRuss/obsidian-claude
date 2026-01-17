@@ -81,13 +81,13 @@ This skill automatically applies:
 
 ### Default Academic Domains
 
-When no `--domain` specified, searches across:
+When no `--domain` specified, searches across (16 domains, under API limit of 20):
 
 ```
 arxiv.org, nature.com, science.org, cell.com,
-nih.gov, pubmed.gov, ncbi.nlm.nih.gov,
-pnas.org, sciencedirect.com, springer.com,
-wiley.com, .edu
+nih.gov, pubmed.gov, ncbi.nlm.nih.gov, pnas.org,
+sciencedirect.com, springer.com, wiley.com, plos.org,
+biorxiv.org, medrxiv.org, .edu, .gov
 ```
 
 ## CLI Options

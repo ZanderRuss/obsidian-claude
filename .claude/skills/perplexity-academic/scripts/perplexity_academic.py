@@ -48,7 +48,11 @@ DOMAIN_PRESETS: Dict[str, Dict[str, Any]] = {
             "sciencedirect.com",
             "springer.com",
             "wiley.com",
-            ".edu"
+            "plos.org",
+            "biorxiv.org",
+            "medrxiv.org",
+            ".edu",
+            ".gov"
         ]
     },
     "medical": {
@@ -75,6 +79,7 @@ DOMAIN_PRESETS: Dict[str, Dict[str, Any]] = {
             "ncbi.nlm.nih.gov",
             "pubmed.gov",
             "biorxiv.org",
+            "medrxiv.org",
             "elifesciences.org",
             "plos.org",
             "sciencedirect.com"
