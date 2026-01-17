@@ -1,0 +1,369 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "paper-writing-context-schemas",
+  "title": "Paper Writing Pipeline Context Schemas",
+  "description": "JSON Schema definitions for context objects in the paper-writing pipeline",
+
+  "definitions": {
+    "TerminologyEntry": {
+      "type": "object",
+      "required": ["term", "definition"],
+      "properties": {
+        "term": { "type": "string", "minLength": 1 },
+        "definition": { "type": "string", "minLength": 1 },
+        "abbreviation": { "type": ["string", "null"] },
+        "first_use_chapter": { "type": ["string", "null"] }
+      }
+    },
+
+    "StyleGuide": {
+      "type": "object",
+      "required": ["citation_style", "methodology_type"],
+      "properties": {
+        "citation_style": {
+          "type": "string",
+          "enum": ["APA", "IEEE", "Nature", "Vancouver", "Chicago", "NeurIPS", "ACM", "custom"]
+        },
+        "methodology_type": {
+          "type": "string",
+          "enum": ["experimental", "analytical", "empirical", "theoretical", "mixed_methods"]
+        },
+        "tense_rules": {
+          "type": "object",
+          "properties": {
+            "methods": { "type": "string", "enum": ["past", "present"] },
+            "results": { "type": "string", "enum": ["past", "present"] },
+            "discussion": { "type": "string", "enum": ["past", "present"] }
+          }
+        },
+        "formatting": {
+          "type": "object",
+          "properties": {
+            "heading_style": { "type": "string" },
+            "figure_prefix": { "type": "string" },
+            "table_prefix": { "type": "string" },
+            "equation_numbering": { "type": "string" }
+          }
+        },
+        "evidence_standards": { "type": ["object", "null"] }
+      }
+    },
+
+    "ChapterStructureEntry": {
+      "type": "object",
+      "required": ["chapter_id", "chapter_title", "chapter_type"],
+      "properties": {
+        "chapter_id": { "type": "string" },
+        "chapter_title": { "type": "string" },
+        "chapter_type": {
+          "type": "string",
+          "enum": ["introduction", "literature_review", "methodology", "results", "discussion", "conclusion", "appendix"]
+        },
+        "word_budget": { "type": "integer", "minimum": 0 },
+        "sections": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "ChapterSummaryEntry": {
+      "type": "object",
+      "required": ["chapter_id", "status"],
+      "properties": {
+        "chapter_id": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "in_progress", "drafted", "reviewed", "complete"]
+        },
+        "summary": { "type": "string", "maxLength": 2000 },
+        "key_claims": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "defined_terms": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "cross_references": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "SectionAssignment": {
+      "type": "object",
+      "required": ["section_id", "section_title", "writer_type"],
+      "properties": {
+        "section_id": { "type": "string" },
+        "section_title": { "type": "string" },
+        "word_budget": { "type": "integer", "minimum": 0 },
+        "dependencies": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "writer_type": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "in_progress", "drafted", "complete"]
+        }
+      }
+    },
+
+    "QualityIssue": {
+      "type": "object",
+      "required": ["issue_id", "severity", "category", "location", "description"],
+      "properties": {
+        "issue_id": { "type": "string" },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "major", "minor", "suggestion"]
+        },
+        "category": { "type": "string" },
+        "location": { "type": "string" },
+        "description": { "type": "string" },
+        "recommendation": { "type": "string" },
+        "auto_fixable": { "type": "boolean", "default": false }
+      }
+    },
+
+    "ThesisContext": {
+      "type": "object",
+      "required": [
+        "project_id",
+        "title",
+        "research_questions",
+        "contributions",
+        "terminology_glossary",
+        "style_guide",
+        "chapter_structure"
+      ],
+      "properties": {
+        "project_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "document_type": {
+          "type": "string",
+          "enum": ["thesis", "paper"],
+          "default": "paper"
+        },
+        "research_questions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "contributions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "hypothesis": { "type": ["string", "null"] },
+        "terminology_glossary": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/TerminologyEntry" }
+        },
+        "style_guide": { "$ref": "#/definitions/StyleGuide" },
+        "chapter_structure": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ChapterStructureEntry" },
+          "minItems": 1
+        },
+        "chapter_summaries": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ChapterSummaryEntry" }
+        },
+        "bibliography_keys": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "required_citations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "word_budget": {
+          "type": "object",
+          "properties": {
+            "total": { "type": "integer", "minimum": 0 },
+            "per_chapter": { "type": "object" }
+          }
+        },
+        "venue": { "type": ["string", "null"] },
+        "submission_deadline": { "type": ["string", "null"], "format": "date-time" },
+        "created": { "type": "string", "format": "date-time" },
+        "last_updated": { "type": "string", "format": "date-time" }
+      }
+    },
+
+    "ChapterContext": {
+      "type": "object",
+      "required": [
+        "parent_summary",
+        "project_id",
+        "chapter_number",
+        "chapter_id",
+        "chapter_title",
+        "chapter_objectives",
+        "section_assignments",
+        "style_guide"
+      ],
+      "properties": {
+        "parent_summary": { "type": "string", "maxLength": 5000 },
+        "project_id": { "type": "string" },
+        "document_title": { "type": "string" },
+        "chapter_number": { "type": "integer", "minimum": 1 },
+        "chapter_id": { "type": "string" },
+        "chapter_title": { "type": "string" },
+        "chapter_type": { "type": "string" },
+        "chapter_objectives": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "research_questions_addressed": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "contributions_supported": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "section_assignments": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/SectionAssignment" }
+        },
+        "preceding_chapter_summary": { "type": ["string", "null"] },
+        "following_chapter_preview": { "type": ["string", "null"] },
+        "terminology_subset": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/TerminologyEntry" }
+        },
+        "style_guide": { "$ref": "#/definitions/StyleGuide" },
+        "chapter_citations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "required_citations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "word_budget": { "type": "integer", "minimum": 0 },
+        "remaining_budget": { "type": "integer", "minimum": 0 }
+      }
+    },
+
+    "SectionContext": {
+      "type": "object",
+      "required": [
+        "chapter_summary",
+        "project_id",
+        "chapter_id",
+        "section_id",
+        "section_title",
+        "section_objectives",
+        "style_guide",
+        "word_budget"
+      ],
+      "properties": {
+        "chapter_summary": { "type": "string", "maxLength": 3000 },
+        "project_id": { "type": "string" },
+        "chapter_id": { "type": "string" },
+        "chapter_title": { "type": "string" },
+        "section_id": { "type": "string" },
+        "section_title": { "type": "string" },
+        "section_number": { "type": "string" },
+        "section_objectives": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "key_points": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "preceding_section_summary": { "type": ["string", "null"] },
+        "following_section_preview": { "type": ["string", "null"] },
+        "relevant_research_files": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "relevant_notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "required_citations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "available_citations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "terminology_to_use": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "terms_to_define": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "style_guide": { "$ref": "#/definitions/StyleGuide" },
+        "word_budget": { "type": "integer", "minimum": 0 }
+      }
+    },
+
+    "QualityReport": {
+      "type": "object",
+      "required": [
+        "report_id",
+        "agent_id",
+        "target_file",
+        "target_type",
+        "timestamp",
+        "passed",
+        "score",
+        "issues",
+        "summary"
+      ],
+      "properties": {
+        "report_id": { "type": "string" },
+        "agent_id": { "type": "string" },
+        "target_file": { "type": "string" },
+        "target_type": {
+          "type": "string",
+          "enum": ["section", "chapter", "document"]
+        },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "duration_ms": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "boolean" },
+        "score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "category_scores": {
+          "type": "object",
+          "properties": {
+            "consistency": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+            "cross_references": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+            "argument_quality": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+            "citation_accuracy": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+            "formatting": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+          }
+        },
+        "issues": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/QualityIssue" }
+        },
+        "summary": { "type": "string" },
+        "critical_count": { "type": "integer", "minimum": 0 },
+        "major_count": { "type": "integer", "minimum": 0 },
+        "minor_count": { "type": "integer", "minimum": 0 },
+        "suggestion_count": { "type": "integer", "minimum": 0 },
+        "context_used": {
+          "type": "object",
+          "properties": {
+            "thesis_context": { "type": "boolean" },
+            "chapter_context": { "type": "boolean" },
+            "section_context": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "scenario_id": "natural-science-nature",
+  "scenario_name": "Natural Science Journal Article",
+  "domain": "natural_science",
+  "venue": "Nature",
+  "methodology_type": "experimental",
+  "description": "Test scenario for experimental biology research in flagship journal",
+
+  "context": {
+    "ThesisContext": {
+      "project_id": "test-nat-001",
+      "title": "CRISPR-Cas9 Mediated Correction of Sickle Cell Disease in Human Hematopoietic Stem Cells",
+      "research_questions": [
+        "Can precise CRISPR-Cas9 editing correct the HBB E6V mutation in patient-derived HSCs with clinically relevant efficiency?",
+        "What is the optimal delivery method to maximize on-target editing while minimizing off-target effects?",
+        "Do corrected HSCs maintain long-term engraftment and produce functional adult hemoglobin in vivo?"
+      ],
+      "contributions": [
+        "Novel high-fidelity Cas9 variant with 95% reduction in off-target activity",
+        "Optimized electroporation protocol achieving 80% editing efficiency in primary HSCs",
+        "Long-term (18-month) engraftment data in immunodeficient mouse model",
+        "First-in-human safety data from Phase I clinical trial (n=6)"
+      ],
+      "terminology_glossary": [
+        {
+          "term": "hematopoietic stem cells",
+          "definition": "Multipotent stem cells that give rise to all blood cell types",
+          "abbreviation": "HSCs"
+        },
+        {
+          "term": "CRISPR-Cas9",
+          "definition": "A genome editing technology using a guide RNA to direct Cas9 nuclease to specific DNA sequences",
+          "abbreviation": null
+        },
+        {
+          "term": "HBB gene",
+          "definition": "The gene encoding the beta subunit of hemoglobin",
+          "abbreviation": null
+        },
+        {
+          "term": "E6V mutation",
+          "definition": "The specific point mutation (glutamic acid to valine at position 6) causing sickle cell disease",
+          "abbreviation": null
+        },
+        {
+          "term": "off-target effects",
+          "definition": "Unintended genetic modifications at genomic sites similar to the target sequence",
+          "abbreviation": null
+        },
+        {
+          "term": "engraftment",
+          "definition": "The process by which transplanted stem cells establish and regenerate in the recipient",
+          "abbreviation": null
+        }
+      ],
+      "style_guide": {
+        "citation_style": "Nature",
+        "tense_rules": {
+          "methods": "past",
+          "results": "past",
+          "discussion": "present"
+        },
+        "formatting": {
+          "heading_style": "minimal (Main Text, Methods, References)",
+          "figure_prefix": "Fig.",
+          "table_prefix": "Table",
+          "extended_data": "Extended Data Fig., Extended Data Table"
+        },
+        "methodology_type": "experimental",
+        "evidence_standards": {
+          "statistical_significance": "required",
+          "biological_replicates": "minimum n=3",
+          "technical_replicates": "as appropriate",
+          "blinding": "required for clinical data"
+        }
+      },
+      "chapter_summaries": [],
+      "bibliography_keys": [
+        "jinek2012programmable",
+        "doudna2014genome",
+        "frangoul2021crispr",
+        "esrick2021post",
+        "rees2018base"
+      ],
+      "word_budget": {
+        "total": 3000,
+        "abstract": 150,
+        "main_text": 2500,
+        "online_methods": "separate",
+        "figure_legends": 350
+      }
+    }
+  },
+
+  "validation_criteria": {
+    "must_include": [
+      "all research_questions addressed with data",
+      "sample sizes for all experiments",
+      "statistical methods specification",
+      "ethics approval statement"
+    ],
+    "must_not_include": [
+      "claims beyond data support",
+      "speculation without hedging",
+      "clinical claims without Phase I data qualifier"
+    ],
+    "expected_structure": "Nature format (concise main text, detailed methods)",
+    "tone": "precise, cautious about implications, data-driven",
+    "word_count_tolerance": 0.05
+  },
+
+  "test_expectations": {
+    "introduction_writer": {
+      "should_reference": ["CRISPR-Cas9", "hematopoietic stem cells", "sickle cell disease"],
+      "should_not_assume": ["clinical application certainty", "universal applicability"],
+      "structure": ["disease burden and unmet need", "current approaches and limitations", "this study's approach", "key findings preview"]
+    },
+    "methodology_writer": {
+      "should_reference": ["off-target effects", "engraftment", "electroporation"],
+      "sections": ["guide RNA design", "cell isolation and culture", "editing protocol", "analysis methods", "in vivo studies", "clinical protocol"],
+      "detail_level": "sufficient for replication"
+    }
+  }
+}

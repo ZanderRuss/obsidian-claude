@@ -1,0 +1,112 @@
+{
+  "scenario_id": "ml-paper-neurips",
+  "scenario_name": "Machine Learning Conference Paper",
+  "domain": "machine_learning",
+  "venue": "NeurIPS",
+  "methodology_type": "experimental",
+  "description": "Test scenario for ML/AI papers targeting top-tier venues",
+
+  "context": {
+    "ThesisContext": {
+      "project_id": "test-ml-001",
+      "title": "Efficient Attention Mechanisms for Long Sequence Modeling",
+      "research_questions": [
+        "How can attention complexity be reduced from O(n²) to O(n) without significant quality degradation?",
+        "What is the trade-off between computational efficiency and model expressiveness in linear attention variants?"
+      ],
+      "contributions": [
+        "A novel linear attention mechanism achieving O(n) complexity",
+        "Theoretical analysis establishing approximation bounds for linear attention",
+        "Comprehensive empirical validation on standard benchmarks (LRA, PG-19, arXiv)",
+        "Open-source implementation with reproducibility package"
+      ],
+      "terminology_glossary": [
+        {
+          "term": "attention mechanism",
+          "definition": "A neural network component that computes weighted combinations of values based on query-key similarity",
+          "abbreviation": null
+        },
+        {
+          "term": "transformer",
+          "definition": "A neural architecture based primarily on attention mechanisms, introduced by Vaswani et al. (2017)",
+          "abbreviation": null
+        },
+        {
+          "term": "sequence length",
+          "definition": "The number of tokens or positions in an input sequence",
+          "abbreviation": "n"
+        },
+        {
+          "term": "long-range dependencies",
+          "definition": "Relationships between tokens that are far apart in a sequence",
+          "abbreviation": null
+        },
+        {
+          "term": "kernel function",
+          "definition": "A function that computes similarity in a feature space",
+          "abbreviation": null
+        }
+      ],
+      "style_guide": {
+        "citation_style": "NeurIPS",
+        "tense_rules": {
+          "methods": "present",
+          "results": "present",
+          "discussion": "present"
+        },
+        "formatting": {
+          "heading_style": "numbered",
+          "figure_prefix": "Figure",
+          "table_prefix": "Table",
+          "equation_numbering": "right-aligned"
+        },
+        "methodology_type": "experimental"
+      },
+      "chapter_summaries": [],
+      "bibliography_keys": [
+        "vaswani2017attention",
+        "katharopoulos2020transformers",
+        "choromanski2021rethinking",
+        "tay2021long",
+        "child2019generating"
+      ],
+      "word_budget": {
+        "total": 8000,
+        "abstract": 200,
+        "introduction": 800,
+        "related_work": 1200,
+        "methodology": 2000,
+        "experiments": 2500,
+        "conclusion": 500
+      }
+    }
+  },
+
+  "validation_criteria": {
+    "must_include": [
+      "research_questions[0] addressed in introduction",
+      "all contributions listed",
+      "all bibliography_keys cited"
+    ],
+    "must_not_include": [
+      "hard-coded jargon not in glossary",
+      "citation style other than NeurIPS format",
+      "claims without supporting evidence"
+    ],
+    "expected_structure": "IMRAD",
+    "tone": "technical but accessible",
+    "word_count_tolerance": 0.1
+  },
+
+  "test_expectations": {
+    "introduction_writer": {
+      "should_reference": ["attention mechanism", "transformer", "O(n²)", "O(n)"],
+      "should_not_assume": ["neural network specific language without glossary", "specific dataset names in intro"],
+      "structure": ["context", "gap", "contribution", "roadmap"]
+    },
+    "methodology_writer": {
+      "should_reference": ["kernel function", "attention mechanism"],
+      "sections": ["problem formulation", "proposed method", "theoretical analysis", "implementation"]
+    }
+  }
+}

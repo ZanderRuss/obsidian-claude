@@ -1,0 +1,126 @@
+{
+  "scenario_id": "social-science-journal",
+  "scenario_name": "Social Science Journal Article",
+  "domain": "social_science",
+  "venue": "Nature Human Behaviour",
+  "methodology_type": "empirical",
+  "description": "Test scenario for empirical social science research in high-impact journal",
+
+  "context": {
+    "ThesisContext": {
+      "project_id": "test-soc-001",
+      "title": "The Longitudinal Effects of Social Media Use on Adolescent Well-Being: A Multi-Country Panel Study",
+      "research_questions": [
+        "What is the causal relationship between daily social media use and adolescent well-being over a 3-year period?",
+        "Do effects differ by platform type (visual vs. text-based) and usage pattern (passive vs. active)?",
+        "How do socioeconomic and cultural factors moderate the relationship between social media use and well-being?"
+      ],
+      "contributions": [
+        "Largest longitudinal dataset linking adolescent social media use to well-being outcomes (N=45,000 across 12 countries)",
+        "Novel distinction between active and passive use with differential effects",
+        "Cross-cultural analysis revealing significant variation in effect sizes by cultural context",
+        "Pre-registered analysis plan with extensive robustness checks"
+      ],
+      "terminology_glossary": [
+        {
+          "term": "well-being",
+          "definition": "A composite measure including life satisfaction, positive affect, and absence of depressive symptoms",
+          "abbreviation": null
+        },
+        {
+          "term": "longitudinal study",
+          "definition": "Research design involving repeated observations of the same variables over time",
+          "abbreviation": null
+        },
+        {
+          "term": "panel study",
+          "definition": "A longitudinal study that surveys the same individuals at multiple time points",
+          "abbreviation": null
+        },
+        {
+          "term": "passive use",
+          "definition": "Social media consumption without active engagement (scrolling, viewing content)",
+          "abbreviation": null
+        },
+        {
+          "term": "active use",
+          "definition": "Social media engagement involving content creation or direct interaction",
+          "abbreviation": null
+        },
+        {
+          "term": "effect size",
+          "definition": "A quantitative measure of the magnitude of a phenomenon",
+          "abbreviation": "ES"
+        }
+      ],
+      "style_guide": {
+        "citation_style": "Nature",
+        "tense_rules": {
+          "methods": "past",
+          "results": "past",
+          "discussion": "present"
+        },
+        "formatting": {
+          "heading_style": "main text sections",
+          "figure_prefix": "Fig.",
+          "table_prefix": "Table",
+          "supplementary_format": "Extended Data"
+        },
+        "methodology_type": "empirical",
+        "evidence_standards": {
+          "statistical_significance": "required",
+          "effect_sizes": "required",
+          "confidence_intervals": "required",
+          "pre_registration": "required"
+        }
+      },
+      "chapter_summaries": [],
+      "bibliography_keys": [
+        "twenge2018increases",
+        "orben2019association",
+        "valkenburg2022social",
+        "haidt2023social",
+        "dienlin2020review"
+      ],
+      "word_budget": {
+        "total": 5000,
+        "abstract": 150,
+        "introduction": 600,
+        "methods": 1200,
+        "results": 1500,
+        "discussion": 1200,
+        "references": "separate"
+      }
+    }
+  },
+
+  "validation_criteria": {
+    "must_include": [
+      "research_questions operationalized as hypotheses",
+      "sample size and study design details",
+      "effect sizes with confidence intervals",
+      "pre-registration mentioned"
+    ],
+    "must_not_include": [
+      "casual language about causation without design support",
+      "claims beyond what data supports",
+      "citation style other than Nature superscript format"
+    ],
+    "expected_structure": "IMRAD",
+    "tone": "objective, evidence-based, appropriately hedged",
+    "word_count_tolerance": 0.05
+  },
+
+  "test_expectations": {
+    "introduction_writer": {
+      "should_reference": ["well-being", "longitudinal study", "adolescent"],
+      "should_not_assume": ["experimental manipulation possible", "universal effects"],
+      "structure": ["context and importance", "gap in literature", "study overview", "contributions"]
+    },
+    "results_writer": {
+      "should_reference": ["effect size", "confidence intervals", "passive use", "active use"],
+      "reporting_standards": ["APA statistical reporting", "table for main effects", "figures for trends"],
+      "hedging": "appropriate for observational data"
+    }
+  }
+}

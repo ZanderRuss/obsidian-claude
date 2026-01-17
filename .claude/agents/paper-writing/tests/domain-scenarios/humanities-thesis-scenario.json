@@ -1,0 +1,115 @@
+{
+  "scenario_id": "humanities-thesis-victorian",
+  "scenario_name": "Humanities PhD Thesis",
+  "domain": "humanities",
+  "venue": "PhD Dissertation",
+  "methodology_type": "analytical",
+  "description": "Test scenario for humanities dissertation with textual analysis focus",
+
+  "context": {
+    "ThesisContext": {
+      "project_id": "test-hum-001",
+      "title": "The Rhetoric of Empire: Colonial Discourse in Victorian Travel Narratives, 1840-1900",
+      "research_questions": [
+        "How did Victorian travel writers construct and legitimize colonial authority through rhetorical strategies?",
+        "What role did gender play in shaping the narrative voice and political positioning of travel accounts?",
+        "How did representations of the 'Other' evolve across the period in response to changing imperial policies?"
+      ],
+      "contributions": [
+        "A new theoretical framework linking discourse analysis with postcolonial critique",
+        "Close readings of understudied female travel writers challenging existing historiography",
+        "Analysis of rhetorical shifts correlated with specific colonial events (1857 Rebellion, Scramble for Africa)",
+        "Digital humanities methodology for tracking rhetorical patterns across large textual corpus"
+      ],
+      "terminology_glossary": [
+        {
+          "term": "colonial discourse",
+          "definition": "The system of statements, practices, and representations through which colonial power was articulated and maintained",
+          "abbreviation": null
+        },
+        {
+          "term": "rhetorical strategy",
+          "definition": "A deliberate approach to persuasion through language, including appeals to authority, emotion, and logic",
+          "abbreviation": null
+        },
+        {
+          "term": "the Other",
+          "definition": "A term from postcolonial theory describing how colonized peoples were constructed as fundamentally different from Europeans",
+          "abbreviation": null
+        },
+        {
+          "term": "close reading",
+          "definition": "Careful, sustained interpretation of a text attending to language, form, and meaning",
+          "abbreviation": null
+        },
+        {
+          "term": "historiography",
+          "definition": "The study of how history has been written and interpreted",
+          "abbreviation": null
+        }
+      ],
+      "style_guide": {
+        "citation_style": "Chicago (Notes-Bibliography)",
+        "tense_rules": {
+          "methods": "present",
+          "results": "past for historical events, present for analysis",
+          "discussion": "present"
+        },
+        "formatting": {
+          "heading_style": "chapter-based",
+          "figure_prefix": "Figure",
+          "table_prefix": "Table",
+          "block_quote_format": "indented"
+        },
+        "methodology_type": "analytical"
+      },
+      "chapter_summaries": [],
+      "bibliography_keys": [
+        "said1978orientalism",
+        "pratt1992imperial",
+        "spivak1988subaltern",
+        "mills1991discourses",
+        "bhabha1994location"
+      ],
+      "word_budget": {
+        "total": 80000,
+        "introduction": 8000,
+        "literature_review": 12000,
+        "methodology": 8000,
+        "chapter_1": 15000,
+        "chapter_2": 15000,
+        "chapter_3": 15000,
+        "conclusion": 7000
+      }
+    }
+  },
+
+  "validation_criteria": {
+    "must_include": [
+      "research_questions addressed across chapters",
+      "all contributions substantiated",
+      "engagement with Said, Pratt, Spivak, and other foundational theorists"
+    ],
+    "must_not_include": [
+      "scientific experiment language",
+      "quantitative results framing",
+      "citation style other than Chicago Notes-Bibliography"
+    ],
+    "expected_structure": "thesis chapters",
+    "tone": "scholarly, nuanced, theoretically informed",
+    "word_count_tolerance": 0.15
+  },
+
+  "test_expectations": {
+    "introduction_writer": {
+      "should_reference": ["colonial discourse", "rhetorical strategy", "the Other"],
+      "should_not_assume": ["experimental methodology", "hypothesis testing"],
+      "structure": ["historical context", "theoretical framework", "gap", "contribution", "chapter overview"]
+    },
+    "lit_review_writer": {
+      "should_reference": ["historiography", "close reading"],
+      "themes": ["postcolonial theory", "gender and empire", "travel writing genre"],
+      "synthesis": "thematic not chronological"
+    }
+  }
+}

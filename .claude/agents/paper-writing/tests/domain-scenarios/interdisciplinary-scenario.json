@@ -1,0 +1,139 @@
+{
+  "scenario_id": "interdisciplinary-thesis",
+  "scenario_name": "Interdisciplinary PhD Thesis",
+  "domain": "interdisciplinary",
+  "venue": "PhD Dissertation",
+  "methodology_type": "mixed_methods",
+  "description": "Test scenario for interdisciplinary research combining computational and qualitative methods",
+
+  "context": {
+    "ThesisContext": {
+      "project_id": "test-int-001",
+      "title": "Algorithmic Governance and Democratic Legitimacy: A Mixed-Methods Investigation of Automated Decision-Making in Public Administration",
+      "research_questions": [
+        "How do algorithmic decision-making systems reshape bureaucratic discretion and accountability in public administration?",
+        "What are the lived experiences of frontline workers navigating algorithmic recommendations in welfare determination?",
+        "Can computational auditing methods detect and quantify bias in deployed public sector algorithms?"
+      ],
+      "contributions": [
+        "A theoretical framework integrating science and technology studies (STS) with public administration theory",
+        "Qualitative study (n=45 interviews, 200 hours of observation) of algorithmic implementation in three welfare agencies",
+        "Open-source auditing toolkit for bias detection in rule-based and ML-based decision systems",
+        "Policy recommendations for algorithmic accountability adopted by two national governments"
+      ],
+      "terminology_glossary": [
+        {
+          "term": "algorithmic governance",
+          "definition": "The use of computational systems to make, inform, or implement governmental decisions",
+          "abbreviation": null
+        },
+        {
+          "term": "bureaucratic discretion",
+          "definition": "The latitude officials have in interpreting and applying rules to individual cases",
+          "abbreviation": null
+        },
+        {
+          "term": "algorithmic accountability",
+          "definition": "Mechanisms ensuring algorithmic systems are transparent, fair, and subject to redress",
+          "abbreviation": null
+        },
+        {
+          "term": "computational auditing",
+          "definition": "Systematic examination of algorithmic systems using computational methods to detect bias or errors",
+          "abbreviation": null
+        },
+        {
+          "term": "mixed methods",
+          "definition": "Research approach integrating quantitative and qualitative data collection and analysis",
+          "abbreviation": null
+        },
+        {
+          "term": "street-level bureaucracy",
+          "definition": "Public service workers who interact directly with citizens and exercise discretion in policy implementation",
+          "abbreviation": null
+        }
+      ],
+      "style_guide": {
+        "citation_style": "APA 7th",
+        "tense_rules": {
+          "methods": "past",
+          "results": "past for qualitative findings, present for analysis",
+          "discussion": "present"
+        },
+        "formatting": {
+          "heading_style": "APA hierarchical",
+          "figure_prefix": "Figure",
+          "table_prefix": "Table",
+          "appendix_format": "Appendix A, B, C"
+        },
+        "methodology_type": "mixed_methods",
+        "evidence_standards": {
+          "qualitative": {
+            "triangulation": "required",
+            "member_checking": "performed",
+            "thick_description": "required"
+          },
+          "quantitative": {
+            "statistical_significance": "where applicable",
+            "effect_sizes": "reported",
+            "reproducibility": "code and data available"
+          }
+        }
+      },
+      "chapter_summaries": [],
+      "bibliography_keys": [
+        "lipsky2010street",
+        "eubanks2018automating",
+        "crawford2021atlas",
+        "bovens2007analysing",
+        "yeung2019algorithmic"
+      ],
+      "word_budget": {
+        "total": 90000,
+        "introduction": 10000,
+        "literature_review": 15000,
+        "theoretical_framework": 10000,
+        "methodology": 12000,
+        "qualitative_findings": 20000,
+        "computational_audit": 15000,
+        "synthesis_and_discussion": 12000,
+        "conclusion": 6000
+      }
+    }
+  },
+
+  "validation_criteria": {
+    "must_include": [
+      "integration of qualitative and quantitative approaches",
+      "reflexivity statement (researcher positionality)",
+      "ethical considerations for both human subjects and algorithmic research",
+      "policy implications grounded in evidence"
+    ],
+    "must_not_include": [
+      "privileging one methodological tradition over another",
+      "claims of generalizability without qualifications",
+      "technical jargon without explanation for non-specialist readers"
+    ],
+    "expected_structure": "thesis with parallel empirical chapters",
+    "tone": "accessible across disciplines, theoretically grounded",
+    "word_count_tolerance": 0.1
+  },
+
+  "test_expectations": {
+    "introduction_writer": {
+      "should_reference": ["algorithmic governance", "democratic legitimacy", "mixed methods"],
+      "should_not_assume": ["purely technical framing", "purely social science framing"],
+      "structure": ["societal importance", "disciplinary gap", "research questions", "methodological approach", "contributions", "chapter overview"]
+    },
+    "methodology_writer": {
+      "should_reference": ["mixed methods", "computational auditing", "street-level bureaucracy"],
+      "sections": ["research design rationale", "qualitative methods", "quantitative/computational methods", "integration strategy", "ethical considerations", "limitations"],
+      "integration": "must explain how methods complement each other"
+    },
+    "lit_review_writer": {
+      "should_reference": ["STS literature", "public administration", "critical algorithm studies"],
+      "themes": ["algorithmic governance scholarship", "discretion and accountability", "bias and fairness in ML"],
+      "cross_disciplinary": "must bridge computer science and social science literatures"
+    }
+  }
+}
