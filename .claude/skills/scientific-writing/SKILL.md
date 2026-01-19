@@ -401,6 +401,73 @@ Adapt language, terminology, and conventions to match the specific scientific di
 - Missing transitions between sections
 - Inconsistent notation or terminology
 
+## Pre-Writing Setup: Tracking Systems (CRITICAL)
+
+**IMPORTANT**: Before writing a single word, set up tracking systems to prevent common errors.
+
+### The Four Essential Trackers
+
+1. **Citation Tracker**
+   - Purpose: Ensure every claim has a source, every source is cited
+   - Format: Obsidian table or spreadsheet
+   - When to use: Add entry immediately when citing a source
+   - Prevents: Missing citations, orphan bibliography entries
+
+2. **Abbreviation Tracker**
+   - Purpose: Define all abbreviations on first use
+   - Format: Obsidian table
+   - When to use: Add entry when typing first abbreviation
+   - Prevents: Undefined abbreviations (major reviewer complaint)
+
+3. **Key Metrics Table**
+   - Purpose: Single source of truth for all quantitative values
+   - Format: Obsidian table with "Reported As" column
+   - When to use: BEFORE writing, calculate and record ALL metrics
+   - Prevents: Numeric inconsistencies (38% vs 40% vs 40-50%)
+
+4. **Study Boundaries Document**
+   - Purpose: Define what your study does/doesn't cover
+   - Format: Markdown document
+   - When to use: Before writing introduction
+   - Prevents: Over-generalization beyond evidence
+
+### Quick Setup
+
+Use `/paper-prep <project-path>` to auto-generate all tracking systems with templates.
+
+Manual setup: Copy from `6. Metadata/Templates/Academic/Tracking-Systems-Template.md`
+
+### Integration with Writing
+
+**During writing:**
+- Check Key Metrics Table before writing any number
+- Add to Citation Tracker immediately when citing
+- Add to Abbreviation Tracker when typing new abbreviation
+- Reference Study Boundaries before making broad claims
+
+**Before submission:**
+- Run `/quality-check` (validates against trackers automatically)
+- Manual: Search for each key metric, verify all values match
+- Verify all Citation Tracker entries are in bibliography
+
+### Evidence Hierarchy Reference
+
+Match claim strength to evidence level:
+
+| Evidence Level | What You Have | Appropriate Language | Avoid |
+|----------------|---------------|---------------------|-------|
+| **Level 5** | Meta-analysis, systematic review | "demonstrates", "establishes", "proves" | Under-claiming |
+| **Level 4** | RCT, controlled experiment | "demonstrates", "outperforms", "shows" | "might", "possibly" |
+| **Level 3** | Large sample (n>100), observational | "indicates", "shows", "supports" | "proves", "optimal" |
+| **Level 2** | Small sample (n<30), proof-of-concept | "suggests", "preliminary", "feasibility" | "demonstrates", "optimal" |
+| **Level 1** | Simulation, theory only | "theoretically", "potentially", "simulations suggest" | Any definitive language |
+
+**Rule**: Level 2 evidence + Level 4 language = REJECTION
+
+See `Academic-Writing-Lessons-Learned.md` for detailed examples.
+
+---
+
 ## Workflow for Manuscript Development
 
 **Stage 1: Planning**
@@ -438,6 +505,24 @@ Adapt language, terminology, and conventions to match the specific scientific di
 3. Write cover letter highlighting significance
 4. Complete submission checklists
 5. Gather all required statements and forms
+
+### Quality Gate Integration
+
+The paper-orchestrator and thesis-orchestrator now implement quality gates:
+
+- **After section writing**: Citation placeholders checked
+- **Before assembly**: Cross-references and citation inventory validated
+- **After assembly**: Full quality validation (scores must be >= 0.8)
+- **Before export**: Venue compliance verified
+
+Quality gates use these validators:
+
+- `argument-validator` (evidence hierarchy, claim strength)
+- `document-validator` (numeric consistency, abbreviations, structural changes)
+- `citation-validator` (6+ citation format patterns)
+- `small-sample-validator` (hedging for n<30)
+
+If quality score < 0.6, the pipeline HALTS and reports issues.
 
 ## Integration with Other Scientific Skills
 

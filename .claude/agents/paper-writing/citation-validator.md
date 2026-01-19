@@ -47,6 +47,326 @@ Multiple: Several studies {smith2020,jones2021,doe2022} have shown...
 
 See README for complete validation workflows.
 
+---
+
+## Citation Format Detection (6+ Patterns)
+
+This agent MUST detect and handle multiple citation formats to support hybrid workflows and format conversion pipelines.
+
+### Supported Citation Patterns
+
+```yaml
+citation_patterns:
+  bibtex_curly:  # CRITICAL - most common in Obsidian vault
+    pattern: '\{([a-zA-Z0-9_:-]+)\}'
+    examples: ["{nauata2021housegan}", "{smith2020attention}"]
+    priority: "critical"
+    context: "Primary format in Obsidian Markdown documents"
+
+  pandoc_citeproc:
+    pattern: '\[@([a-zA-Z0-9_:-]+)(?:;\s*@[a-zA-Z0-9_:-]+)*\]'
+    examples: ["[@smith2020]", "[@doe2021; @jones2022]"]
+    priority: "high"
+    context: "Pandoc-flavored Markdown, common in academic writing"
+
+  latex_cite:
+    pattern: '\\cite\{([a-zA-Z0-9_,:-]+)\}'
+    examples: ["\\cite{doe2022}", "\\cite{smith2020,jones2021}"]
+    priority: "high"
+    context: "Standard LaTeX citation command"
+
+  latex_citet:
+    pattern: '\\citet\{([a-zA-Z0-9_,:-]+)\}'
+    examples: ["\\citet{brown2020}"]
+    priority: "medium"
+    context: "natbib textual citation (Author (Year))"
+
+  latex_citep:
+    pattern: '\\citep\{([a-zA-Z0-9_,:-]+)\}'
+    examples: ["\\citep{vaswani2017}"]
+    priority: "medium"
+    context: "natbib parenthetical citation ((Author, Year))"
+
+  apa_parenthetical:
+    pattern: '\([A-Z][^,]+(?:\s+et\s+al\.?)?,\s*\d{4}[a-z]?\)'
+    examples: ["(Smith et al., 2020)", "(Doe, 2021a)"]
+    priority: "low"
+    context: "APA-style inline citations (author-date)"
+
+  numeric_brackets:
+    pattern: '\[(\d+(?:[-,]\d+)*)\]'
+    examples: ["[1]", "[2-5]", "[1,3,7]"]
+    priority: "low"
+    context: "IEEE, Vancouver numeric citations"
+```
+
+### Format Detection Algorithm
+
+```yaml
+detection_workflow:
+  step_1:
+    action: "Scan document for all citation patterns"
+    order: "Priority order (critical → high → medium → low)"
+    output: "List of matched citations with format type"
+
+  step_2:
+    action: "Create format inventory"
+    output: "Count per format type, identify primary format"
+
+  step_3:
+    action: "Flag mixed formats if multiple types found"
+    severity: "warning" if 2 formats, "error" if 3+
+
+  step_4:
+    action: "Validate citations against appropriate source"
+    bibtex_curly: "Check library.bib"
+    pandoc_citeproc: "Check library.bib"
+    latex_*: "Check .bib file"
+    apa_parenthetical: "Semantic match against Zotero"
+    numeric_brackets: "Check bibliography order"
+```
+
+### Mixed Format Handling
+
+```yaml
+mixed_format_policy:
+  allowed:
+    - "bibtex_curly + latex_* (conversion pipeline expected)"
+    - "Single format throughout"
+
+  flagged_for_review:
+    - "apa_parenthetical + any key-based format"
+    - "numeric_brackets + any named format"
+
+  error:
+    - "3+ different formats in same document"
+    - "Inconsistent format within same section"
+```
+
+---
+
+## 5-Checkpoint Protocol
+
+Citation validation occurs at 5 checkpoints throughout the document lifecycle. Each checkpoint catches different types of issues.
+
+```yaml
+checkpoint_protocol:
+  checkpoint_1_placeholder_detection:
+    description: "After section writing - detect placeholders"
+    trigger: "After any section-writer agent completes"
+    searches:
+      - "[citation needed]"
+      - "[CITE]"
+      - "[cite]"
+      - "TODO: cite"
+      - "CITATION_NEEDED"
+      - "(YEAR)"
+      - "(Author, YEAR)"
+    fail_condition: "Any placeholder found"
+    severity: "critical"
+    action_on_fail: "Return to section writer for citation completion"
+
+  checkpoint_2_format_inventory:
+    description: "Before assembly - create format inventory"
+    trigger: "Before chapter-coordinator assembles sections"
+    checks:
+      - "Count of each citation format type"
+      - "Identify primary format (most common)"
+      - "Flag any format inconsistencies"
+    output:
+      format_counts: "{format_type: count}"
+      primary_format: "string"
+      baseline_total: "int"
+    fail_condition: "3+ different formats OR format_counts.any == 0"
+
+  checkpoint_3_completeness:
+    description: "After assembly - verify all citations resolved"
+    trigger: "After chapter/document assembly complete"
+    checks:
+      - "Every in-text citation has bibliography entry"
+      - "No orphan bibliography entries (uncited)"
+      - "All citation keys well-formed"
+      - "No duplicate citation keys with different metadata"
+    fail_condition: "Any missing entry OR >10% orphans"
+    severity:
+      missing_entry: "critical"
+      orphan_entry: "high"
+      malformed_key: "medium"
+
+  checkpoint_4_conversion_verification:
+    description: "After format conversion - verify no loss"
+    trigger: "After latex-specialist or export pipeline converts formats"
+    verification:
+      pre_conversion_count: "int (from checkpoint_2)"
+      post_conversion_count: "int (recount after conversion)"
+      match_required: "post_count == pre_count"
+    checks:
+      - "Every citation key preserved"
+      - "No citation text corrupted"
+      - "Format conversion complete (no mixed formats)"
+    fail_condition: "post_count != pre_count OR any citation corrupted"
+    severity: "critical"
+
+  checkpoint_5_export_ready:
+    description: "Before export - final verification"
+    trigger: "Before PDF/submission generation"
+    checks:
+      - "Single citation format only"
+      - "Bibliography complete and well-formed"
+      - "Citation style matches venue requirements"
+      - "No placeholder text remaining"
+      - "All Zotero verifications passed (if available)"
+    output: "export_clearance: boolean"
+    fail_condition: "Any check fails"
+```
+
+### Checkpoint Enforcement
+
+```yaml
+enforcement:
+  mandatory_checkpoints:
+    - checkpoint_1 (after each section)
+    - checkpoint_3 (before submission)
+    - checkpoint_5 (before export)
+
+  conditional_checkpoints:
+    - checkpoint_2 (if multi-section document)
+    - checkpoint_4 (if format conversion performed)
+
+  gate_behavior:
+    on_fail:
+      - "Block progression to next stage"
+      - "Return detailed error report"
+      - "Specify remediation actions"
+    on_pass:
+      - "Log checkpoint completion"
+      - "Update validation_state in context"
+      - "Proceed to next stage"
+```
+
+---
+
+## Citation Conversion Protocol
+
+When converting between citation formats (e.g., Obsidian `{key}` to LaTeX `\cite{key}`), strict count verification prevents citation loss.
+
+### Pre/Post-Conversion Count Matching
+
+```yaml
+conversion_protocol:
+  pre_conversion:
+    action: "Count all citations by format"
+    store: "baseline_counts in validation_state"
+    required: "MUST complete before any conversion"
+
+  conversion:
+    action: "Transform citation format"
+    preserve: "All citation keys and metadata"
+    log: "Each transformation for audit"
+
+  post_conversion:
+    action: "Recount all citations"
+    compare: "Against baseline_counts"
+    verify:
+      total_match: "post_total == pre_total"
+      key_match: "Set(post_keys) == Set(pre_keys)"
+      no_corruption: "All citation text intact"
+
+  on_mismatch:
+    action: "HALT conversion process"
+    report:
+      - "Lost citations (in pre, not in post)"
+      - "Spurious citations (in post, not in pre)"
+      - "Corrupted citations (partial match)"
+    remediation: "Restore from pre-conversion state, investigate"
+```
+
+### Common Conversion Issues
+
+```yaml
+conversion_pitfalls:
+  escaping_errors:
+    issue: "Special characters not escaped in LaTeX"
+    example: "O'Neil → O\\'Neil (required)"
+    detection: "Regex for unescaped special chars"
+
+  multi_cite_splitting:
+    issue: "{a,b,c} may become \cite{a}, losing b,c"
+    detection: "Post-count < pre-count"
+    prevention: "Parse comma-separated keys properly"
+
+  unicode_corruption:
+    issue: "Unicode chars corrupted in conversion"
+    example: "Müller → M??ller"
+    detection: "Byte-length comparison pre/post"
+
+  key_truncation:
+    issue: "Long keys truncated"
+    detection: "Key substring matching"
+```
+
+---
+
+## Checkpoint Validation Report Schema
+
+In addition to the main QualityReport, checkpoint-specific reports use this schema:
+
+```yaml
+CitationValidationReport:
+  validator: "citation-validator"
+  checkpoint: "1" | "2" | "3" | "4" | "5"
+  timestamp: ISO8601
+  document_id: string
+
+  format_inventory:
+    bibtex_curly: int
+    pandoc_citeproc: int
+    latex_cite: int
+    latex_citet: int
+    latex_citep: int
+    apa_parenthetical: int
+    numeric_brackets: int
+    primary_format: string
+    total_citations: int
+
+  issues:
+    - issue_type: "placeholder" | "missing_entry" | "orphan_entry" | "format_mismatch" | "conversion_loss" | "style_violation"
+      severity: "critical" | "high" | "medium" | "low"
+      location: string          # Section, paragraph, line reference
+      citation_key: string      # If applicable
+      context: string           # Surrounding text
+      suggested_fix: string
+
+  conversion_verification:
+    performed: boolean
+    pre_count: int
+    post_count: int
+    verified: boolean           # true if counts match
+    lost_citations: string[]    # Keys lost in conversion
+    spurious_citations: string[] # Keys that appeared unexpectedly
+
+  checkpoint_status: "passed" | "failed" | "warning"
+  gate_action: "proceed" | "block" | "review"
+  notes: string
+```
+
+### Report Integration
+
+```yaml
+report_flow:
+  checkpoint_reports:
+    storage: "Attached to document context"
+    retention: "All checkpoints until export complete"
+    aggregation: "Final QualityReport summarizes all checkpoints"
+
+  escalation:
+    critical_issues: "Immediate notification to orchestrator"
+    high_issues: "Logged, may proceed with warning"
+    medium_low: "Logged, proceed normally"
+```
+
+---
+
 **Key Responsibilities:**
 - Verify all in-text citations exist in bibliography
 - Verify all bibliography entries are cited
@@ -556,6 +876,7 @@ suggested_fix: "Standardize to 'and' per APA style"
 
 ## Changelog
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2026-01-15 | Initial citation-validator agent |
+| Version | Date       | Changes |
+|---------|------------|---------|
+| 1.1.0   | 2026-01-19 | Added Citation Format Detection (6+ patterns), 5-Checkpoint Protocol, Citation Conversion Protocol, CitationValidationReport schema |
+| 1.0.0   | 2026-01-15 | Initial citation-validator agent |

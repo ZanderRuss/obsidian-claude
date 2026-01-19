@@ -146,7 +146,9 @@ For each section (respecting dependencies):
    ├── Run document-validator on chapter
    ├── Check internal cross-references
    ├── Verify terminology consistency
-   └── Check word budget compliance
+   ├── Check word budget compliance
+   ├── Run plagiarism-checker on chapter
+   └── Run humanization-agent on chapter
 
 3. Create Chapter Summary
    ├── 200-word summary for parent context
@@ -233,6 +235,154 @@ we now turn to the specific approach employed in this work.
 With the mathematical foundations in place, we now describe our
 neural network architecture.
 ```
+
+---
+
+## Quality Gate Protocol
+
+### Chapter-Level Quality Gates
+
+The chapter-coordinator implements quality gates at three points:
+
+1. **Section completion** (after each section written)
+2. **Chapter assembly** (before merging sections)
+3. **Chapter final** (before returning to thesis-orchestrator)
+
+### Quality Gate Workflow
+
+| Gate | Trigger | Validators | Action on Failure |
+|------|---------|------------|-------------------|
+| **Section Complete** | After section writer returns | citation-validator:checkpoint-1 | Flag placeholders, continue |
+| **Chapter Assembly** | Before merging sections | document-validator:cross_refs, citation-validator:checkpoint-2 | Fix refs, halt if critical |
+| **Chapter Final** | Before returning to parent | document-validator, citation-validator, argument-validator | Report quality score, flag issues |
+
+### Section-Level Validation
+
+```yaml
+section_validation:
+  after_each_section:
+    validators: [citation-validator:checkpoint-1]
+    checks:
+      - "No [citation needed] placeholders"
+      - "No TODO markers"
+      - "All claims have citations"
+    on_failure:
+      - Log issues with locations
+      - Continue to next section (non-blocking)
+      - Aggregate issues for chapter report
+```
+
+### Tracking System Context Loading
+
+```yaml
+tracking_context:
+  standalone_mode:
+    description: "Chapter written independently"
+    load_from: "./00-Tracking-Systems/"
+    files:
+      - Citation-Tracker.md
+      - Abbreviation-Tracker.md
+      - Key-Metrics-Table.md
+      - Study-Boundaries.md
+
+  thesis_integrated_mode:
+    description: "Chapter as part of thesis"
+    load_from: "Parent thesis-orchestrator context"
+    additional_context:
+      - Previous chapter outputs
+      - Thesis-level tracking systems
+      - Cross-chapter dependency map
+
+  context_usage:
+    - Pass study_boundaries to section writers
+    - Validate metrics against Key-Metrics-Table
+    - Check abbreviations against Abbreviation-Tracker
+    - Verify citations against Citation-Tracker
+```
+
+### Chapter Metrics Tracking
+
+```yaml
+chapter_metrics:
+  word_count:
+    - section: string
+    - target: int (from template)
+    - actual: int
+    - status: "under" | "ok" | "over"
+
+  citation_count:
+    - total: int
+    - by_section: {section: count}
+    - placeholders_remaining: int
+
+  figure_table_refs:
+    - figures_defined: int
+    - figures_referenced: int
+    - tables_defined: int
+    - tables_referenced: int
+    - orphans: string[]  # Defined but not referenced
+    - broken_refs: string[]  # Referenced but not defined
+
+  quality_scores:
+    - section_scores: {section: float}
+    - chapter_aggregate: float
+```
+
+### Standalone vs Thesis-Integrated Modes
+
+```yaml
+operation_modes:
+  standalone:
+    description: "Single chapter, not part of thesis"
+    tracking_source: "Local ./00-Tracking-Systems/"
+    output: "Complete chapter + quality report"
+    gate_thresholds:
+      section_complete: 0.7
+      chapter_assembly: 0.7
+      chapter_final: 0.8
+
+  thesis_integrated:
+    description: "Chapter coordinated by thesis-orchestrator"
+    tracking_source: "Parent orchestrator context"
+    output: "Chapter + quality report + outputs for next chapter"
+    gate_thresholds:
+      section_complete: 0.7
+      chapter_assembly: 0.8  # Higher for thesis
+      chapter_final: 0.85    # Higher for thesis
+    additional_checks:
+      - Cross-chapter reference validation
+      - Notation consistency with previous chapters
+      - Abbreviation first-use verification
+```
+
+---
+
+## Handoff Protocol
+
+### Handoff to Thesis-Orchestrator
+
+When chapter-coordinator completes (thesis-integrated mode):
+
+1. **Prepare Chapter Package**
+   - Complete chapter markdown
+   - Chapter quality report
+   - Chapter metrics summary
+   - Outputs for dependent chapters
+
+2. **Quality Gate Check**
+   - Verify chapter_final score >= 0.85
+   - If passed: Return package to thesis-orchestrator
+   - If failed: Request revision, do not return
+
+3. **Chapter Outputs**
+
+   ```yaml
+   chapter_outputs:
+     research_gap: "..." (if literature review)
+     methods_summary: "..." (if methodology)
+     key_findings: [...] (if results)
+     interpretations: [...] (if discussion)
+   ```
 
 ---
 
@@ -412,6 +562,7 @@ chapter-coordinator actions:
 
 ## Changelog
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2026-01-15 | Initial chapter-coordinator agent |
+| Version | Date       | Changes                                                         |
+|---------|------------|------------------------------------------------------------------|
+| 1.1.0   | 2026-01-19 | Added Quality Gate Protocol, tracking context, handoff protocol |
+| 1.0.0   | 2026-01-15 | Initial chapter-coordinator agent                               |
