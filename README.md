@@ -2,7 +2,7 @@
 
 A comprehensive, **portable** integration between [Obsidian](https://obsidian.md) and [Claude Code](https://claude.ai/code) for AI-powered knowledge management and research using the PARA method.
 
-**31 commands • 26 agents • 18 AI skills • 3 hooks • 17 curated plugins • Full research workflow • MCP integration**
+**31 commands • 27 agents • 19 AI skills • 3 hooks • 17 curated plugins • Full research workflow • MCP integration**
 
 ---
 
@@ -173,7 +173,8 @@ Your vault opens to a **professional dashboard** (`Home.md`) that provides insta
 
 **Live vault metrics** show total notes, active projects, inbox status, and task counts with automatic health warnings. **Collapsible sections** organize Projects, Areas, Resources, and Recent Activity—keeping information accessible without overwhelming you. The **Knowledge Graph** section reveals hub notes, orphan notes, and vault growth trends to help you strengthen connections.
 
-**Integrated workflows** let you launch Claude commands directly from the dashboard—from `/thinking-partner` for exploring ideas to `/vault-review` for maintenance. The dashboard uses **reliable Dataview queries** optimized for fast loading (< 2 seconds), following a "clarity over complexity" philosophy.
+**Integrated workflows** let you launch Claude commands directly from the dashboard—from `/thinking-partner` for exploring ideas to `/vault-review` for maintenance. The dashboard uses **reliable Dataview queries** Built with lightweight Dataview queries to keep the dashboard responsive.
+
 
 Open **[[Vault Overview]]** and press `Ctrl+P` (Windows) or `Cmd+P` (Mac), then type "mind map" to see your entire vault structure visualized as an interactive mind map—perfect for navigation and planning.
 
@@ -182,6 +183,9 @@ See: [CLAUDE.md - Home Dashboard](CLAUDE.md#home-dashboard) for technical detail
 ---
 
 ## Commands
+
+Commands are short workflows you can run inside Claude Code (they create notes, link things, and keep the vault tidy).
+
 
 ### Knowledge Workflows
 
@@ -223,9 +227,11 @@ See: [CLAUDE.md - Home Dashboard](CLAUDE.md#home-dashboard) for technical detail
 
 ### Academic Research Workflow
 
-**Two-Track System:**
-- **Quick Research**: 5-10 sources, single file, ~15-30 min, no quality gates
-- **Complete Research**: 20+ sources (12 peer-reviewed), 6-phase pipeline, PhD-grade with enforced quality gates
+**Two tracks:**
+- **Quick Research**: 5–10 sources, single file, ~15–30 min, no quality gates
+- **Complete Research**: 20+ sources (12 peer-reviewed), 6-phase pipeline with citation and structure checks
+
+These commands support both tracks:
 
 | Command | Purpose | Track | Usage |
 |---------|---------|-------|-------|
@@ -242,10 +248,46 @@ See: [CLAUDE.md - Home Dashboard](CLAUDE.md#home-dashboard) for technical detail
 | `/paper-review` | Simulate peer review feedback | Complete | Before submission |
 | `/paper-polish` | Grammar, style, consistency | Complete | Final editing pass |
 | `/export-paper` | Export to LaTeX/PDF/Word | Complete | Submission preparation |
+| `/paper-prep` | Setup tracking systems before writing | Complete | **Before** starting any paper/thesis |
+| `/quality-check` | Run all quality control validators | Complete | Before submission, after revisions |
 
-## AI Skills (18)
+### Quality Control System
 
-Skills provide specialized AI capabilities accessible via natural language or commands:
+Academic writing quality is enforced through a **3-layer system** that catches issues early:
+
+```text
+Layer 1: PREVENTION (Pre-Writing)
+  └── /paper-prep creates tracking systems for citations, metrics, abbreviations
+
+Layer 2: DETECTION (During Writing)
+  └── Quality gates run automatically at each phase transition
+
+Layer 3: VALIDATION (Pre-Export)
+  └── Multi-agent quality control before submission
+```
+
+**Quality Gate Thresholds:**
+
+| Score | Status | Action |
+|-------|--------|--------|
+| ≥ 0.8 | Pass | Proceed to next phase |
+| 0.6-0.8 | Warning | Auto-fix attempt |
+| < 0.6 | Critical | **HALT** - requires manual fixes |
+
+**What's Validated Automatically:**
+
+- Evidence hierarchy (claim strength matches evidence level)
+- Numeric consistency (same metric = same value throughout)
+- Citation completeness (6+ format patterns detected)
+- Small sample hedging (n<30 requires appropriate language)
+- Abbreviation definitions (must define before first use)
+- Structural integrity (no broken cross-references)
+
+See [CLAUDE.md](CLAUDE.md#quality-control-system) for full documentation.
+
+## AI Skills (19)
+
+Skills are small, focused capabilities Claude can call when a task needs it (docs, PDFs, spreadsheets, citations, etc.).
 
 | Skill | Purpose |
 |-------|---------|
@@ -266,8 +308,11 @@ Skills provide specialized AI capabilities accessible via natural language or co
 | `obsidian-markdown` | Obsidian-flavored markdown |
 | `scientific-brainstorming` | Research ideation |
 | `scientific-critical-thinking` | Research evaluation |
+| `humanizer` | Remove AI-generated writing patterns |
 
-## Agents (26)
+## Agents (27)
+
+Agents are specialised roles with different defaults (maintenance, research, writing, planning).
 
 ### Obsidian Operations Team (7)
 
@@ -314,8 +359,8 @@ Hooks are Python scripts that run automatically to transform and validate Claude
 
 **How hooks work:**
 
-- Run silently in the background before tool execution
-- Can **pass**, **block**, or **modify** Claude's actions
+- Run automatically before an action executes
+- Can **pass**, **block**, or **modify** output
 - Configured in `.claude/settings.json`
 
 See: [.claude/hooks/README.md](.claude/hooks/README.md) for details
@@ -443,7 +488,7 @@ See: [Workflow - Academic Research Pipeline.md](Obsidian-Vault-Live/6.%20Metadat
 
 ## MCP Integration (Connecting Claude to Your Vault)
 
-MCP (Model Context Protocol) lets Claude directly read and write to your Obsidian vault and Zotero library. This is **optional** but powerful.
+MCP (Model Context Protocol) lets Claude directly read and write to your Obsidian vault and Zotero library. This is optional.
 
 ---
 
@@ -794,7 +839,7 @@ chmod +x scripts/setup.sh
 ```
 
 The setup script will:
-- Copy all 31 commands and 26 agents to your vault
+- Copy all 31 commands and 27 agents to your vault
 - Create PARA folder structure (if missing)
 - Copy templates and CLAUDE.md
 - Install research tools (Zotero MCP, PaperQA2)
@@ -855,12 +900,12 @@ See: [Research Tools Setup.md](Obsidian-Vault-Live/6.%20Metadata/Reference/Resea
 ```
 .
 ├── .claude/                          # Claude Code configuration
-│   ├── agents/                       # 26 specialized AI agents
+│   ├── agents/                       # 27 specialized AI agents
 │   │   ├── obsidian-operations/      # 7 vault maintenance agents
 │   │   ├── workflow-support/         # 3 planning/research agents
 │   │   └── research-team/            # 16 research & writing agents
 │   ├── commands/                     # 31 slash commands
-│   ├── skills/                       # 18 AI skills
+│   ├── skills/                       # 19 AI skills
 │   ├── hooks/                        # 3 automation hooks
 │   │   ├── obsidian-markdown.py      # Markdown format conversion
 │   │   ├── conventional-commits.py   # Commit message validation
