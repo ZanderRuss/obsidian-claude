@@ -117,6 +117,30 @@ Writing Order (recommended):
 7. Abstract (last - summarizes everything)
 ```
 
+For each section (introduction, methods, results, discussion, conclusion):
+
+1. Write Section Content
+   - Use appropriate section writer agent
+   - Pass tracking context (study_boundaries, key_metrics, abbreviations)
+   - Ensure inline summary tables (if methodology)
+   - Cross-reference companion appendix
+
+2. Initial Citation Check (Quality Gate)
+   - Run citation-validator Checkpoint 1
+   - Search for placeholders: `[citation needed]`, `TODO`, `[CITE]`
+   - Search for citation patterns: `{@Key}`, `{Key}`, `[@Key]`, `\cite{Key}`
+   - Flag if any placeholders remain
+
+3. Store Section with Validation Status
+   - Save section to working directory
+   - Log validation result (passed/issues)
+   - Continue to next section
+
+**Quality Gate Decision:**
+
+- If > 20% sections have placeholders → WARN user
+- If critical validation failures → HALT, report issues
+
 ```
 For each section:
 1. Create SectionContext
@@ -136,26 +160,103 @@ For each section:
    └── Update paper state
 ```
 
+---
+
+## Quality Gate Protocol
+
+### Fail-Fast Principle
+
+This orchestrator implements **incremental quality gates** at phase transitions.
+If a gate fails, the pipeline HALTS and reports issues rather than continuing.
+
+### Quality Gate Workflow
+
+| Phase Transition | Validators | Success Criteria | On Failure |
+| ---------------- | ---------- | ---------------- | ---------- |
+| **After Section Writing** | citation-validator (Checkpoint 1) | No `[citation needed]` markers | Flag sections, request completion |
+| **Before Assembly** | document-validator, citation-validator (Checkpoint 2) | Cross-refs valid, citation inventory created | Fix references, halt if critical |
+| **After Assembly** | Full validation suite | All scores ≥ 0.8 | Attempt auto-fix, halt if < 0.4 |
+| **Before Export** | formatting-validator, citation-validator (Checkpoint 5) | Venue compliance 100% | Report issues, halt |
+
+### Validator Selection by Phase
+
+```yaml
+phase_1_completion:
+  validators: [citation-validator:checkpoint-1]
+  fail_threshold: "Any placeholder found"
+  action: "Mark sections incomplete, request fixes"
+
+phase_2_assembly_prep:
+  validators: [document-validator:cross_references, citation-validator:checkpoint-2]
+  fail_threshold: "score < 0.6"
+  action: "Attempt targeted fix, halt if unfixable"
+
+phase_3_final_quality:
+  validators: [document-validator, citation-validator, argument-validator,
+               small-sample-validator, plagiarism-checker, humanization-agent]
+  fail_threshold: "overall_score < 0.8"
+  action: "Auto-fix medium issues, halt if critical"
+
+phase_4_export_ready:
+  validators: [formatting-validator, citation-validator:checkpoint-5]
+  fail_threshold: "Any compliance violation"
+  action: "Report violations, halt export"
+```
+
+### Quality Gate Failure Handling
+
+1. Identify Failure Severity
+   - Critical (score < 0.4): Human intervention required
+   - Major (score 0.4-0.6): Automated fix attempt
+   - Minor (score 0.6-0.8): Warning, proceed with caution
+
+2. Issue Logging
+   - Create `quality-reports/gate-failure-{timestamp}.md`
+   - Document: which gate, which validator, specific issues
+   - Include: section references, line numbers, suggested fixes
+   - Preserve context for user review
+
+3. Automated Fix Attempts (for Major issues)
+   - If citation missing: Search Zotero, add if found
+   - If cross-ref broken: Locate target, update reference
+   - If terminology inconsistent: Apply glossary standardization
+   - Re-run validator if fix successful
+
+---
+
 ### Phase 3: Assembly and Quality
 
-```
-1. Assemble Paper
-   ├── Order sections correctly for venue
-   ├── Add title, authors, affiliations
-   ├── Format references
-   └── Check page count
+1. Pre-Assembly Validation (Quality Gate)
+   - Run document-validator on cross-references
+   - Run citation-validator Checkpoint 2 (format inventory)
+   - Verify all sections passed Checkpoint 1
+   - **[GATE]** If score < 0.6 → HALT, report issues
 
-2. Quality Control
-   ├── document-validator (consistency, cross-refs)
-   ├── citation-validator (completeness, format)
-   ├── argument-validator (logic, claims)
-   └── Venue compliance check
+2. Assemble Paper (if gate passed)
+   - Order sections correctly for venue
+   - Add title, authors, affiliations
+   - Format references
+   - Check page count
 
-3. Final Output
-   ├── Complete paper markdown
-   ├── Quality report
-   ├── Export-ready status
-```
+3. Comprehensive Quality Control
+   - document-validator (full consistency)
+   - citation-validator (Checkpoint 3)
+   - argument-validator (evidence hierarchy)
+   - small-sample-validator (if n<30 detected)
+   - plagiarism-checker
+   - humanization-agent
+   - **[GATE]** If overall_score < 0.8 → Attempt fixes, re-run
+
+4. Quality Gate Resolution
+   - If score ≥ 0.8: PASSED, proceed
+   - If 0.6 ≤ score < 0.8: Auto-fix, retry
+   - If 0.4 ≤ score < 0.6: HALT, detailed report
+   - If score < 0.4: CRITICAL FAILURE, full diagnostic
+
+5. Final Output
+   - Complete paper markdown
+   - Quality report
+   - Export-ready status
 
 ---
 

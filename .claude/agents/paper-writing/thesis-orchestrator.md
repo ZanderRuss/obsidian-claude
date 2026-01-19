@@ -122,7 +122,9 @@ For each chapter (respecting parallel execution rules):
    ├── Run document-validator on full document
    ├── Check cross-chapter references
    ├── Verify terminology consistency
-   └── Check citation completeness
+   ├── Check citation completeness
+   ├── Run plagiarism-checker on full document
+   └── Run humanization-agent on full document
 
 2. Final Quality Control
    ├── Aggregate all QualityReports
@@ -310,6 +312,168 @@ WorkingCheckpoint:
 
 ---
 
+## Quality Gate Protocol
+
+### Thesis-Specific Quality Gates
+
+Unlike single papers, thesis orchestration requires:
+
+1. **Chapter-level gates** (after each chapter completes)
+2. **Cross-chapter consistency gates** (before final assembly)
+3. **Thesis-level final gates** (before export)
+
+### Quality Gate Workflow
+
+| Gate | Trigger | Validators | Success Criteria |
+| ---- | ------- | ---------- | ---------------- |
+| **Chapter Completion** | After chapter-coordinator returns | citation-validator, document-validator | Chapter score ≥ 0.8 |
+| **Cross-Chapter Consistency** | Before thesis assembly | document-validator:cross_chapter | Terminology, abbreviations, notation consistent |
+| **Thesis Assembly** | After all chapters merged | Full validation suite | Overall score ≥ 0.8 |
+| **Export Ready** | Before LaTeX conversion | formatting-validator | Committee requirements met |
+
+### Cross-Chapter Consistency Checks
+
+```yaml
+cross_chapter_consistency:
+  terminology_check:
+    description: "Same concepts use same terms across chapters"
+    example: "Don't mix 'neural network' and 'artificial neural network'"
+    action: "Create glossary, enforce throughout"
+
+  abbreviation_check:
+    description: "Abbreviations defined at first use in THESIS (not each chapter)"
+    rule: "Define in first chapter of use, reference thereafter"
+    exception: "May redefine in chapter if >50 pages since last use"
+
+  citation_format_check:
+    description: "Same citation format across all chapters"
+    action: "Convert all to target format before assembly"
+
+  notation_check:
+    description: "Variables, units, symbols consistent"
+    example: "Don't use 'n' for sample size in Ch.3 and 'N' in Ch.5"
+    action: "Create notation table, validate against all chapters"
+
+  figure_table_numbering:
+    description: "Sequential numbering across thesis"
+    format: "Figure X.Y where X=chapter, Y=sequence"
+```
+
+### Chapter Sequencing with Dependencies
+
+```yaml
+chapter_dependencies:
+  literature_review:
+    depends_on: []
+    provides: ["research_gap", "theoretical_framework"]
+
+  methodology:
+    depends_on: ["literature_review"]
+    provides: ["methods", "variables", "sample_description"]
+
+  results:
+    depends_on: ["methodology"]
+    provides: ["findings", "statistics"]
+
+  discussion:
+    depends_on: ["results", "literature_review"]
+    provides: ["interpretation", "implications"]
+
+chapter_gate_protocol:
+  after_each_chapter:
+    - Run chapter-coordinator quality validation
+    - Check chapter provides required outputs
+    - Validate cross-references to previous chapters
+    - Store chapter quality report
+
+  before_next_chapter:
+    - Verify previous chapter gate passed
+    - Load chapter outputs as context
+    - Update thesis-level tracking systems
+```
+
+### Thesis-Wide Metrics Aggregation
+
+```yaml
+thesis_metrics:
+  word_counts:
+    - chapter_name: string
+    - target_words: int
+    - actual_words: int
+    - status: "under" | "on_target" | "over"
+
+  citation_totals:
+    - total_citations: int
+    - unique_sources: int
+    - self_citations: int
+    - citation_per_chapter: {chapter: count}
+
+  quality_scores:
+    - chapter_scores: {chapter: score}
+    - cross_chapter_score: float
+    - overall_thesis_score: float
+```
+
+---
+
+## Chapter Coordination
+
+For each chapter, thesis-orchestrator:
+
+### 1. Initialize Chapter Context
+
+```
+├── Load thesis-level tracking systems
+├── Pass previous chapter outputs
+├── Set chapter-specific quality thresholds
+└── Spawn chapter-coordinator agent
+```
+
+### 2. Monitor Chapter Progress
+
+```
+├── Receive section completion updates
+├── Track quality gate results
+└── Handle chapter-level failures
+```
+
+### 3. Chapter Completion Gate
+
+```
+├── Validate chapter-coordinator output
+├── Run cross-chapter reference check
+├── Update thesis tracking systems
+└── [GATE] If score < 0.8 → Request chapter revision
+```
+
+### 4. Proceed to Next Chapter
+
+```
+├── Only if previous chapter passed gate
+├── Carry forward chapter outputs as context
+└── Update thesis progress tracker
+```
+
+### Chapter Handoff Protocol
+
+When passing context between chapters:
+
+```yaml
+chapter_handoff:
+  from_previous_chapter:
+    - chapter_summary: "500-word summary of completed chapter"
+    - key_concepts: ["list of concepts introduced"]
+    - defined_terms: ["terms with definitions"]
+    - open_threads: ["arguments to continue"]
+
+  to_next_chapter:
+    - required_references: ["sections to reference back"]
+    - expected_connections: ["how this chapter should relate"]
+    - word_budget_remaining: int
+```
+
+---
+
 ## Integration Notes
 
 ### Upstream Dependencies
@@ -359,6 +523,7 @@ thesis-orchestrator actions:
 
 ## Changelog
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2026-01-15 | Initial thesis-orchestrator agent |
+| Version | Date       | Changes                                                       |
+|---------|------------|---------------------------------------------------------------|
+| 1.1.0   | 2026-01-19 | Added Quality Gate Protocol and Chapter Coordination sections |
+| 1.0.0   | 2026-01-15 | Initial thesis-orchestrator agent                             |

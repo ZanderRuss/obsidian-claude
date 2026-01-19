@@ -96,6 +96,155 @@ evidence_standards:
 
 ---
 
+## Evidence Hierarchy Validation
+
+This section defines the critical evidence hierarchy that determines appropriate language for claims. **Mismatches between evidence level and claim language are among the most serious issues in academic writing.**
+
+### Evidence Level Classification
+
+The following five levels define the strength of evidence and corresponding appropriate language:
+
+```yaml
+evidence_levels:
+  Level_5_Meta_Analysis:
+    evidence: "Meta-analysis of RCTs, systematic reviews"
+    appropriate_language: ["demonstrates", "establishes", "proves", "validates"]
+    sample_size: "n > 100 (aggregated)"
+    description: "Strongest evidence - aggregated findings from multiple controlled studies"
+
+  Level_4_Experimental:
+    evidence: "RCT or controlled experiment with comparison group"
+    appropriate_language: ["demonstrates", "outperforms", "shows", "validates"]
+    sample_size: "n > 30 with control"
+    description: "Strong evidence - controlled comparison enables causal claims"
+
+  Level_3_Large_Sample:
+    evidence: "Observational study with representative sample"
+    appropriate_language: ["indicates", "shows", "supports", "evidence suggests"]
+    sample_size: "n > 100"
+    description: "Moderate evidence - large sample but no experimental control"
+
+  Level_2_Exploratory:
+    evidence: "Small sample, proof-of-concept, no comparison"
+    appropriate_language: ["suggests", "preliminary findings", "feasibility", "exploratory"]
+    sample_size: "n < 30 OR convenience sample"
+    required_disclaimer: "Given the exploratory nature of this [small-sample/proof-of-concept] study..."
+    description: "Limited evidence - findings are descriptive, not inferential"
+
+  Level_1_Theoretical:
+    evidence: "Simulation, theoretical analysis only"
+    appropriate_language: ["theoretically", "potentially", "simulations suggest"]
+    sample_size: "n/a (no empirical validation)"
+    description: "Weakest empirical evidence - no real-world validation"
+```
+
+### Validation Rules by Claim Type
+
+Different claim types require different minimum evidence levels:
+
+```yaml
+validation_rules:
+  - claim_type: "comparative"
+    keywords: ["better", "optimal", "superior", "outperforms", "best", "most effective"]
+    minimum_evidence_level: 4
+    violation_severity: "critical"
+    rationale: "Comparative claims require controlled comparison to be valid"
+
+  - claim_type: "causal"
+    keywords: ["causes", "leads to", "determines", "results in", "produces", "enables"]
+    minimum_evidence_level: 4
+    violation_severity: "critical"
+    rationale: "Causal claims require experimental control to isolate effects"
+
+  - claim_type: "generalization"
+    keywords: ["all", "always", "universally", "every", "never", "none"]
+    minimum_evidence_level: 5
+    violation_severity: "critical"
+    rationale: "Universal claims require meta-analytic evidence across populations"
+```
+
+### Small Sample Check
+
+Small sample studies require explicit disclaimers to prevent overclaiming:
+
+```yaml
+small_sample_check:
+  trigger: "n < 30 AND no disclaimer present"
+  severity: "high"
+  detection:
+    - Look for sample size statements (n = X, N = X, participants, subjects)
+    - Check for phrases indicating small/convenience samples
+    - Verify if exploratory/preliminary disclaimer exists
+  suggested_fix: |
+    Add disclaimer at first statistical claim:
+    "Given the exploratory nature of this small-sample analysis (n = X),
+    findings should be interpreted descriptively rather than as inferential
+    evidence."
+  acceptable_alternatives:
+    - "This proof-of-concept study (n = X) provides preliminary evidence..."
+    - "While limited by sample size, these exploratory findings suggest..."
+    - "Given the convenience sample used, results should be interpreted with caution..."
+```
+
+### Evidence Hierarchy Issue Schema
+
+When evidence-language mismatches are detected, report using this schema:
+
+```yaml
+EvidenceHierarchyIssue:
+  issue_type: "evidence_language_mismatch"
+  severity: "critical" | "high" | "medium"
+  location: "Section X.Y, Line Z"
+  claim: "[Actual claim text]"
+  claim_strength: "Level N language (specific words used)"
+  evidence_level: "Level N (description of actual evidence)"
+  violation: "Brief description of the mismatch"
+  suggested_fix: "Specific rewrite suggestion"
+```
+
+### Evidence Hierarchy Examples
+
+#### Critical Violation: Comparative Claim Without Comparison
+
+```yaml
+issue_type: "evidence_language_mismatch"
+severity: "critical"
+location: "Section 4.2, paragraph 1"
+claim: "Our method achieves optimal performance on the classification task"
+claim_strength: "Level 4 language ('optimal' implies comparison)"
+evidence_level: "Level 2 (n=17, single condition, no baseline comparison)"
+violation: "Comparative claim ('optimal') without comparative study design"
+suggested_fix: "Change 'achieves optimal performance' to 'shows promising performance' or 'achieves [X]% accuracy'"
+```
+
+#### High Severity: Causal Claim From Correlational Data
+
+```yaml
+issue_type: "evidence_language_mismatch"
+severity: "critical"
+location: "Section 5.1, paragraph 3"
+claim: "Increased attention heads cause improved translation quality"
+claim_strength: "Level 4 language ('cause')"
+evidence_level: "Level 3 (observational correlation, no ablation)"
+violation: "Causal claim without experimental isolation of variable"
+suggested_fix: "Change 'cause improved' to 'are associated with improved' or add ablation study"
+```
+
+#### Missing Small Sample Disclaimer
+
+```yaml
+issue_type: "missing_small_sample_disclaimer"
+severity: "high"
+location: "Section 3.2 (first statistical claim)"
+claim: "Results show significant improvement (p < 0.05)"
+claim_strength: "Inferential statistical language"
+evidence_level: "Level 2 (n=12 participants)"
+violation: "Statistical inference with n < 30 and no exploratory disclaimer"
+suggested_fix: "Add: 'Given the exploratory nature of this small-sample pilot (n=12), these findings should be interpreted descriptively rather than as inferential evidence.'"
+```
+
+---
+
 ## Validation Framework
 
 ### 1. Claim-Evidence Analysis
@@ -274,6 +423,7 @@ QualityReport:
     claim_support_score: float         # 0.0 - 1.0
     logical_flow_score: float          # 0.0 - 1.0
     hedging_score: float               # 0.0 - 1.0
+    evidence_hierarchy_score: float    # 0.0 - 1.0 (NEW)
     contribution_alignment_score: float # 0.0 - 1.0
     overall_score: float               # Weighted average
 
@@ -285,6 +435,13 @@ QualityReport:
     partially_supported: int
     unsupported: int
     overclaimed: int
+
+  evidence_hierarchy_analysis:         # NEW SECTION
+    total_claims_checked: int
+    level_appropriate: int             # Claims with matching evidence-language
+    level_violations: int              # Evidence-language mismatches
+    small_sample_issues: int           # n < 30 without disclaimer
+    missing_disclaimers: int           # Required disclaimers not present
 
   issues:
     critical:
@@ -325,6 +482,16 @@ QualityReport:
       scope_match: "overclaimed" | "appropriate" | "underclaimed"
       notes: string?
 
+  evidence_hierarchy_issues:           # NEW SECTION
+    - issue_type: "evidence_language_mismatch" | "missing_small_sample_disclaimer"
+      severity: "critical" | "high" | "medium"
+      location: string
+      claim: string
+      claim_strength: string           # e.g., "Level 4 language (demonstrates, optimal)"
+      evidence_level: string           # e.g., "Level 2 (n=17, no comparison)"
+      violation: string                # Brief description of mismatch
+      suggested_fix: string
+
   recommendations: string[]
 
   notes: string
@@ -347,13 +514,20 @@ logical_flow_score = (
 
 hedging_score = appropriately_hedged_claims / total_claims_with_hedging
 
+# NEW: Evidence hierarchy score
+evidence_hierarchy_score = (
+  level_appropriate_claims / total_claims_checked
+) - (small_sample_issues_without_disclaimer * 0.1)
+
 contribution_alignment_score = aligned_contributions / total_contributions
 
+# UPDATED: Overall score now includes evidence hierarchy
 overall_score = (
-  (claim_support_score * 0.35) +
-  (logical_flow_score * 0.25) +
-  (hedging_score * 0.20) +
-  (contribution_alignment_score * 0.20)
+  (claim_support_score * 0.30) +
+  (logical_flow_score * 0.20) +
+  (hedging_score * 0.15) +
+  (evidence_hierarchy_score * 0.20) +      # NEW
+  (contribution_alignment_score * 0.15)
 )
 ```
 
@@ -371,6 +545,8 @@ overall_score = (
 - Logical contradiction between sections
 - Contribution not demonstrated anywhere in document
 - Clear logical fallacy in core argument
+- **Evidence hierarchy violation**: Comparative/causal/generalization claim with Level 2 or lower evidence (NEW)
+- **Missing small sample disclaimer**: n < 30 study making inferential claims without exploratory framing (NEW)
 
 ---
 
@@ -478,6 +654,7 @@ suggested_fix: "Add ablation study isolating dropout, or hedge: 'The configurati
 
 ## Changelog
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2026-01-15 | Initial argument-validator agent |
+| Version | Date       | Changes                                                    |
+|---------|------------|------------------------------------------------------------|
+| 1.1.0   | 2026-01-19 | Added Evidence Hierarchy Validation (5-level, claim rules) |
+| 1.0.0   | 2026-01-15 | Initial argument-validator agent                           |

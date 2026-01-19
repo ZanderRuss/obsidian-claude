@@ -186,6 +186,77 @@ patterns:
     example: "Single vs double quotes"
 ```
 
+#### 1.6 Numeric Consistency Check
+
+```yaml
+check_type: numeric_consistency
+severity: high
+description: "Detect same metric reported with different values"
+
+detection_method:
+  - Extract all numeric claims with context
+  - Group by metric name/description
+  - Flag if same metric has >1 unique value
+  - Exception: Clearly labeled as "range" or "preliminary vs final"
+
+example_violations:
+  - metric: "CLT carbon reduction"
+    values_found: ["38%", "40%", "40-50%"]
+    locations: ["Abstract L12", "Section 6.2", "Discussion"]
+    severity: "high"
+    fix: "Standardize to single canonical value"
+
+reporting:
+  output:
+    - metric_name: string
+    - values_found: string[]
+    - locations: string[]
+    - suggested_canonical_value: string
+```
+
+#### 1.7 Abbreviation First-Use Validation
+
+```yaml
+check_type: abbreviation_first_use
+severity: medium
+description: "Ensure all abbreviations defined before first use"
+
+detection_method:
+  - Find all-caps words (2+ chars) not at sentence start
+  - Check if defined in format "Full Name (ABBR)" before first occurrence
+  - Flag undefined abbreviations
+  - Exception: Universal abbreviations (PDF, HTML, SQL, API, URL, HTTP)
+
+universal_abbreviations:
+  - PDF, HTML, XML, JSON, SQL, API, URL, HTTP, HTTPS
+  - Common units: km, kg, mL, °C
+
+auto_fix_suggestion:
+  format: "Full Expansion (ABBR)"
+  location: "First occurrence in each major section"
+```
+
+#### 1.8 Methodology Word Count Validation
+
+```yaml
+check_type: methodology_word_count
+severity: medium
+description: "Validate methodology sections meet academic standards"
+
+standards:
+  placeholder: "< 200 words"      # ❌ 10x below standard
+  sparse: "200-500 words"         # ⚠️ Below academic standard
+  minimal: "500-700 words"        # ⚠️ Passable but thin
+  standard: "800-1,000 words"     # ✅ Sufficient depth
+  comprehensive: "1,000-1,500"    # ✅ Strong rigor
+  overdetailed: "> 1,500 words"   # ⚠️ Consider appendix
+
+validation:
+  - Identify methodology sections (pattern: "Methods", "Methodology")
+  - Count words per section
+  - Flag if < 500 words (below academic standard)
+```
+
 ---
 
 ### 2. Cross-Reference Checks
@@ -264,6 +335,60 @@ orphan_types:
 
 ---
 
+### 3. Structural Change Verification
+
+This protocol ensures document integrity when major structural changes occur.
+
+#### 3.1 Trigger Events
+
+```yaml
+trigger_events:
+  - type: "content_inlining"
+    example: "Inlining Appendix-A into main body"
+    required_checks: ["reference_updates", "anchor_verification"]
+
+  - type: "content_merging"
+    example: "Merging Section 3.1 and 3.2"
+    required_checks: ["heading_updates", "duplicate_references"]
+
+  - type: "content_renaming"
+    example: "Renaming 'Experiments' to 'Evaluation'"
+    required_checks: ["reference_text_updates", "ToC_updates"]
+```
+
+#### 3.2 Verification Protocol
+
+```yaml
+verification_protocol:
+  pre_change_inventory:
+    steps:
+      - "Search for all references to target content"
+      - "Document: wiki-links [[Target]], section refs, anchors"
+      - "Create reference map: {reference_type → locations}"
+      - "Save pre-change reference count"
+
+  post_change_verification:
+    steps:
+      - "Re-search for old reference patterns"
+      - "Verify new references point to correct locations"
+      - "Check reference count matches pre-change baseline"
+      - "Verify anchors exist and are reachable"
+```
+
+#### 3.3 Failure Conditions
+
+```yaml
+failure_conditions:
+  - "Any old reference pattern remains after change"
+  - "Reference count mismatch (pre vs post)"
+  - "Broken anchors or wiki-links found"
+
+severity: critical
+action_on_failure: "Halt processing, report to orchestrator with detailed mismatch report"
+```
+
+---
+
 ## Output Requirements
 
 ### Format
@@ -315,14 +440,18 @@ QualityReport:
   summary:
     terminology_issues: int
     abbreviation_issues: int
+    abbreviation_first_use_issues: int
     tense_issues: int
     notation_issues: int
+    numeric_consistency_issues: int
     style_issues: int
+    methodology_word_count_issues: int
     figure_ref_issues: int
     table_ref_issues: int
     equation_ref_issues: int
     section_ref_issues: int
     citation_issues: int
+    structural_change_issues: int
 
   recommendations: string[]          # Prioritized list
 
@@ -452,10 +581,61 @@ description: "Citation key 'smith2020attention' in bibliography but not cited in
 suggested_fix: "Remove from bibliography or add citation in text"
 ```
 
+### Numeric Consistency Issue
+
+```yaml
+issue_type: "numeric_inconsistency"
+severity: "high"
+location: "Multiple sections"
+description: "CLT carbon reduction reported as 38% (Abstract L12), 40% (Section 6.2), and 40-50% (Discussion)"
+suggested_fix: "Standardize to single canonical value: 40% (most cited in literature)"
+metric_name: "CLT carbon reduction"
+values_found: ["38%", "40%", "40-50%"]
+```
+
+### Undefined Abbreviation
+
+```yaml
+issue_type: "undefined_abbreviation"
+severity: "medium"
+location: "Section 2.1, paragraph 1"
+description: "Abbreviation 'BIM' used without prior definition"
+suggested_fix: "Add definition at first use: 'Building Information Modeling (BIM)'"
+```
+
+### Methodology Word Count Warning
+
+```yaml
+issue_type: "methodology_word_count"
+severity: "medium"
+location: "Section 3 (Methodology)"
+description: "Methodology section contains only 347 words - below academic standard (500+ expected)"
+current_word_count: 347
+expected_minimum: 500
+suggested_fix: "Expand methodology with: participant details, procedure steps, data analysis approach"
+```
+
+### Structural Change Failure
+
+```yaml
+issue_type: "structural_change_integrity"
+severity: "critical"
+location: "Post-merge verification"
+description: "After merging Appendix-A into Section 4, 3 references to 'Appendix A' remain unupdated"
+pre_change_count: 7
+post_change_count: 4
+orphaned_references:
+  - "Section 2.3, line 45: 'see Appendix A'"
+  - "Section 5.1, line 12: '(detailed in Appendix A)'"
+  - "Conclusion, line 8: 'Appendix A provides'"
+suggested_fix: "Update remaining references to point to Section 4"
+```
+
 ---
 
 ## Changelog
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2026-01-15 | Initial document-validator agent (consolidated consistency + cross-ref) |
+| Version | Date       | Changes |
+|---------|------------|---------|
+| 1.1.0   | 2026-01-19 | Added numeric consistency check, abbreviation first-use validation, methodology word count validation, and structural change verification protocol |
+| 1.0.0   | 2026-01-15 | Initial document-validator agent (consolidated consistency + cross-ref) |

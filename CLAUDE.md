@@ -115,6 +115,27 @@ Obsidian-Vault-Live/
 | `/paper-review` | Simulate peer review feedback | Before submission |
 | `/paper-polish` | Grammar, style, consistency | Final editing pass |
 | `/export-paper` | Export to LaTeX/PDF/Word | Submission preparation |
+| `/paper-prep` | Setup tracking systems before writing | Starting new paper/thesis |
+
+### Pre-Writing Quality Setup
+
+| Command | Purpose | When to Use |
+|---------|---------|-------------|
+| `/paper-prep` | Create tracking systems (citations, metrics, abbreviations, scope) | Before drafting ANY academic document |
+
+**What `/paper-prep` creates:**
+- **Citation Tracker** - ensure every claim sourced
+- **Abbreviation Tracker** - define on first use
+- **Key Metrics Table** - single source of truth for numbers
+- **Study Boundaries** - prevent over-generalization
+- **README** - usage instructions
+
+**Integration with `/paper-write` and `/thesis-write`:**
+- Orchestrators check for tracking systems on startup
+- Quality gates validate against tracking systems during writing
+- Prevents issues like numeric inconsistencies, missing citations, undefined abbreviations
+
+**Time investment:** 30-60 minutes setup saves 4+ hours of rework
 
 ### Thesis & Paper Writing (Multi-Agent Pipeline)
 
@@ -164,7 +185,7 @@ These agents can be invoked via slash commands (see Vault Maintenance section ab
 
 ### Paper-Writing Team
 
-Multi-agent system for PhD-level academic writing (21 agents across 5 layers):
+Multi-agent system for PhD-level academic writing (22 agents across 5 layers):
 
 **Orchestration Layer:**
 - **thesis-orchestrator**: Coordinates entire thesis writing process
@@ -182,10 +203,12 @@ Multi-agent system for PhD-level academic writing (21 agents across 5 layers):
 - **figure-designer**: Figure captions and table descriptions
 
 **Quality Control:**
-- **document-validator**: Consistency, cross-references, terminology
-- **argument-validator**: Logic, evidence, claim support, hedging
-- **citation-validator**: Citation accuracy via Zotero integration
+- **document-validator**: Consistency, cross-references, numeric consistency, abbreviations, structural changes
+- **argument-validator**: Logic, evidence, claim support, hedging, evidence hierarchy
+- **citation-validator**: Citation accuracy, 6 format patterns, pre/post-conversion verification
+- **small-sample-validator**: Enforces hedging for n<30 studies
 - **plagiarism-checker**: Paraphrase quality, attribution verification
+- **humanization-agent**: Remove AI-generated patterns, ensure natural writing
 
 **Revision Agents:**
 - **reviewer-response**: Generate response letters to peer reviewers
@@ -201,6 +224,48 @@ Multi-agent system for PhD-level academic writing (21 agents across 5 layers):
 - **prompt-engineer**: Prompt optimization
 - **task-decomposition-expert**: Complex task breakdown
 - **search-specialist**: Search optimization
+
+## Quality Control System
+
+The vault uses a **3-layer quality system** for academic writing:
+
+### Layer 1: Prevention (Pre-Writing)
+
+- **Tracking systems** (via `/paper-prep`): Citations, metrics, abbreviations, scope boundaries
+- **Evidence hierarchy guidance**: Match claim strength to evidence level
+- **Methodology templates**: Ensure traceable calculations
+
+### Layer 2: Detection (During Writing)
+
+- **Quality gates at phase transitions**: Validate after section writing, before assembly, before export
+- **Fail-fast behavior**: Pipeline halts on critical issues (score < 0.6)
+- **Incremental validation**: 5 checkpoints throughout the pipeline
+
+### Layer 3: Validation (Pre-Export)
+
+- **Multi-agent quality control**: 6+ specialized validators
+- **Pre-submission checklists**: Venue-specific (conference, journal, thesis, report)
+- **Export readiness verification**: Citation format, structural integrity, compliance
+
+### Quality Agents
+
+| Agent | Purpose | Key Checks |
+|-------|---------|------------|
+| `argument-validator` | Claims and evidence | Evidence hierarchy, hedging, claim support |
+| `document-validator` | Document consistency | Numeric consistency, abbreviations, structural changes |
+| `citation-validator` | Citation completeness | 6+ format patterns, pre/post-conversion matching |
+| `small-sample-validator` | Small sample hedging | Enforces hedging for n<30 studies |
+| `plagiarism-checker` | Paraphrase quality | Attribution, originality |
+| `humanization-agent` | AI pattern removal | Natural writing style |
+
+### Quality Gate Thresholds
+
+| Score | Status | Action |
+|-------|--------|--------|
+| >= 0.8 | **Pass** | Proceed to next phase |
+| 0.6 - 0.8 | **Warning** | Auto-fix attempt, then proceed |
+| 0.4 - 0.6 | **Major** | HALT, require manual fixes |
+| < 0.4 | **Critical** | HALT, full diagnostic report |
 
 ## MCP Integration
 
