@@ -5,13 +5,24 @@
     ]
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/session-start-context.py"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/obsidian-markdown.py"
+            "command": "python3 .claude/hooks/obsidian-markdown.py"
           }
         ]
       },
@@ -20,7 +31,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/research-quality-gate.py"
+            "command": "python3 .claude/hooks/research-quality-gate.py"
           }
         ]
       },
@@ -29,7 +40,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/conventional-commits.py"
+            "command": "python3 .claude/hooks/conventional-commits.py"
           }
         ]
       }

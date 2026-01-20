@@ -15,6 +15,43 @@ This vault uses Claude as a **thinking partner** - an AI that helps explore idea
 
 When working in this vault, prioritize helping the user *think* rather than just *produce*.
 
+## AI-Powered Vault Navigation
+
+The vault includes features that help AI agents orient quickly and build cross-session memory:
+
+### SessionStart Context Hook
+
+When a Claude Code session begins, the `session-start-context.py` hook automatically displays:
+
+- **Vault structure** with note counts per folder
+- **Inbox status** with overflow warnings
+- **MOC count** for navigation hub awareness
+- **Recent changes** summary (7-day window)
+- **Quick start** commands and references
+
+This eliminates the need to manually explore the vault structure at the start of each session.
+
+### Vault Index (`VAULT-INDEX.md`)
+
+A scannable index file at the vault root provides one-line descriptions of key notes organized by PARA category. Use this for:
+
+- **Quick discovery** - Find relevant MOCs without deep exploration
+- **Agent orientation** - Scan before diving into specific areas
+- **Navigation reference** - Commands and templates at a glance
+
+Location: `Obsidian-Vault-Live/VAULT-INDEX.md`
+
+### Cross-Session Memory
+
+Agents can record navigation insights in MOC files via the `## Agent Navigation Notes` section. This creates "institutional memory" that persists across sessions:
+
+- **Entry Points** - How you arrived at this MOC
+- **Common Queries** - User questions that lead here
+- **Related but Not Linked** - Discovered connections to add
+- **Navigation Tips** - Advice for future agents
+
+See [Agent Navigation Notes](#agent-navigation-notes-in-mocs) in Note Standards for details.
+
 ## Project Overview
 
 This is an Obsidian vault with AI-powered knowledge management using the PARA method. The vault serves as a personal knowledge base and second brain with full Claude integration via MCP.
@@ -448,6 +485,25 @@ status: draft|active|completed|archived
 - Embedded: `![[Note Name]]`
 - To heading: `[[Note Name#Heading]]`
 
+### Agent Navigation Notes (in MOCs)
+
+MOCs include an `## Agent Navigation Notes` section for cross-session memory. AI agents should update this section when navigating MOCs during tasks.
+
+| Subsection | Purpose | Example |
+| ---------- | ------- | ------- |
+| Entry Points | How agents found this MOC | "User asked about research methodology" |
+| Common Queries | User questions leading here | "How to structure research project" |
+| Related but Not Linked | Discoveries to connect | "[[Unlinked Note]] relevant to X" |
+| Navigation Tips | Advice for future agents | "Start with [[Technical MOC]] for details" |
+
+**When to update:**
+
+- After completing a task that required finding the MOC
+- When discovering unlinked related content
+- When a navigation pattern could help future sessions
+
+See `moc-agent.md` for full protocol details.
+
 ### Naming Conventions
 
 | Type | Format | Example |
@@ -459,6 +515,32 @@ status: draft|active|completed|archived
 | Voice memos | Prefixed | `Voice-2025-01-10-1430.md` |
 | Web clips | Prefixed | `Clip - Article Title.md` |
 | Research | Prefixed | `Research - Topic.md` |
+| Thinking notes | Claim-based | `Insight - Core claim as statement.md` |
+
+### Claim-Based Naming (Experimental)
+
+For thinking/brainstorming notes, use **claim-based titles** that state the core insight:
+
+**Format:** `Insight - [Core claim as a statement].md`
+
+**Examples:**
+
+- `Insight - AI amplifies thinking not just writing.md`
+- `Insight - Small samples require explicit hedging.md`
+- `Insight - Vaults encode how you think not just what.md`
+
+**When to use:**
+
+- Exploring a hypothesis or thesis
+- Capturing a key insight or realization
+- Brainstorming with a central claim
+
+**When NOT to use:**
+
+- Projects, MOCs, Templates, Research Notes, Daily Notes
+- Content without a clear thesis
+
+**Template:** Use `Template - Thinking Note.md` for claim-based notes.
 
 ## Obsidian Flavored Markdown
 

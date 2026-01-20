@@ -2,7 +2,7 @@
 
 A comprehensive, **portable** integration between [Obsidian](https://obsidian.md) and [Claude Code](https://claude.ai/code) for AI-powered knowledge management and research using the PARA method.
 
-**31 commands • 27 agents • 19 AI skills • 3 hooks • 17 curated plugins • Full research workflow • MCP integration**
+**31 commands • 27 agents • 19 AI skills • 4 hooks • 17 curated plugins • Full research workflow • MCP integration**
 
 ---
 
@@ -182,6 +182,65 @@ See: [CLAUDE.md - Home Dashboard](CLAUDE.md#home-dashboard) for technical detail
 
 ---
 
+## AI-Powered Vault Navigation
+
+The vault includes features that help Claude orient quickly and build "institutional memory" across sessions:
+
+### Session Context (Automatic)
+
+When you start a Claude Code session, the `session-start-context.py` hook automatically displays:
+
+```
+📁 Vault Structure
+  0. Inbox/ (2 notes)
+  2. Areas (Ongoing)/ (528 notes)
+  3. Resources (Dynamic)/ (76 notes)
+  ...
+
+📊 Status
+- Inbox: 0 items ✓
+- MOCs: 24 Maps of Content
+- Recent: 521 files modified (7 days)
+```
+
+No more asking "what's in this vault?" — Claude knows immediately.
+
+### Vault Index (`VAULT-INDEX.md`)
+
+A scannable index at the vault root with one-line descriptions of key notes:
+
+| Section | Contents |
+| ------- | -------- |
+| Active Projects | Current work with descriptions |
+| Areas | MOCs organized by domain (Plynth.AI, WSU Research, Up-Lift Design) |
+| Resources | Reference MOCs (Tools, Prompts, AI Research) |
+| Templates | Available templates with purposes |
+| Commands | Quick reference for common workflows |
+
+Claude can scan this in seconds to find relevant entry points without deep exploration.
+
+### Cross-Session Memory (Agent Navigation Notes)
+
+MOCs include an `## Agent Navigation Notes` section where Claude records navigation insights:
+
+- **Entry Points** — How Claude found this MOC
+- **Common Queries** — What user questions lead here
+- **Related but Not Linked** — Discoveries to connect later
+- **Navigation Tips** — Advice for future sessions
+
+This creates persistent memory across sessions — the vault literally gets smarter over time.
+
+### Claim-Based Thinking Notes
+
+For brainstorming and insight capture, use claim-based titles that state your core insight:
+
+- `Insight - AI amplifies thinking not just writing.md`
+- `Insight - Small samples require explicit hedging.md`
+
+Use `Template - Thinking Note.md` to create these with confidence tracking, counterarguments, and evolution logs.
+
+---
+
 ## Commands
 
 Commands are short workflows you can run inside Claude Code (they create notes, link things, and keep the vault tidy).
@@ -347,19 +406,20 @@ Agents are specialised roles with different defaults (maintenance, research, wri
 | **Analysis** (4) | `research-synthesizer`, `literature-reviewer`, `citation-manager`, `research-methodologist` |
 | **Writing** (3) | `report-generator`, `paper-editor`, `experiment-designer` |
 
-## Hooks (3)
+## Hooks (4)
 
 Hooks are Python scripts that run automatically to transform and validate Claude's output:
 
 | Hook | Trigger | Purpose |
 | ------ | --------- | --------- |
+| `session-start-context.py` | Session start | Displays vault structure, inbox status, MOC count, and quick reference at session start |
 | `obsidian-markdown.py` | Write to vault files | Converts standard markdown to Obsidian format (wikilinks, callouts, frontmatter) |
 | `conventional-commits.py` | Git commits | Validates commit messages follow conventional format (`feat:`, `fix:`, etc.) |
 | `research-quality-gate.py` | Write to research files | Enforces citation requirements for Complete Research Track (blocks `[citation needed]`, requires References section) |
 
 **How hooks work:**
 
-- Run automatically before an action executes
+- Run automatically before an action executes (or at session start)
 - Can **pass**, **block**, or **modify** output
 - Configured in `.claude/settings.json`
 
@@ -651,7 +711,8 @@ Located in `Obsidian-Vault-Live/6. Metadata/Templates/`:
 | `Template - Daily Note.md` | Daily journal/review |
 | `Template - Meeting Notes.md` | Meeting documentation |
 | `Template - Research Note.md` | Research compilation |
-| `Template - MOC.md` | Map of Content |
+| `Template - MOC.md` | Map of Content (with Agent Navigation Notes) |
+| `Template - Thinking Note.md` | Claim-based insight capture with confidence tracking |
 
 ### Academic Research Templates
 
@@ -711,6 +772,7 @@ status: draft|active|completed|archived
 | Templates | Prefixed | `Template - Type.md` |
 | Voice memos | Prefixed | `Voice-2025-01-10-1430.md` |
 | Web clips | Prefixed | `Clip - Article Title.md` |
+| Thinking notes | Claim-based | `Insight - Core claim as statement.md` |
 
 ### Tag Hierarchy
 
@@ -730,7 +792,21 @@ type/          → moc, meeting, thinking-log, flashcards
 | `3. Resources (Dynamic)` | Reference material | Research, how-tos |
 | `4. Archive (Supportive)` | Completed or inactive | Done projects |
 
-## Hooks (3)
+## Hook Details
+
+### Session Start Context
+
+Located in `.claude/hooks/session-start-context.py`
+
+Automatically displays vault context when a Claude Code session begins:
+
+- Vault folder structure with note counts
+- Inbox item count with overflow warnings
+- MOC count for navigation awareness
+- Recent changes summary (7-day window)
+- Quick reference to commands and CLAUDE.md
+
+This hook returns `allow` with an informational message — it never blocks operations.
 
 ### Obsidian Markdown Converter
 
@@ -906,7 +982,8 @@ See: [Research Tools Setup.md](Obsidian-Vault-Live/6.%20Metadata/Reference/Resea
 │   │   └── research-team/            # 16 research & writing agents
 │   ├── commands/                     # 31 slash commands
 │   ├── skills/                       # 19 AI skills
-│   ├── hooks/                        # 3 automation hooks
+│   ├── hooks/                        # 4 automation hooks
+│   │   ├── session-start-context.py  # Vault context at session start
 │   │   ├── obsidian-markdown.py      # Markdown format conversion
 │   │   ├── conventional-commits.py   # Commit message validation
 │   │   └── research-quality-gate.py  # Research citation enforcement
@@ -919,6 +996,7 @@ See: [Research Tools Setup.md](Obsidian-Vault-Live/6.%20Metadata/Reference/Resea
 │   ├── 3. Resources (Dynamic)/       # Reference materials
 │   ├── 4. Archive (Supportive)/      # Completed items
 │   ├── 6. Metadata/                  # System docs & templates
+│   ├── VAULT-INDEX.md                # Quick-scan index for AI agents
 │   │   ├── Templates/                # Note templates (including Research/)
 │   │   ├── Workflows/                # Automation documentation
 │   │   └── Reference/                # System reference & guides
